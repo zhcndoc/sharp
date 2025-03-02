@@ -1,53 +1,49 @@
 ## rotate
 > rotate([angle], [options]) ⇒ <code>Sharp</code>
 
-Rotate the output image by either an explicit angle
-or auto-orient based on the EXIF `Orientation` tag.
+通过显式角度或根据 EXIF `Orientation` 标签自动旋转输出图像。
 
-If an angle is provided, it is converted to a valid positive degree rotation.
-For example, `-450` will produce a 270 degree rotation.
+如果提供了角度，它会被转换为有效的正度数旋转。
+例如， `-450` 将产生 270 度的旋转。
 
-When rotating by an angle other than a multiple of 90,
-the background colour can be provided with the `background` option.
+当旋转的角度不是 90 的倍数时，可以使用 `background` 选项提供背景颜色。
 
-If no angle is provided, it is determined from the EXIF data.
-Mirroring is supported and may infer the use of a flip operation.
+如果没有提供角度，则会根据 EXIF 数据确定。
+支持镜像并可能推测使用翻转操作。
 
-The use of `rotate` without an angle will remove the EXIF `Orientation` tag, if any.
+使用 `rotate` 而不指定角度会删除 EXIF `Orientation` 标签（如果存在）。
 
-Only one rotation can occur per pipeline.
-Previous calls to `rotate` in the same pipeline will be ignored.
+每个管道仅能进行一次旋转。
+在相同管道中的前一个 `rotate` 调用将被忽略。
 
-Multi-page images can only be rotated by 180 degrees.
+多页图像只能旋转 180 度。
 
-Method order is important when rotating, resizing and/or extracting regions,
-for example `.rotate(x).extract(y)` will produce a different result to `.extract(y).rotate(x)`.
+在旋转、调整大小和/或提取区域时，方法的顺序很重要，
+例如 `.rotate(x).extract(y)` 将与 `.extract(y).rotate(x)` 产生不同的结果。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [angle] | <code>number</code> | <code>auto</code> | angle of rotation. |
-| [options] | <code>Object</code> |  | if present, is an Object with optional attributes. |
-| [options.background] | <code>string</code> \| <code>Object</code> | <code>&quot;\&quot;#000000\&quot;&quot;</code> | parsed by the [color](https://www.npmjs.org/package/color) module to extract values for red, green, blue and alpha. |
+| [angle] | <code>number</code> | <code>auto</code> | 旋转角度。 |
+| [options] | <code>Object</code> |  | 如果存在，则为具有可选属性的 Object。 |
+| [options.background] | <code>string</code> \| <code>Object</code> | <code>&quot;\&quot;#000000\&quot;&quot;</code> | 使用 [color](https://www.npmjs.org/package/color) 模块解析以提取红色、绿色、蓝色和 alpha 的值。 |
 
-**Example**  
+**示例**  
 ```js
 const pipeline = sharp()
   .rotate()
   .resize(null, 200)
   .toBuffer(function (err, outputBuffer, info) {
-    // outputBuffer contains 200px high JPEG image data,
-    // auto-rotated using EXIF Orientation tag
-    // info.width and info.height contain the dimensions of the resized image
+    // outputBuffer 包含 200px 高的 JPEG 图像数据，
+    // 使用 EXIF Orientation 标签进行自动旋转
+    // info.width 和 info.height 包含调整大小后的图像的维度
   });
 readableStream.pipe(pipeline);
 ```
-**Example**  
+**示例**  
 ```js
 const rotateThenResize = await sharp(input)
   .rotate(90)
@@ -59,82 +55,74 @@ const resizeThenRotate = await sharp(input)
   .toBuffer();
 ```
 
-
 ## flip
 > flip([flip]) ⇒ <code>Sharp</code>
 
-Mirror the image vertically (up-down) about the x-axis.
-This always occurs before rotation, if any.
+沿 x 轴垂直镜像图像（上下）。  
+如果存在任何旋转，始终在旋转之前执行此操作。
 
-This operation does not work correctly with multi-page images.
+此操作对多页图像不正确。
 
-
-
-| Param | Type | Default |
+| 参数 | 类型 | 默认 |
 | --- | --- | --- |
 | [flip] | <code>Boolean</code> | <code>true</code> | 
 
-**Example**  
+**示例**  
 ```js
 const output = await sharp(input).flip().toBuffer();
 ```
 
-
 ## flop
 > flop([flop]) ⇒ <code>Sharp</code>
 
-Mirror the image horizontally (left-right) about the y-axis.
-This always occurs before rotation, if any.
+沿 y 轴水平镜像图像（左右）。  
+如果存在任何旋转，始终在旋转之前执行此操作。
 
-
-
-| Param | Type | Default |
+| 参数 | 类型 | 默认 |
 | --- | --- | --- |
 | [flop] | <code>Boolean</code> | <code>true</code> | 
 
-**Example**  
+**示例**  
 ```js
 const output = await sharp(input).flop().toBuffer();
 ```
 
-
 ## affine
 > affine(matrix, [options]) ⇒ <code>Sharp</code>
 
-Perform an affine transform on an image. This operation will always occur after resizing, extraction and rotation, if any.
+对图像执行仿射变换。 此操作将始终在调整大小、提取和旋转之后执行（如果存在）。
 
-You must provide an array of length 4 or a 2x2 affine transformation matrix.
-By default, new pixels are filled with a black background. You can provide a background colour with the `background` option.
-A particular interpolator may also be specified. Set the `interpolator` option to an attribute of the `sharp.interpolators` Object e.g. `sharp.interpolators.nohalo`.
+您必须提供一个长度为 4 的数组或一个 2x2 的仿射变换矩阵。  
+默认情况下，新像素用黑色背景填充。您可以使用 `background` 选项提供背景颜色。  
+也可以指定特定的插值器。将 `interpolator` 选项设置为 `sharp.interpolators` 对象的属性，例如 `sharp.interpolators.nohalo`。
 
-In the case of a 2x2 matrix, the transform is:
+在 2x2 矩阵的情况下，变换如下：
 - X = `matrix[0, 0]` \* (x + `idx`) + `matrix[0, 1]` \* (y + `idy`) + `odx`
 - Y = `matrix[1, 0]` \* (x + `idx`) + `matrix[1, 1]` \* (y + `idy`) + `ody`
 
-where:
-- x and y are the coordinates in input image.
-- X and Y are the coordinates in output image.
-- (0,0) is the upper left corner.
+其中：
+- x 和 y 是输入图像中的坐标。
+- X 和 Y 是输出图像中的坐标。
+- (0,0) 是左上角。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
+**自**：0.27.0  
 
-**Since**: 0.27.0  
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| matrix | <code>Array.&lt;Array.&lt;number&gt;&gt;</code> \| <code>Array.&lt;number&gt;</code> |  | affine transformation matrix |
-| [options] | <code>Object</code> |  | if present, is an Object with optional attributes. |
-| [options.background] | <code>String</code> \| <code>Object</code> | <code>&quot;#000000&quot;</code> | parsed by the [color](https://www.npmjs.org/package/color) module to extract values for red, green, blue and alpha. |
-| [options.idx] | <code>Number</code> | <code>0</code> | input horizontal offset |
-| [options.idy] | <code>Number</code> | <code>0</code> | input vertical offset |
-| [options.odx] | <code>Number</code> | <code>0</code> | output horizontal offset |
-| [options.ody] | <code>Number</code> | <code>0</code> | output vertical offset |
-| [options.interpolator] | <code>String</code> | <code>sharp.interpolators.bicubic</code> | interpolator |
+| matrix | <code>Array.&lt;Array.&lt;number&gt;&gt;</code> \| <code>Array.&lt;number&gt;</code> |  | 仿射变换矩阵 |
+| [options] | <code>Object</code> |  | 如果存在，则为具有可选属性的 Object。 |
+| [options.background] | <code>String</code> \| <code>Object</code> | <code>&quot;#000000&quot;</code> | 使用 [color](https://www.npmjs.org/package/color) 模块解析以提取红色、绿色、蓝色和 alpha 的值。 |
+| [options.idx] | <code>Number</code> | <code>0</code> | 输入水平偏移量 |
+| [options.idy] | <code>Number</code> | <code>0</code> | 输入垂直偏移量 |
+| [options.odx] | <code>Number</code> | <code>0</code> | 输出水平偏移量 |
+| [options.ody] | <code>Number</code> | <code>0</code> | 输出垂直偏移量 |
+| [options.interpolator] | <code>String</code> | <code>sharp.interpolators.bicubic</code> | 插值器 |
 
-**Example**  
+**示例**  
 ```js
 const pipeline = sharp()
   .affine([[1, 0.3], [0.1, 0.7]], {
@@ -142,54 +130,51 @@ const pipeline = sharp()
      interpolator: sharp.interpolators.nohalo
   })
   .toBuffer((err, outputBuffer, info) => {
-     // outputBuffer contains the transformed image
-     // info.width and info.height contain the new dimensions
+     // outputBuffer 包含变换后的图像
+     // info.width 和 info.height 包含新维度
   });
 
 inputStream
   .pipe(pipeline);
 ```
 
-
 ## sharpen
 > sharpen([options], [flat], [jagged]) ⇒ <code>Sharp</code>
 
-Sharpen the image.
+锐化图像。
 
-When used without parameters, performs a fast, mild sharpen of the output image.
+在没有参数的情况下，执行快速、温和的输出图像锐化。
 
-When a `sigma` is provided, performs a slower, more accurate sharpen of the L channel in the LAB colour space.
-Fine-grained control over the level of sharpening in "flat" (m1) and "jagged" (m2) areas is available.
+当提供 `sigma` 时，在 LAB 色彩空间中对 L 通道执行更慢、更准确的锐化。  
+可以对“平坦”（m1）和“锯齿状”（m2）区域的锐化级别进行细致控制。
 
-See [libvips sharpen](https://www.libvips.org/API/current/libvips-convolution.html#vips-sharpen) operation.
+请参阅 [libvips sharpen](https://www.libvips.org/API/current/libvips-convolution.html#vips-sharpen) 操作。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [options] | <code>Object</code> \| <code>number</code> |  | if present, is an Object with attributes |
-| [options.sigma] | <code>number</code> |  | the sigma of the Gaussian mask, where `sigma = 1 + radius / 2`, between 0.000001 and 10 |
-| [options.m1] | <code>number</code> | <code>1.0</code> | the level of sharpening to apply to "flat" areas, between 0 and 1000000 |
-| [options.m2] | <code>number</code> | <code>2.0</code> | the level of sharpening to apply to "jagged" areas, between 0 and 1000000 |
-| [options.x1] | <code>number</code> | <code>2.0</code> | threshold between "flat" and "jagged", between 0 and 1000000 |
-| [options.y2] | <code>number</code> | <code>10.0</code> | maximum amount of brightening, between 0 and 1000000 |
-| [options.y3] | <code>number</code> | <code>20.0</code> | maximum amount of darkening, between 0 and 1000000 |
-| [flat] | <code>number</code> |  | (deprecated) see `options.m1`. |
-| [jagged] | <code>number</code> |  | (deprecated) see `options.m2`. |
+| [options] | <code>Object</code> \| <code>number</code> |  | 如果存在，则为具有属性的 Object |
+| [options.sigma] | <code>number</code> |  | 高斯掩模的 sigma，其中 `sigma = 1 + radius / 2`，范围在 0.000001 到 10 之间 |
+| [options.m1] | <code>number</code> | <code>1.0</code> | 应用到“平坦”区域的锐化级别，范围在 0 到 1000000 之间 |
+| [options.m2] | <code>number</code> | <code>2.0</code> | 应用到“锯齿状”区域的锐化级别，范围在 0 到 1000000 之间 |
+| [options.x1] | <code>number</code> | <code>2.0</code> | “平坦”和“锯齿状”之间的阈值，范围在 0 到 1000000 之间 |
+| [options.y2] | <code>number</code> | <code>10.0</code> | 最大的亮度增加量，范围在 0 到 1000000 之间 |
+| [options.y3] | <code>number</code> | <code>20.0</code> | 最大的暗度减少量，范围在 0 到 1000000 之间 |
+| [flat] | <code>number</code> |  | (已弃用) 请参阅 `options.m1`。 |
+| [jagged] | <code>number</code> |  | (已弃用) 请参阅 `options.m2`。 |
 
-**Example**  
+**示例**  
 ```js
 const data = await sharp(input).sharpen().toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
 const data = await sharp(input).sharpen({ sigma: 2 }).toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
 const data = await sharp(input)
   .sharpen({
@@ -203,244 +188,215 @@ const data = await sharp(input)
   .toBuffer();
 ```
 
-
 ## median
 > median([size]) ⇒ <code>Sharp</code>
 
-Apply median filter.
-When used without parameters the default window is 3x3.
+应用中值滤波器。  
+在没有参数的情况下，默认窗口为 3x3。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [size] | <code>number</code> | <code>3</code> | square mask size: size x size |
+| [size] | <code>number</code> | <code>3</code> | 平方掩模大小：size x size |
 
-**Example**  
+**示例**  
 ```js
 const output = await sharp(input).median().toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
 const output = await sharp(input).median(5).toBuffer();
 ```
 
-
 ## blur
 > blur([options]) ⇒ <code>Sharp</code>
 
-Blur the image.
+模糊图像。
 
-When used without parameters, performs a fast 3x3 box blur (equivalent to a box linear filter).
+在没有参数的情况下，执行快速的 3x3 方框模糊（相当于方框线性滤波器）。
 
-When a `sigma` is provided, performs a slower, more accurate Gaussian blur.
+当提供 `sigma` 时，执行更慢、更准确的高斯模糊。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | [options] | <code>Object</code> \| <code>number</code> \| <code>Boolean</code> |  |  |
-| [options.sigma] | <code>number</code> |  | a value between 0.3 and 1000 representing the sigma of the Gaussian mask, where `sigma = 1 + radius / 2`. |
-| [options.precision] | <code>string</code> | <code>&quot;&#x27;integer&#x27;&quot;</code> | How accurate the operation should be, one of: integer, float, approximate. |
-| [options.minAmplitude] | <code>number</code> | <code>0.2</code> | A value between 0.001 and 1. A smaller value will generate a larger, more accurate mask. |
+| [options.sigma] | <code>number</code> |  | 一个范围在 0.3 到 1000 之间的值，代表高斯掩模的 sigma，其中 `sigma = 1 + radius / 2`。 |
+| [options.precision] | <code>string</code> | <code>&quot;&#x27;integer&#x27;&quot;</code> | 操作的准确程度，选项为：integer、float、approximate。 |
+| [options.minAmplitude] | <code>number</code> | <code>0.2</code> | 在 0.001 到 1 之间的值。较小的值将生成更大、更准确的掩模。 |
 
-**Example**  
+**示例**  
 ```js
 const boxBlurred = await sharp(input)
   .blur()
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
 const gaussianBlurred = await sharp(input)
   .blur(5)
   .toBuffer();
 ```
 
-
 ## flatten
 > flatten([options]) ⇒ <code>Sharp</code>
 
-Merge alpha transparency channel, if any, with a background, then remove the alpha channel.
+合并 alpha 透明度通道（如果存在），与背景合并，然后删除 alpha 通道。
 
-See also [removeAlpha](/api-channel#removealpha).
+另请参阅 [removeAlpha](/api-channel#removealpha)。
 
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | [options] | <code>Object</code> |  |  |
-| [options.background] | <code>string</code> \| <code>Object</code> | <code>&quot;{r: 0, g: 0, b: 0}&quot;</code> | background colour, parsed by the [color](https://www.npmjs.org/package/color) module, defaults to black. |
+| [options.background] | <code>string</code> \| <code>Object</code> | <code>&quot;{r: 0, g: 0, b: 0}&quot;</code> | 背景颜色，由 [color](https://www.npmjs.org/package/color) 模块解析，默认为黑色。 |
 
-**Example**  
+**示例**  
 ```js
 await sharp(rgbaInput)
   .flatten({ background: '#F0A703' })
   .toBuffer();
 ```
 
-
 ## unflatten
 > unflatten()
 
-Ensure the image has an alpha channel
-with all white pixel values made fully transparent.
+确保图像具有 alpha 通道，其所有白色像素值变为完全透明。
 
-Existing alpha channel values for non-white pixels remain unchanged.
+非白色像素的现有 alpha 通道值保持不变。
 
-This feature is experimental and the API may change.
+此功能是实验性的，API 可能会发生变化。
 
-
-**Since**: 0.32.1  
-**Example**  
+**自**：0.32.1  
+**示例**  
 ```js
 await sharp(rgbInput)
   .unflatten()
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
 await sharp(rgbInput)
-  .threshold(128, { grayscale: false }) // converter bright pixels to white
+  .threshold(128, { grayscale: false }) // 转换明亮像素为白色
   .unflatten()
   .toBuffer();
 ```
-
 
 ## gamma
 > gamma([gamma], [gammaOut]) ⇒ <code>Sharp</code>
 
-Apply a gamma correction by reducing the encoding (darken) pre-resize at a factor of `1/gamma`
-then increasing the encoding (brighten) post-resize at a factor of `gamma`.
-This can improve the perceived brightness of a resized image in non-linear colour spaces.
-JPEG and WebP input images will not take advantage of the shrink-on-load performance optimisation
-when applying a gamma correction.
+通过在缩放之前以 `1/gamma` 的因子降低编码（变暗），然后在缩放之后以 `gamma` 的因子增加编码（变亮）来应用 gamma 校正。  
+这可以改善非线性色彩空间中调整大小图像的感知亮度。  
+对 JPEG 和 WebP 输入图像应用 gamma 校正时，将无法利用加载时的缩小性能优化。
 
-Supply a second argument to use a different output gamma value, otherwise the first value is used in both cases.
+提供第二个参数以使用不同的输出 gamma 值，否则第一个值将在两种情况下使用。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [gamma] | <code>number</code> | <code>2.2</code> | value between 1.0 and 3.0. |
-| [gammaOut] | <code>number</code> |  | value between 1.0 and 3.0. (optional, defaults to same as `gamma`) |
-
-
+| [gamma] | <code>number</code> | <code>2.2</code> | 介于 1.0 到 3.0 之间的值。 |
+| [gammaOut] | <code>number</code> |  | 介于 1.0 到 3.0 之间的值。 （可选，默认为与 `gamma` 相同） |
 
 ## negate
 > negate([options]) ⇒ <code>Sharp</code>
 
-Produce the "negative" of the image.
+生成图像的“负片”。
 
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | [options] | <code>Object</code> |  |  |
-| [options.alpha] | <code>Boolean</code> | <code>true</code> | Whether or not to negate any alpha channel |
+| [options.alpha] | <code>Boolean</code> | <code>true</code> | 是否对任何 alpha 通道进行反转 |
 
-**Example**  
+**示例**  
 ```js
 const output = await sharp(input)
   .negate()
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
 const output = await sharp(input)
   .negate({ alpha: false })
   .toBuffer();
 ```
 
-
 ## normalise
 > normalise([options]) ⇒ <code>Sharp</code>
 
-Enhance output image contrast by stretching its luminance to cover a full dynamic range.
+通过拉伸其亮度以覆盖整个动态范围来增强输出图像的对比度。
 
-Uses a histogram-based approach, taking a default range of 1% to 99% to reduce sensitivity to noise at the extremes.
+使用基于直方图的方法，默认范围为 1% 到 99%，以减少对极端噪声的敏感性。
 
-Luminance values below the `lower` percentile will be underexposed by clipping to zero.
-Luminance values above the `upper` percentile will be overexposed by clipping to the max pixel value.
+低于 `lower` 百分位数的亮度值将通过截断为零而曝光不足。  
+高于 `upper` 百分位数的亮度值将通过截断为最大像素值而曝光过度。
 
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | [options] | <code>Object</code> |  |  |
-| [options.lower] | <code>number</code> | <code>1</code> | Percentile below which luminance values will be underexposed. |
-| [options.upper] | <code>number</code> | <code>99</code> | Percentile above which luminance values will be overexposed. |
+| [options.lower] | <code>number</code> | <code>1</code> | 低于此值的亮度值将曝光不足的百分位数。 |
+| [options.upper] | <code>number</code> | <code>99</code> | 超过此值的亮度值将曝光过度的百分位数。 |
 
-**Example**  
+**示例**  
 ```js
 const output = await sharp(input)
   .normalise()
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
 const output = await sharp(input)
   .normalise({ lower: 0, upper: 100 })
   .toBuffer();
 ```
 
-
 ## normalize
 > normalize([options]) ⇒ <code>Sharp</code>
 
-Alternative spelling of normalise.
+normalise 的替代拼写。
 
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | [options] | <code>Object</code> |  |  |
-| [options.lower] | <code>number</code> | <code>1</code> | Percentile below which luminance values will be underexposed. |
-| [options.upper] | <code>number</code> | <code>99</code> | Percentile above which luminance values will be overexposed. |
+| [options.lower] | <code>number</code> | <code>1</code> | 低于此值的亮度值将曝光不足的百分位数。 |
+| [options.upper] | <code>number</code> | <code>99</code> | 超过此值的亮度值将曝光过度的百分位数。 |
 
-**Example**  
+**示例**  
 ```js
 const output = await sharp(input)
   .normalize()
   .toBuffer();
 ```
 
-
 ## clahe
 > clahe(options) ⇒ <code>Sharp</code>
 
-Perform contrast limiting adaptive histogram equalization
-[CLAHE](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization#Contrast_Limited_AHE).
+执行对比度限制自适应直方图均衡
+[CLAHE](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization#Contrast_Limited_AHE)。
 
-This will, in general, enhance the clarity of the image by bringing out darker details.
+通常，这将通过突出较暗的细节来增强图像的清晰度。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
+**自**：0.28.3  
 
-**Since**: 0.28.3  
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | options | <code>Object</code> |  |  |
-| options.width | <code>number</code> |  | Integral width of the search window, in pixels. |
-| options.height | <code>number</code> |  | Integral height of the search window, in pixels. |
-| [options.maxSlope] | <code>number</code> | <code>3</code> | Integral level of brightening, between 0 and 100, where 0 disables contrast limiting. |
+| options.width | <code>number</code> |  | 搜索窗口的宽度，单位为像素。 |
+| options.height | <code>number</code> |  | 搜索窗口的高度，单位为像素。 |
+| [options.maxSlope] | <code>number</code> | <code>3</code> | 明亮程度的积分水平，范围在 0 到 100 之间，0 将禁用对比度限制。 |
 
-**Example**  
+**示例**  
 ```js
 const output = await sharp(input)
   .clahe({
@@ -450,28 +406,25 @@ const output = await sharp(input)
   .toBuffer();
 ```
 
-
 ## convolve
 > convolve(kernel) ⇒ <code>Sharp</code>
 
-Convolve the image with the specified kernel.
+使用指定的内核对图像进行卷积。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | kernel | <code>Object</code> |  |  |
-| kernel.width | <code>number</code> |  | width of the kernel in pixels. |
-| kernel.height | <code>number</code> |  | height of the kernel in pixels. |
-| kernel.kernel | <code>Array.&lt;number&gt;</code> |  | Array of length `width*height` containing the kernel values. |
-| [kernel.scale] | <code>number</code> | <code>sum</code> | the scale of the kernel in pixels. |
-| [kernel.offset] | <code>number</code> | <code>0</code> | the offset of the kernel in pixels. |
+| kernel.width | <code>number</code> |  | 内核的宽度（单位为像素）。 |
+| kernel.height | <code>number</code> |  | 内核的高度（单位为像素）。 |
+| kernel.kernel | <code>Array.&lt;number&gt;</code> |  | 长度为 `width*height` 的数组，包含内核值。 |
+| [kernel.scale] | <code>number</code> | <code>sum</code> | 内核的缩放（单位为像素）。 |
+| [kernel.offset] | <code>number</code> | <code>0</code> | 内核的偏移量（单位为像素）。 |
 
-**Example**  
+**示例**  
 ```js
 sharp(input)
   .convolve({
@@ -481,84 +434,71 @@ sharp(input)
   })
   .raw()
   .toBuffer(function(err, data, info) {
-    // data contains the raw pixel data representing the convolution
-    // of the input image with the horizontal Sobel operator
+    // data 包含表示输入图像与水平 Sobel 操作的卷积的原始像素数据
   });
 ```
-
 
 ## threshold
 > threshold([threshold], [options]) ⇒ <code>Sharp</code>
 
-Any pixel value greater than or equal to the threshold value will be set to 255, otherwise it will be set to 0.
+任何大于或等于阈值的像素值将被设置为 255，否则将被设置为 0。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [threshold] | <code>number</code> | <code>128</code> | a value in the range 0-255 representing the level at which the threshold will be applied. |
+| [threshold] | <code>number</code> | <code>128</code> | 一个范围在 0-255 之间的值，表示将应用阈值的水平。 |
 | [options] | <code>Object</code> |  |  |
-| [options.greyscale] | <code>Boolean</code> | <code>true</code> | convert to single channel greyscale. |
-| [options.grayscale] | <code>Boolean</code> | <code>true</code> | alternative spelling for greyscale. |
-
-
+| [options.greyscale] | <code>Boolean</code> | <code>true</code> | 转换为单通道灰度图。 |
+| [options.grayscale] | <code>Boolean</code> | <code>true</code> | 灰度的另一种拼写方式。 |
 
 ## boolean
 > boolean(operand, operator, [options]) ⇒ <code>Sharp</code>
 
-Perform a bitwise boolean operation with operand image.
+与操作数图像执行按位布尔操作。
 
-This operation creates an output image where each pixel is the result of
-the selected bitwise boolean `operation` between the corresponding pixels of the input images.
+此操作创建一个输出图像，其中每个像素是输入图像对应像素之间所选按位布尔 `operation` 的结果。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| operand | <code>Buffer</code> \| <code>string</code> | Buffer containing image data or string containing the path to an image file. |
-| operator | <code>string</code> | one of `and`, `or` or `eor` to perform that bitwise operation, like the C logic operators `&`, `|` and `^` respectively. |
+| operand | <code>Buffer</code> \| <code>string</code> | 包含图像数据的缓冲区或包含图像文件路径的字符串。 |
+| operator | <code>string</code> | 选择要执行的按位操作之一，`and`、`or` 或 `eor`，分别对应于 C 逻辑运算符 `&`、`|` 和 `^`。 |
 | [options] | <code>Object</code> |  |
-| [options.raw] | <code>Object</code> | describes operand when using raw pixel data. |
+| [options.raw] | <code>Object</code> | 描述原操作数中的原始像素数据。 |
 | [options.raw.width] | <code>number</code> |  |
 | [options.raw.height] | <code>number</code> |  |
 | [options.raw.channels] | <code>number</code> |  |
 
-
-
 ## linear
 > linear([a], [b]) ⇒ <code>Sharp</code>
 
-Apply the linear formula `a` * input + `b` to the image to adjust image levels.
+对图像应用线性公式 `a` * 输入 + `b` 来调整图像级别。
 
-When a single number is provided, it will be used for all image channels.
-When an array of numbers is provided, the array length must match the number of channels.
+当提供一个单一数字时，它将用于所有图像通道。  
+当提供一个数字数组时，数组的长度必须与通道数匹配。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [a] | <code>number</code> \| <code>Array.&lt;number&gt;</code> | <code>[]</code> | multiplier |
-| [b] | <code>number</code> \| <code>Array.&lt;number&gt;</code> | <code>[]</code> | offset |
+| [a] | <code>number</code> \| <code>Array.&lt;number&gt;</code> | <code>[]</code> | 乘数 |
+| [b] | <code>number</code> \| <code>Array.&lt;number&gt;</code> | <code>[]</code> | 偏移量 |
 
-**Example**  
+**示例**  
 ```js
 await sharp(input)
   .linear(0.5, 2)
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
 await sharp(rgbInput)
   .linear(
@@ -568,24 +508,22 @@ await sharp(rgbInput)
   .toBuffer();
 ```
 
-
 ## recomb
 > recomb(inputMatrix) ⇒ <code>Sharp</code>
 
-Recombine the image with the specified matrix.
+根据指定矩阵重新组合图像。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
+**自**：0.21.1  
 
-**Since**: 0.21.1  
-
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| inputMatrix | <code>Array.&lt;Array.&lt;number&gt;&gt;</code> | 3x3 or 4x4 Recombination matrix |
+| inputMatrix | <code>Array.&lt;Array.&lt;number&gt;&gt;</code> | 3x3 或 4x4 重新组合矩阵 |
 
-**Example**  
+**示例**  
 ```js
 sharp(input)
   .recomb([
@@ -595,60 +533,57 @@ sharp(input)
   ])
   .raw()
   .toBuffer(function(err, data, info) {
-    // data contains the raw pixel data after applying the matrix
-    // With this example input, a sepia filter has been applied
+    // data 包含应用矩阵后的原始像素数据
+    // 使用该示例输入，已应用 sepia 滤镜
   });
 ```
-
 
 ## modulate
 > modulate([options]) ⇒ <code>Sharp</code>
 
-Transforms the image using brightness, saturation, hue rotation, and lightness.
-Brightness and lightness both operate on luminance, with the difference being that
-brightness is multiplicative whereas lightness is additive.
+使用亮度、饱和度、色调旋转和亮度对图像进行转换。
+亮度和亮度都在亮度上操作，区别在于亮度是乘法的而亮度是加法的。
 
+**自**：0.22.1  
 
-**Since**: 0.22.1  
-
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | [options] | <code>Object</code> |  |
-| [options.brightness] | <code>number</code> | Brightness multiplier |
-| [options.saturation] | <code>number</code> | Saturation multiplier |
-| [options.hue] | <code>number</code> | Degrees for hue rotation |
-| [options.lightness] | <code>number</code> | Lightness addend |
+| [options.brightness] | <code>number</code> | 亮度乘数 |
+| [options.saturation] | <code>number</code> | 饱和度乘数 |
+| [options.hue] | <code>number</code> | 色调旋转的度数 |
+| [options.lightness] | <code>number</code> | 亮度加数 |
 
-**Example**  
+**示例**  
 ```js
-// increase brightness by a factor of 2
+// 将亮度增加 2 倍
 const output = await sharp(input)
   .modulate({
     brightness: 2
   })
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
-// hue-rotate by 180 degrees
+// 将色调旋转 180 度
 const output = await sharp(input)
   .modulate({
     hue: 180
   })
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
-// increase lightness by +50
+// 将亮度增加 +50
 const output = await sharp(input)
   .modulate({
     lightness: 50
   })
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
-// decrease brightness and saturation while also hue-rotating by 90 degrees
+// 同时降低亮度和饱和度并将色调旋转 90 度
 const output = await sharp(input)
   .modulate({
     brightness: 0.5,

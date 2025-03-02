@@ -1,101 +1,97 @@
 ## Sharp
 > Sharp
 
-
-**Emits**: <code>Sharp#event:info</code>, <code>Sharp#event:warning</code>  
+**发出**: <code>Sharp#event:info</code>, <code>Sharp#event:warning</code>  
 <a name="new_Sharp_new"></a>
 
 ### new
 > new Sharp([input], [options])
 
-Constructor factory to create an instance of `sharp`, to which further methods are chained.
+构造函数工厂，用于创建 `sharp` 的实例，后续方法可以链式调用。
 
-JPEG, PNG, WebP, GIF, AVIF or TIFF format image data can be streamed out from this object.
-When using Stream based output, derived attributes are available from the `info` event.
+JPEG、PNG、WebP、GIF、AVIF 或 TIFF 格式的图像数据可以从此对象流式输出。  
+当使用基于流的输出时，可以从 `info` 事件中获取派生属性。
 
-Non-critical problems encountered during processing are emitted as `warning` events.
+在处理过程中遇到的非关键性问题将作为 `warning` 事件发出。
 
-Implements the [stream.Duplex](http://nodejs.org/api/stream.html#stream_class_stream_duplex) class.
+实现了 [stream.Duplex](http://nodejs.org/api/stream.html#stream_class_stream_duplex) 类。
 
-When loading more than one page/frame of an animated image,
-these are combined as a vertically-stacked "toilet roll" image
-where the overall height is the `pageHeight` multiplied by the number of `pages`.
+当加载动画图像的多个页面/帧时，这些页面将合并为一个垂直堆叠的“卫生纸”图像，其中整体高度是 `pageHeight` 乘以 `pages` 的数量。
 
-**Throws**:
+**抛出**:
 
-- <code>Error</code> Invalid parameters
+- <code>Error</code> 无效参数
 
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [input] | <code>Buffer</code> \| <code>ArrayBuffer</code> \| <code>Uint8Array</code> \| <code>Uint8ClampedArray</code> \| <code>Int8Array</code> \| <code>Uint16Array</code> \| <code>Int16Array</code> \| <code>Uint32Array</code> \| <code>Int32Array</code> \| <code>Float32Array</code> \| <code>Float64Array</code> \| <code>string</code> |  | if present, can be  a Buffer / ArrayBuffer / Uint8Array / Uint8ClampedArray containing JPEG, PNG, WebP, AVIF, GIF, SVG or TIFF image data, or  a TypedArray containing raw pixel image data, or  a String containing the filesystem path to an JPEG, PNG, WebP, AVIF, GIF, SVG or TIFF image file.  JPEG, PNG, WebP, AVIF, GIF, SVG, TIFF or raw pixel image data can be streamed into the object when not present. |
-| [options] | <code>Object</code> |  | if present, is an Object with optional attributes. |
-| [options.failOn] | <code>string</code> | <code>&quot;&#x27;warning&#x27;&quot;</code> | When to abort processing of invalid pixel data, one of (in order of sensitivity, least to most): 'none', 'truncated', 'error', 'warning'. Higher levels imply lower levels. Invalid metadata will always abort. |
-| [options.limitInputPixels] | <code>number</code> \| <code>boolean</code> | <code>268402689</code> | Do not process input images where the number of pixels  (width x height) exceeds this limit. Assumes image dimensions contained in the input metadata can be trusted.  An integral Number of pixels, zero or false to remove limit, true to use default limit of 268402689 (0x3FFF x 0x3FFF). |
-| [options.unlimited] | <code>boolean</code> | <code>false</code> | Set this to `true` to remove safety features that help prevent memory exhaustion (JPEG, PNG, SVG, HEIF). |
-| [options.sequentialRead] | <code>boolean</code> | <code>true</code> | Set this to `false` to use random access rather than sequential read. Some operations will do this automatically. |
-| [options.density] | <code>number</code> | <code>72</code> | number representing the DPI for vector images in the range 1 to 100000. |
-| [options.ignoreIcc] | <code>number</code> | <code>false</code> | should the embedded ICC profile, if any, be ignored. |
-| [options.pages] | <code>number</code> | <code>1</code> | Number of pages to extract for multi-page input (GIF, WebP, TIFF), use -1 for all pages. |
-| [options.page] | <code>number</code> | <code>0</code> | Page number to start extracting from for multi-page input (GIF, WebP, TIFF), zero based. |
-| [options.subifd] | <code>number</code> | <code>-1</code> | subIFD (Sub Image File Directory) to extract for OME-TIFF, defaults to main image. |
-| [options.level] | <code>number</code> | <code>0</code> | level to extract from a multi-level input (OpenSlide), zero based. |
-| [options.pdfBackground] | <code>string</code> \| <code>Object</code> |  | Background colour to use when PDF is partially transparent. Parsed by the [color](https://www.npmjs.org/package/color) module to extract values for red, green, blue and alpha. Requires the use of a globally-installed libvips compiled with support for PDFium, Poppler, ImageMagick or GraphicsMagick. |
-| [options.animated] | <code>boolean</code> | <code>false</code> | Set to `true` to read all frames/pages of an animated image (GIF, WebP, TIFF), equivalent of setting `pages` to `-1`. |
-| [options.raw] | <code>Object</code> |  | describes raw pixel input image data. See `raw()` for pixel ordering. |
-| [options.raw.width] | <code>number</code> |  | integral number of pixels wide. |
-| [options.raw.height] | <code>number</code> |  | integral number of pixels high. |
-| [options.raw.channels] | <code>number</code> |  | integral number of channels, between 1 and 4. |
-| [options.raw.premultiplied] | <code>boolean</code> |  | specifies that the raw input has already been premultiplied, set to `true`  to avoid sharp premultiplying the image. (optional, default `false`) |
-| [options.create] | <code>Object</code> |  | describes a new image to be created. |
-| [options.create.width] | <code>number</code> |  | integral number of pixels wide. |
-| [options.create.height] | <code>number</code> |  | integral number of pixels high. |
-| [options.create.channels] | <code>number</code> |  | integral number of channels, either 3 (RGB) or 4 (RGBA). |
-| [options.create.background] | <code>string</code> \| <code>Object</code> |  | parsed by the [color](https://www.npmjs.org/package/color) module to extract values for red, green, blue and alpha. |
-| [options.create.noise] | <code>Object</code> |  | describes a noise to be created. |
-| [options.create.noise.type] | <code>string</code> |  | type of generated noise, currently only `gaussian` is supported. |
-| [options.create.noise.mean] | <code>number</code> |  | mean of pixels in generated noise. |
-| [options.create.noise.sigma] | <code>number</code> |  | standard deviation of pixels in generated noise. |
-| [options.text] | <code>Object</code> |  | describes a new text image to be created. |
-| [options.text.text] | <code>string</code> |  | text to render as a UTF-8 string. It can contain Pango markup, for example `<i>Le</i>Monde`. |
-| [options.text.font] | <code>string</code> |  | font name to render with. |
-| [options.text.fontfile] | <code>string</code> |  | absolute filesystem path to a font file that can be used by `font`. |
-| [options.text.width] | <code>number</code> | <code>0</code> | Integral number of pixels to word-wrap at. Lines of text wider than this will be broken at word boundaries. |
-| [options.text.height] | <code>number</code> | <code>0</code> | Maximum integral number of pixels high. When defined, `dpi` will be ignored and the text will automatically fit the pixel resolution defined by `width` and `height`. Will be ignored if `width` is not specified or set to 0. |
-| [options.text.align] | <code>string</code> | <code>&quot;&#x27;left&#x27;&quot;</code> | Alignment style for multi-line text (`'left'`, `'centre'`, `'center'`, `'right'`). |
-| [options.text.justify] | <code>boolean</code> | <code>false</code> | set this to true to apply justification to the text. |
-| [options.text.dpi] | <code>number</code> | <code>72</code> | the resolution (size) at which to render the text. Does not take effect if `height` is specified. |
-| [options.text.rgba] | <code>boolean</code> | <code>false</code> | set this to true to enable RGBA output. This is useful for colour emoji rendering, or support for pango markup features like `<span foreground="red">Red!</span>`. |
-| [options.text.spacing] | <code>number</code> | <code>0</code> | text line height in points. Will use the font line height if none is specified. |
-| [options.text.wrap] | <code>string</code> | <code>&quot;&#x27;word&#x27;&quot;</code> | word wrapping style when width is provided, one of: 'word', 'char', 'word-char' (prefer word, fallback to char) or 'none'. |
+| [input] | <code>Buffer</code> \| <code>ArrayBuffer</code> \| <code>Uint8Array</code> \| <code>Uint8ClampedArray</code> \| <code>Int8Array</code> \| <code>Uint16Array</code> \| <code>Int16Array</code> \| <code>Uint32Array</code> \| <code>Int32Array</code> \| <code>Float32Array</code> \| <code>Float64Array</code> \| <code>string</code> |  | 如果出现，可以是一个包含 JPEG、PNG、WebP、AVIF、GIF、SVG 或 TIFF 图像数据的 Buffer / ArrayBuffer / Uint8Array / Uint8ClampedArray，或一个包含原始像素图像数据的 TypedArray，或一个包含 JPEG、PNG、WebP、AVIF、GIF、SVG 或 TIFF 图像文件的文件系统路径的字符串。当不存在时，可以将 JPEG、PNG、WebP、AVIF、GIF、SVG、TIFF 或原始像素图像数据流式输入到对象中。 |
+| [options] | <code>Object</code> |  | 如果出现，则为一个具有可选属性的对象。 |
+| [options.failOn] | <code>string</code> | <code>&quot;&#x27;warning&#x27;&quot;</code> | 何时中止无效像素数据的处理，选其中之一（按敏感性顺序，从低到高）: 'none'，'truncated'，'error'，'warning'。更高的级别意味着较低的级别。无效的元数据将始终中止。 |
+| [options.limitInputPixels] | <code>number</code> \| <code>boolean</code> | <code>268402689</code> | 不处理像素数量（宽度 x 高度）超过此限制的输入图像。假设输入元数据中包含的图像维度可以被信任。有效像素数量，零或false以移除限制，true使用默认限制267402689（0x3FFF x 0x3FFF）。 |
+| [options.unlimited] | <code>boolean</code> | <code>false</code> | 设置为 `true` 以移除帮助防止内存耗尽的安全功能（JPEG、PNG、SVG、HEIF）。 |
+| [options.sequentialRead] | <code>boolean</code> | <code>true</code> | 设置为 `false` 以使用随机访问而不是顺序读取。一些操作会自动执行此操作。 |
+| [options.density] | <code>number</code> | <code>72</code> | 一个表示矢量图像 DPI 的数字，范围为 1 到 100000。 |
+| [options.ignoreIcc] | <code>number</code> | <code>false</code> | 是否应忽略嵌入的 ICC 配置文件（如果有）。 |
+| [options.pages] | <code>number</code> | <code>1</code> | 要提取的多页输入的页数（GIF、WebP、TIFF），使用 -1 提取所有页面。 |
+| [options.page] | <code>number</code> | <code>0</code> | 从多页输入中提取的起始页码（GIF、WebP、TIFF），基于零。 |
+| [options.subifd] | <code>number</code> | <code>-1</code> | 要提取的 OME-TIFF 的 subIFD（子图像文件目录），默认为主图像。 |
+| [options.level] | <code>number</code> | <code>0</code> | 从多级输入（OpenSlide）中提取的级别，基于零。 |
+| [options.pdfBackground] | <code>string</code> \| <code>Object</code> |  | 当 PDF 部分透明时使用的背景颜色。由 [color](https://www.npmjs.org/package/color) 模块解析，以提取红色、绿色、蓝色和 alpha 的值。需要使用全局安装的 libvips，并编译时支持 PDFium、Poppler、ImageMagick 或 GraphicsMagick。 |
+| [options.animated] | <code>boolean</code> | <code>false</code> | 设置为 `true` 以读取动画图像的所有帧/页（GIF、WebP、TIFF），相当于将 `pages` 设置为 `-1`。 |
+| [options.raw] | <code>Object</code> |  | 描述要创建的原始像素输入图像数据。有关像素排序，请参见 `raw()`。 |
+| [options.raw.width] | <code>number</code> |  | 整数像素宽度。 |
+| [options.raw.height] | <code>number</code> |  | 整数像素高度。 |
+| [options.raw.channels] | <code>number</code> |  | 整数通道数，介于 1 和 4 之间。 |
+| [options.raw.premultiplied] | <code>boolean</code> |  | 指定原始输入已经过预乘，设置为 `true` 以避免在图像中进行锐化预乘。（可选，默认 `false`） |
+| [options.create] | <code>Object</code> |  | 描述要创建的新图像。 |
+| [options.create.width] | <code>number</code> |  | 整数像素宽度。 |
+| [options.create.height] | <code>number</code> |  | 整数像素高度。 |
+| [options.create.channels] | <code>number</code> |  | 整数通道数，可以是 3（RGB）或 4（RGBA）。 |
+| [options.create.background] | <code>string</code> \| <code>Object</code> |  | 由 [color](https://www.npmjs.org/package/color) 模块解析，以提取红色、绿色、蓝色和 alpha 的值。 |
+| [options.create.noise] | <code>Object</code> |  | 描述要创建的噪声。 |
+| [options.create.noise.type] | <code>string</code> |  | 生成噪声的类型，目前仅支持 `gaussian`。 |
+| [options.create.noise.mean] | <code>number</code> |  | 生成噪声中像素的均值。 |
+| [options.create.noise.sigma] | <code>number</code> |  | 生成噪声中像素的标准偏差。 |
+| [options.text] | <code>Object</code> |  | 描述要创建的新文本图像。 |
+| [options.text.text] | <code>string</code> |  | 作为 UTF-8 字符串呈现的文本。可以包含 Pango 标记，例如 `<i>Le</i>Monde`。 |
+| [options.text.font] | <code>string</code> |  | 用于渲染的字体名称。 |
+| [options.text.fontfile] | <code>string</code> |  | 可以供 `font` 使用的字体文件的绝对文件系统路径。 |
+| [options.text.width] | <code>number</code> | <code>0</code> | 文本换行的整数像素数。超过此宽度的文本行将在单词边界处断开。 |
+| [options.text.height] | <code>number</code> | <code>0</code> | 最大整数像素高度。当定义时，将忽略 `dpi`，文本将自动适合由 `width` 和 `height` 定义的像素分辨率。如果未指定 `width` 或设置为 0，则将被忽略。 |
+| [options.text.align] | <code>string</code> | <code>&quot;&#x27;left&#x27;&quot;</code> | 多行文本的对齐风格（`'left'`，`'centre'`，`'center'`，`'right'`）。 |
+| [options.text.justify] | <code>boolean</code> | <code>false</code> | 设置为 true 以对文本应用对齐。 |
+| [options.text.dpi] | <code>number</code> | <code>72</code> | 呈现文本时的分辨率（大小）。如果指定了 `height` 则不生效。 |
+| [options.text.rgba] | <code>boolean</code> | <code>false</code> | 设置为 true 以启用 RGBA 输出。对于颜色 emoji 渲染或支持 Pango 标记特性，如 `<span foreground="red">Red!</span>`，这非常有用。 |
+| [options.text.spacing] | <code>number</code> | <code>0</code> | 文本行高（以点为单位）。如果未指定，将使用字体的行高。 |
+| [options.text.wrap] | <code>string</code> | <code>&quot;&#x27;word&#x27;&quot;</code> | 提供宽度时的单词换行样式，之一为：'word'，'char'，'word-char'（优先选择单词，退回到字符）或 'none'。 |
 
-**Example**  
+**示例**  
 ```js
 sharp('input.jpg')
   .resize(300, 200)
   .toFile('output.jpg', function(err) {
-    // output.jpg is a 300 pixels wide and 200 pixels high image
-    // containing a scaled and cropped version of input.jpg
+    // output.jpg 是一张宽 300 像素、高 200 像素的图像
+    // 包含 input.jpg 的缩放和裁剪版本
   });
 ```
-**Example**  
+**示例**  
 ```js
-// Read image data from remote URL,
-// resize to 300 pixels wide,
-// emit an 'info' event with calculated dimensions
-// and finally write image data to writableStream
+// 从远程 URL 读取图像数据，
+// 缩放到宽 300 像素，
+// 发出一个 'info' 事件，包含计算后的尺寸，
+// 最后将图像数据写入 writableStream
 const { body } = fetch('https://...');
 const readableStream = Readable.fromWeb(body);
 const transformer = sharp()
   .resize(300)
   .on('info', ({ height }) => {
-    console.log(`Image height is ${height}`);
+    console.log(`图像高度为 ${height}`);
   });
 readableStream.pipe(transformer).pipe(writableStream);
 ```
-**Example**  
+**示例**  
 ```js
-// Create a blank 300x200 PNG image of semi-translucent red pixels
+// 创建一张空白的 300x200 PNG 图像，像素为半透明红色
 sharp({
   create: {
     width: 300,
@@ -108,18 +104,18 @@ sharp({
 .toBuffer()
 .then( ... );
 ```
-**Example**  
+**示例**  
 ```js
-// Convert an animated GIF to an animated WebP
+// 将动画 GIF 转换为动画 WebP
 await sharp('in.gif', { animated: true }).toFile('out.webp');
 ```
-**Example**  
+**示例**  
 ```js
-// Read a raw array of pixels and save it to a png
-const input = Uint8Array.from([255, 255, 255, 0, 0, 0]); // or Uint8ClampedArray
+// 读取原始像素数组并保存为 png
+const input = Uint8Array.from([255, 255, 255, 0, 0, 0]); // 或 Uint8ClampedArray
 const image = sharp(input, {
-  // because the input does not contain its dimensions or how many channels it has
-  // we need to specify it in the constructor options
+  // 因为输入不包含其维度或通道数
+  // 我们需要在构造函数选项中指定
   raw: {
     width: 2,
     height: 1,
@@ -128,9 +124,9 @@ const image = sharp(input, {
 });
 await image.toFile('my-two-pixels.png');
 ```
-**Example**  
+**示例**  
 ```js
-// Generate RGB Gaussian noise
+// 生成 RGB 高斯噪声
 await sharp({
   create: {
     width: 300,
@@ -144,20 +140,20 @@ await sharp({
  }
 }).toFile('noise.png');
 ```
-**Example**  
+**示例**  
 ```js
-// Generate an image from text
+// 从文本生成图像
 await sharp({
   text: {
     text: 'Hello, world!',
-    width: 400, // max width
-    height: 300 // max height
+    width: 400, // 最大宽度
+    height: 300 // 最大高度
   }
 }).toFile('text_bw.png');
 ```
-**Example**  
+**示例**  
 ```js
-// Generate an rgba image from text using pango markup and font
+// 使用 Pango 标记和字体从文本生成 RGBA 图像
 await sharp({
   text: {
     text: '<span foreground="red">Red!</span><span background="cyan">blue</span>',
@@ -168,28 +164,26 @@ await sharp({
 }).toFile('text_rgba.png');
 ```
 
-
 ## clone
 > clone() ⇒ [<code>Sharp</code>](#Sharp)
 
-Take a "snapshot" of the Sharp instance, returning a new instance.
-Cloned instances inherit the input of their parent instance.
-This allows multiple output Streams and therefore multiple processing pipelines to share a single input Stream.
+对 Sharp 实例进行“快照”，返回一个新实例。  
+克隆的实例继承其父实例的输入。  
+这允许多个输出流，因此多个处理管道可以共享单个输入流。
 
-
-**Example**  
+**示例**  
 ```js
 const pipeline = sharp().rotate();
 pipeline.clone().resize(800, 600).pipe(firstWritableStream);
 pipeline.clone().extract({ left: 20, top: 20, width: 100, height: 100 }).pipe(secondWritableStream);
 readableStream.pipe(pipeline);
-// firstWritableStream receives auto-rotated, resized readableStream
-// secondWritableStream receives auto-rotated, extracted region of readableStream
+// firstWritableStream 接收自动旋转、调整大小的 readableStream
+// secondWritableStream 接收自动旋转、提取区域的 readableStream
 ```
-**Example**  
+**示例**  
 ```js
-// Create a pipeline that will download an image, resize it and format it to different files
-// Using Promises to know when the pipeline is complete
+// 创建一个管道，将下载图像、调整大小并将其格式化为不同文件
+// 使用 Promise 确定管道何时完成
 const fs = require("fs");
 const got = require("got");
 const sharpStream = sharp({ failOn: 'none' });
@@ -223,9 +217,9 @@ promises.push(
 got.stream("https://www.example.com/some-file.jpg").pipe(sharpStream);
 
 Promise.all(promises)
-  .then(res => { console.log("Done!", res); })
+  .then(res => { console.log("完成!", res); })
   .catch(err => {
-    console.error("Error processing files, let's clean it up", err);
+    console.error("处理文件时出错，让我们清理一下", err);
     try {
       fs.unlinkSync("originalFile.jpg");
       fs.unlinkSync("optimized-500.jpg");

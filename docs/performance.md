@@ -1,22 +1,21 @@
-# Performance
+# 性能
 
-A test to benchmark the performance of this module relative to alternatives.
+一个测试，基准测试该模块相对于其他替代方案的性能。
 
-Greater libvips performance can be expected with caching enabled (default)
-and using 8+ core machines, especially those with larger L1/L2 CPU caches.
+启用缓存（默认）并使用 8 核以上的机器，特别是具有更大 L1/L2 CPU 缓存的机器，可以期望获得更好的 libvips 性能。
 
-The I/O limits of the relevant (de)compression library will generally determine maximum throughput.
+相关的（解压缩）库的 I/O 限制通常会决定最大吞吐量。
 
-## Contenders
+## 竞争者
 
-* [jimp](https://www.npmjs.com/package/jimp) v0.22.10 - Image processing in pure JavaScript.
-* [imagemagick](https://www.npmjs.com/package/imagemagick) v0.1.3 - Supports filesystem only and "*has been unmaintained for a long time*".
-* [gm](https://www.npmjs.com/package/gm) v1.25.0 - Fully featured wrapper around GraphicsMagick's `gm` command line utility.
-* [@squoosh/lib](https://www.npmjs.com/package/@squoosh/lib) v0.5.3 - Image libraries transpiled to WebAssembly, includes GPLv3 code, but "*Project no longer maintained*".
-* [@squoosh/cli](https://www.npmjs.com/package/@squoosh/cli) v0.7.3 - Command line wrapper around `@squoosh/lib`, avoids GPLv3 by spawning process, but "*Project no longer maintained*".
-* sharp v0.33.0 / libvips v8.15.0 - Caching within libvips disabled to ensure a fair comparison.
+* [jimp](https://www.npmjs.com/package/jimp) v0.22.10 - 纯 JavaScript 的图像处理。
+* [imagemagick](https://www.npmjs.com/package/imagemagick) v0.1.3 - 仅支持文件系统，并且“*已经很长时间没有维护*”。
+* [gm](https://www.npmjs.com/package/gm) v1.25.0 - 围绕 GraphicsMagick 的 `gm` 命令行工具的全面封装。
+* [@squoosh/lib](https://www.npmjs.com/package/@squoosh/lib) v0.5.3 - 编译为 WebAssembly 的图像库，包括 GPLv3 代码，但“*项目不再维护*”。
+* [@squoosh/cli](https://www.npmjs.com/package/@squoosh/cli) v0.7.3 - 围绕 `@squoosh/lib` 的命令行封装，通过生成进程避免 GPLv3，但“*项目不再维护*”。
+* sharp v0.33.0 / libvips v8.15.0 - 禁用 libvips 中的缓存以确保公平比较。
 
-## Environment
+## 环境
 
 ### AMD64
 
@@ -30,17 +29,17 @@ The I/O limits of the relevant (de)compression library will generally determine 
 * Ubuntu 23.10 [7708743264cb](https://hub.docker.com/layers/library/ubuntu/23.10/images/sha256-7708743264cbb7f6cf7fc13e915faece45a6cdda455748bc55e58e8de3d27b63)
 * Node.js 20.10.0
 
-## Task: JPEG
+## 任务：JPEG
 
-Decompress a 2725x2225 JPEG image,
-resize to 720x588 using Lanczos 3 resampling (where available),
-then compress to JPEG at a "quality" setting of 80.
+解压一个 2725x2225 的 JPEG 图像，
+使用 Lanczos 3 重采样将其调整为 720x588（如果可用），
+然后以“质量”设置为 80 压缩为 JPEG。
 
-Note: jimp does not support Lanczos 3, bicubic resampling used instead.
+注意：jimp 不支持 Lanczos 3，改用双立方重采样。
 
-#### Results: JPEG (AMD64)
+#### 结果：JPEG (AMD64)
 
-| Module             | Input  | Output | Ops/sec | Speed-up |
+| 模块               | 输入   | 输出   | Ops/sec | 加速比 |
 | :----------------- | :----- | :----- | ------: | -------: |
 | jimp               | buffer | buffer |    0.84 |      1.0 |
 | squoosh-cli        | file   | file   |    1.54 |      1.8 |
@@ -52,9 +51,9 @@ Note: jimp does not support Lanczos 3, bicubic resampling used instead.
 | sharp              | file   | file   |   51.42 |     61.2 |
 | sharp              | buffer | buffer |   52.41 |     62.4 |
 
-#### Results: JPEG (ARM64)
+#### 结果：JPEG (ARM64)
 
-| Module             | Input  | Output | Ops/sec | Speed-up |
+| 模块               | 输入   | 输出   | Ops/sec | 加速比 |
 | :----------------- | :----- | :----- | ------: | -------: |
 | jimp               | buffer | buffer |    0.88 |      1.0 |
 | squoosh-cli        | file   | file   |    1.18 |      1.3 |
@@ -66,19 +65,19 @@ Note: jimp does not support Lanczos 3, bicubic resampling used instead.
 | sharp              | file   | file   |   34.99 |     39.8 |
 | sharp              | buffer | buffer |   36.05 |     41.0 |
 
-## Task: PNG
+## 任务：PNG
 
-Decompress a 2048x1536 RGBA PNG image,
-premultiply the alpha channel,
-resize to 720x540 using Lanczos 3 resampling (where available),
-unpremultiply then compress as PNG with a "default" zlib compression level of 6
-and without adaptive filtering.
+解压一个 2048x1536 的 RGBA PNG 图像，
+预乘 Alpha 通道，
+使用 Lanczos 3 重采样将其调整为 720x540（如果可用），
+取消预乘然后以“默认”zlib 压缩级别 6 压缩为 PNG
+且不使用自适应过滤。
 
-Note: jimp does not support premultiply/unpremultiply.
+注意：jimp 不支持预乘/取消预乘。
 
-### Results: PNG (AMD64)
+### 结果：PNG (AMD64)
 
-| Module             | Input  | Output | Ops/sec | Speed-up |
+| 模块               | 输入   | 输出   | Ops/sec | 加速比 |
 | :----------------- | :----- | :----- | ------: | -------: |
 | squoosh-cli        | file   | file   |    0.34 |      1.0 |
 | squoosh-lib        | buffer | buffer |    0.51 |      1.5 |
@@ -88,9 +87,9 @@ Note: jimp does not support premultiply/unpremultiply.
 | sharp              | file   | file   |   25.43 |     74.8 |
 | sharp              | buffer | buffer |   25.70 |     75.6 |
 
-### Results: PNG (ARM64)
+### 结果：PNG (ARM64)
 
-| Module             | Input  | Output | Ops/sec | Speed-up |
+| 模块               | 输入   | 输出   | Ops/sec | 加速比 |
 | :----------------- | :----- | :----- | ------: | -------: |
 | squoosh-cli        | file   | file   |    0.33 |      1.0 |
 | squoosh-lib        | buffer | buffer |    0.46 |      1.4 |
@@ -100,9 +99,9 @@ Note: jimp does not support premultiply/unpremultiply.
 | sharp              | file   | file   |   17.31 |     52.5 |
 | sharp              | buffer | buffer |   17.66 |     53.5 |
 
-## Running the benchmark test
+## 运行基准测试
 
-Requires Docker.
+需要 Docker。
 
 ```sh
 git clone https://github.com/lovell/sharp.git

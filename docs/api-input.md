@@ -1,60 +1,58 @@
 ## metadata
 > metadata([callback]) ⇒ <code>Promise.&lt;Object&gt;</code> \| <code>Sharp</code>
 
-Fast access to (uncached) image metadata without decoding any compressed pixel data.
+快速访问（未缓存的）图像元数据，而无需解码任何压缩的像素数据。
 
-This is read from the header of the input image.
-It does not take into consideration any operations to be applied to the output image,
-such as resize or rotate.
+这些信息是从输入图像的头部读取的。
+它不考虑将应用于输出图像的任何操作，比如调整大小或旋转。
 
-Dimensions in the response will respect the `page` and `pages` properties of the
-[constructor parameters](/api-constructor#parameters).
+响应中的维度将尊重 [构造函数参数](/api-constructor#parameters) 的 `page` 和 `pages` 属性。
 
-A `Promise` is returned when `callback` is not provided.
+当未提供 `callback` 时，会返回一个 `Promise`。
 
-- `format`: Name of decoder used to decompress image data e.g. `jpeg`, `png`, `webp`, `gif`, `svg`
-- `size`: Total size of image in bytes, for Stream and Buffer input only
-- `width`: Number of pixels wide (EXIF orientation is not taken into consideration, see example below)
-- `height`: Number of pixels high (EXIF orientation is not taken into consideration, see example below)
-- `space`: Name of colour space interpretation e.g. `srgb`, `rgb`, `cmyk`, `lab`, `b-w` [...](https://www.libvips.org/API/current/VipsImage.html#VipsInterpretation)
-- `channels`: Number of bands e.g. `3` for sRGB, `4` for CMYK
-- `depth`: Name of pixel depth format e.g. `uchar`, `char`, `ushort`, `float` [...](https://www.libvips.org/API/current/VipsImage.html#VipsBandFormat)
-- `density`: Number of pixels per inch (DPI), if present
-- `chromaSubsampling`: String containing JPEG chroma subsampling, `4:2:0` or `4:4:4` for RGB, `4:2:0:4` or `4:4:4:4` for CMYK
-- `isProgressive`: Boolean indicating whether the image is interlaced using a progressive scan
-- `pages`: Number of pages/frames contained within the image, with support for TIFF, HEIF, PDF, animated GIF and animated WebP
-- `pageHeight`: Number of pixels high each page in a multi-page image will be.
-- `paletteBitDepth`: Bit depth of palette-based image (GIF, PNG).
-- `loop`: Number of times to loop an animated image, zero refers to a continuous loop.
-- `delay`: Delay in ms between each page in an animated image, provided as an array of integers.
-- `pagePrimary`: Number of the primary page in a HEIF image
-- `levels`: Details of each level in a multi-level image provided as an array of objects, requires libvips compiled with support for OpenSlide
-- `subifds`: Number of Sub Image File Directories in an OME-TIFF image
-- `background`: Default background colour, if present, for PNG (bKGD) and GIF images, either an RGB Object or a single greyscale value
-- `compression`: The encoder used to compress an HEIF file, `av1` (AVIF) or `hevc` (HEIC)
-- `resolutionUnit`: The unit of resolution (density), either `inch` or `cm`, if present
-- `hasProfile`: Boolean indicating the presence of an embedded ICC profile
-- `hasAlpha`: Boolean indicating the presence of an alpha transparency channel
-- `orientation`: Number value of the EXIF Orientation header, if present
-- `exif`: Buffer containing raw EXIF data, if present
-- `icc`: Buffer containing raw [ICC](https://www.npmjs.com/package/icc) profile data, if present
-- `iptc`: Buffer containing raw IPTC data, if present
-- `xmp`: Buffer containing raw XMP data, if present
-- `tifftagPhotoshop`: Buffer containing raw TIFFTAG_PHOTOSHOP data, if present
-- `formatMagick`: String containing format for images loaded via *magick
-- `comments`: Array of keyword/text pairs representing PNG text blocks, if present.
+- `format`: 用于解压缩图像数据的解码器名称，例如 `jpeg`，`png`，`webp`，`gif`，`svg`
+- `size`: 图像的总大小（以字节为单位），仅适用于流和缓冲区输入
+- `width`: 宽度的像素数量（不考虑 EXIF 方向，见下面示例）
+- `height`: 高度的像素数量（不考虑 EXIF 方向，见下面示例）
+- `space`: 色彩空间解释的名称，例如 `srgb`，`rgb`，`cmyk`，`lab`，`b-w` [...](https://www.libvips.org/API/current/VipsImage.html#VipsInterpretation)
+- `channels`: 色带数量，例如 `3` 表示 sRGB，`4` 表示 CMYK
+- `depth`: 像素深度格式的名称，例如 `uchar`，`char`，`ushort`，`float` [...](https://www.libvips.org/API/current/VipsImage.html#VipsBandFormat)
+- `density`: 每英寸像素数量（DPI），如果有的话
+- `chromaSubsampling`: 包含 JPEG 色度子采样的字符串，例如 `4:2:0` 或 `4:4:4` 对于 RGB，`4:2:0:4` 或 `4:4:4:4` 对于 CMYK
+- `isProgressive`: 布尔值，指示图像是否使用渐进扫描交错
+- `pages`: 图像中包含的页/帧数，支持 TIFF、HEIF、PDF、动画 GIF 和动画 WebP
+- `pageHeight`: 多页图像中每页的高度像素数量。
+- `paletteBitDepth`: 基于调色板的图像（GIF、PNG）的位深度。
+- `loop`: 动画图像循环的次数，零表示连续循环。
+- `delay`: 动画图像中每页之间的延迟（以毫秒为单位），提供为整数数组。
+- `pagePrimary`: HEIF 图像中主要页面的编号
+- `levels`: 多级图像中每个级别的详细信息，提供为对象数组，需要编译了 OpenSlide 支持的 libvips
+- `subifds`: OME-TIFF 图像中的子图像文件目录数量
+- `background`: PNG（bKGD）和 GIF 图像的默认背景颜色（如果存在），可以是 RGB 对象或单个灰度值
+- `compression`: 用于压缩 HEIF 文件的编码器，`av1` (AVIF) 或 `hevc` (HEIC)
+- `resolutionUnit`: 分辨率单位（密度），可以是 `inch` 或 `cm`，如果存在
+- `hasProfile`: 布尔值，指示嵌入的 ICC 配置文件是否存在
+- `hasAlpha`: 布尔值，指示 Alpha 透明通道是否存在
+- `orientation`: EXIF Orientation 头的数值（如果存在）
+- `exif`: 包含原始 EXIF 数据的缓冲区（如果存在）
+- `icc`: 包含原始 [ICC](https://www.npmjs.com/package/icc) 配置文件数据的缓冲区（如果存在）
+- `iptc`: 包含原始 IPTC 数据的缓冲区（如果存在）
+- `xmp`: 包含原始 XMP 数据的缓冲区（如果存在）
+- `tifftagPhotoshop`: 包含原始 TIFFTAG_PHOTOSHOP 数据的缓冲区（如果存在）
+- `formatMagick`: 包含通过 *magick 加载的图像格式的字符串
+- `comments`: 表示 PNG 文本块的关键词/文本对的数组（如果存在）。
 
 
 
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| [callback] | <code>function</code> | called with the arguments `(err, metadata)` |
+| [callback] | <code>function</code> | 使用参数 `(err, metadata)` 调用 |
 
-**Example**  
+**示例**  
 ```js
 const metadata = await sharp(input).metadata();
 ```
-**Example**  
+**示例**  
 ```js
 const image = sharp(inputJpg);
 image
@@ -66,12 +64,12 @@ image
       .toBuffer();
   })
   .then(function(data) {
-    // data contains a WebP image half the width and height of the original JPEG
+    // data 包含宽度和高度为原始 JPEG 一半的 WebP 图像
   });
 ```
-**Example**  
+**示例**  
 ```js
-// Based on EXIF rotation metadata, get the right-side-up width and height:
+// 基于 EXIF 旋转元数据，获取正立的宽度和高度：
 
 const size = getNormalSize(await sharp(input).metadata());
 
@@ -86,53 +84,52 @@ function getNormalSize({ width, height, orientation }) {
 ## stats
 > stats([callback]) ⇒ <code>Promise.&lt;Object&gt;</code>
 
-Access to pixel-derived image statistics for every channel in the image.
-A `Promise` is returned when `callback` is not provided.
+访问图像中每个通道的基于像素的图像统计信息。
+当未提供 `callback` 时，会返回一个 `Promise`。
 
-- `channels`: Array of channel statistics for each channel in the image. Each channel statistic contains
-    - `min` (minimum value in the channel)
-    - `max` (maximum value in the channel)
-    - `sum` (sum of all values in a channel)
-    - `squaresSum` (sum of squared values in a channel)
-    - `mean` (mean of the values in a channel)
-    - `stdev` (standard deviation for the values in a channel)
-    - `minX` (x-coordinate of one of the pixel where the minimum lies)
-    - `minY` (y-coordinate of one of the pixel where the minimum lies)
-    - `maxX` (x-coordinate of one of the pixel where the maximum lies)
-    - `maxY` (y-coordinate of one of the pixel where the maximum lies)
-- `isOpaque`: Is the image fully opaque? Will be `true` if the image has no alpha channel or if every pixel is fully opaque.
-- `entropy`: Histogram-based estimation of greyscale entropy, discarding alpha channel if any.
-- `sharpness`: Estimation of greyscale sharpness based on the standard deviation of a Laplacian convolution, discarding alpha channel if any.
-- `dominant`: Object containing most dominant sRGB colour based on a 4096-bin 3D histogram.
+- `channels`: 数组，包括图像中每个通道的通道统计信息。每个通道统计信息包含：
+    - `min` (通道中的最小值)
+    - `max` (通道中的最大值)
+    - `sum` (通道中所有值的总和)
+    - `squaresSum` (通道中平方值的总和)
+    - `mean` (通道中值的平均数)
+    - `stdev` (通道中值的标准差)
+    - `minX` (最小值像素的 x 坐标)
+    - `minY` (最小值像素的 y 坐标)
+    - `maxX` (最大值像素的 x 坐标)
+    - `maxY` (最大值像素的 y 坐标)
+- `isOpaque`: 图像是否完全不透明？如果图像没有 Alpha 通道或每个像素完全不透明，则为 `true`。
+- `entropy`: 基于直方图的灰度熵估计，丢弃任何 Alpha 通道。
+- `sharpness`: 基于拉普拉斯卷积的标准差的灰度锐度估计，丢弃任何 Alpha 通道。
+- `dominant`: 对象，包含基于 4096-bin 3D 直方图的最主导 sRGB 颜色。
 
-**Note**: Statistics are derived from the original input image. Any operations performed on the image must first be
-written to a buffer in order to run `stats` on the result (see third example).
-
+**注意**: 统计数据是从原始输入图像得出的。对图像执行的任何操作必须首先写入缓冲区，以便在结果上运行 `stats`（见第三个示例）。
 
 
-| Param | Type | Description |
+
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| [callback] | <code>function</code> | called with the arguments `(err, stats)` |
+| [callback] | <code>function</code> | 使用参数 `(err, stats)` 调用 |
 
-**Example**  
+**示例**  
 ```js
 const image = sharp(inputJpg);
 image
   .stats()
   .then(function(stats) {
-     // stats contains the channel-wise statistics array and the isOpaque value
+     // stats 包含通道统计数组和 isOpaque 值
   });
 ```
-**Example**  
+**示例**  
 ```js
 const { entropy, sharpness, dominant } = await sharp(input).stats();
 const { r, g, b } = dominant;
 ```
-**Example**  
+**示例**  
 ```js
 const image = sharp(input);
-// store intermediate result
+// 存储中间结果
 const part = await image.extract(region).toBuffer();
-// create new instance to obtain statistics of extracted region
+// 创建新的实例以获取提取区域的统计信息
 const stats = await sharp(part).stats();
 ```

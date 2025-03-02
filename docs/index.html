@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Resize large images in common formats to smaller, web-friendly JPEG, PNG, WebP, GIF and AVIF images of varying dimensions">
-  <meta property="og:title" content="sharp - High performance Node.js image processing">
-  <meta property="og:image" content="https://cdn.jsdelivr.net/gh/lovell/sharp@main/docs/image/sharp-logo-600.png">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; object-src 'none';
+  <meta name="description" content="将常见格式的大图像调整为较小的、适合网页的JPEG、PNG、WebP、GIF和AVIF图像，尺寸各异。">
+  <meta property="og:title" content="Sharp 中文文档 - 高性能 Node.js 图像处理库">
+  <meta property="og:image" content="https://sharp.zhcndoc.com/image/sharp-logo-600.png">
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; object-src 'none';
     style-src 'unsafe-inline';
     img-src 'unsafe-inline' data: https://cdn.jsdelivr.net/gh/lovell/;
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com/beacon.min.js/;">
-  <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/lovell/sharp@main/docs/image/sharp-logo.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/lovell/sharp@main/docs/image/sharp-logo-32.png">
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com/beacon.min.js/;"> -->
+  <link rel="icon" type="image/svg+xml" href="https://sharp.zhcndoc.com/image/sharp-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://sharp.zhcndoc.com/image/sharp-logo-32.png">
   <link rel="author" href="/humans.txt" type="text/plain">
+  <script async src="https://www.zhcndoc.com/js/common.js"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "SoftwareSourceCode",
-    "name": "sharp",
-    "description": "High performance Node.js image processing",
-    "url": "https://sharp.pixelplumbing.com",
+    "name": "Sharp 中文文档",
+    "description": "高性能 Node.js 图像处理库",
+    "url": "https://sharp.zhcndoc.com",
     "codeRepository": "https://github.com/lovell/sharp",
     "programmingLanguage": ["JavaScript", "C++"],
     "runtimePlatform": "Node.js",
@@ -58,7 +59,7 @@
     padding-left: 20px;
   }
   </style>
-  <title>sharp - High performance Node.js image processing</title>
+  <title>Sharp 中文文档 - 高性能 Node.js 图像处理库</title>
 </head>
 
 <body>
@@ -114,22 +115,22 @@
     new Docute({
       router: { mode: 'history' },
       logo: '<div style="display:flex;align-items:center">'
-        + '<strong>sharp</strong> '
-        + '<img src="https://cdn.jsdelivr.net/gh/lovell/sharp@main/docs/image/sharp-logo.svg" style="padding:8px" width="32" height="32" alt="#"> '
-        + '<span style="opacity:0.8;white-space:pre" class="shorten-strapline">High performance </span> '
-        + '<span style="opacity:0.8">Node.js image processing</span> '
+        + '<strong>Sharp 中文文档</strong> '
+        + '<img src="https://sharp.zhcndoc.com/image/sharp-logo.svg" style="padding:8px" width="32" height="32" alt="#"> '
+        + '<span style="opacity:0.8;white-space:pre" class="shorten-strapline">高性能 Node.js 图像处理库</span> '
+        + '<span style="opacity:0.8"></span> '
         + '</div>',
       darkThemeToggler: true,
       detectSystemDarkTheme: true,
-      footer: '<a href="https://pixelplumbing.com/" target="_blank">pixelplumbing.com<a>',
+      footer: '<a target="_blank" href="https://www.zhcndoc.com">简中文档</a> - <a rel="nofollow" target="_blank" href="https://beian.miit.gov.cn">沪ICP备2024070610号-3</a>',
       plugins: [
         docuteApiTitlePlugin,
         docuteApiSearchPlugin
       ],
       nav: [
         {
-          title: 'Funding',
-          link: 'https://opencollective.com/libvips'
+          title: '简中文档',
+          link: 'https://www.zhcndoc.com'
         },
         {
           title: 'GitHub',
@@ -138,60 +139,60 @@
       ],
       sidebar: [
         {
-          title: 'Home',
+          title: '首页',
           link: '/'
         },
         {
-          title: 'Installation',
+          title: '安装',
           link: '/install'
         },
         {
           title: 'API',
           children: [
             {
-              title: 'Constructor',
+              title: '构造函数',
               link: '/api-constructor'
             },
             {
-              title: 'Input metadata',
+              title: '输入元数据',
               link: '/api-input'
             },
             {
-              title: 'Output options',
+              title: '输出选项',
               link: '/api-output'
             },
             {
-              title: 'Resizing images',
+              title: '调整图像大小',
               link: '/api-resize'
             },
             {
-              title: 'Compositing images',
+              title: '合成图像',
               link: '/api-composite'
             },
             {
-              title: 'Image operations',
+              title: '图像操作',
               link: '/api-operation'
             },
             {
-              title: 'Colour manipulation',
+              title: '颜色控制',
               link: '/api-colour'
             },
             {
-              title: 'Channel manipulation',
+              title: '通道控制',
               link: '/api-channel'
             },
             {
-              title: 'Global properties',
+              title: '全局属性',
               link: '/api-utility'
             },
           ],
         },
         {
-          title: 'Performance',
+          title: '性能',
           link: '/performance'
         },
         {
-          title: 'Changelog',
+          title: '更新日志',
           link: '/changelog'
         }
       ]

@@ -1,136 +1,122 @@
 ## removeAlpha
 > removeAlpha() ⇒ <code>Sharp</code>
 
-Remove alpha channel, if any. This is a no-op if the image does not have an alpha channel.
+移除 alpha 通道（如果有的话）。如果图像没有 alpha 通道，则此操作无效。
 
-See also [flatten](/api-operation#flatten).
+另见 [flatten](/api-operation#flatten)。
 
-
-**Example**  
+**示例**  
 ```js
 sharp('rgba.png')
   .removeAlpha()
   .toFile('rgb.png', function(err, info) {
-    // rgb.png is a 3 channel image without an alpha channel
+    // rgb.png 是一个没有 alpha 通道的 3 通道图像
   });
 ```
-
 
 ## ensureAlpha
 > ensureAlpha([alpha]) ⇒ <code>Sharp</code>
 
-Ensure the output image has an alpha transparency channel.
-If missing, the added alpha channel will have the specified
-transparency level, defaulting to fully-opaque (1).
-This is a no-op if the image already has an alpha channel.
+确保输出图像具有 alpha 透明通道。
+如果缺失，添加的 alpha 通道将具有指定的透明级别，默认值为完全不透明（1）。
+如果图像已经具有 alpha 通道，则此操作无效。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的 alpha 透明级别
 
-- <code>Error</code> Invalid alpha transparency level
+**自**: 0.21.2  
 
-**Since**: 0.21.2  
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [alpha] | <code>number</code> | <code>1</code> | alpha transparency level (0=fully-transparent, 1=fully-opaque) |
+| [alpha] | <code>number</code> | <code>1</code> | alpha 透明级别 (0=完全透明, 1=完全不透明) |
 
-**Example**  
+**示例**  
 ```js
-// rgba.png will be a 4 channel image with a fully-opaque alpha channel
+// rgba.png 将是一个带有完全不透明 alpha 通道的 4 通道图像
 await sharp('rgb.jpg')
   .ensureAlpha()
   .toFile('rgba.png')
 ```
-**Example**  
+**示例**  
 ```js
-// rgba is a 4 channel image with a fully-transparent alpha channel
+// rgba 是一个具有完全透明 alpha 通道的 4 通道图像
 const rgba = await sharp(rgb)
   .ensureAlpha(0)
   .toBuffer();
 ```
 
-
 ## extractChannel
 > extractChannel(channel) ⇒ <code>Sharp</code>
 
-Extract a single channel from a multi-channel image.
+从多通道图像中提取单个通道。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的通道
 
-- <code>Error</code> Invalid channel
-
-
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| channel | <code>number</code> \| <code>string</code> | zero-indexed channel/band number to extract, or `red`, `green`, `blue` or `alpha`. |
+| channel | <code>number</code> \| <code>string</code> | 要提取的零索引通道/波段编号，或 `red`、`green`、`blue` 或 `alpha`。 |
 
-**Example**  
+**示例**  
 ```js
-// green.jpg is a greyscale image containing the green channel of the input
+// green.jpg 是一个包含输入绿色通道的灰度图像
 await sharp(input)
   .extractChannel('green')
   .toFile('green.jpg');
 ```
-**Example**  
+**示例**  
 ```js
-// red1 is the red value of the first pixel, red2 the second pixel etc.
+// red1 是第一个像素的红色值，red2 是第二个像素等。
 const [red1, red2, ...] = await sharp(input)
   .extractChannel(0)
   .raw()
   .toBuffer();
 ```
 
-
 ## joinChannel
 > joinChannel(images, options) ⇒ <code>Sharp</code>
 
-Join one or more channels to the image.
-The meaning of the added channels depends on the output colourspace, set with `toColourspace()`.
-By default the output image will be web-friendly sRGB, with additional channels interpreted as alpha channels.
-Channel ordering follows vips convention:
-- sRGB: 0: Red, 1: Green, 2: Blue, 3: Alpha.
-- CMYK: 0: Magenta, 1: Cyan, 2: Yellow, 3: Black, 4: Alpha.
+将一个或多个通道合并到图像中。
+添加的通道的意义取决于使用 `toColourspace()` 设置的输出颜色空间。
+默认情况下，输出图像将是网络友好型的 sRGB，附加通道被解读为 alpha 通道。
+通道顺序遵循 vips 约定：
+- sRGB: 0: 红色，1: 绿色，2: 蓝色，3: Alpha。
+- CMYK: 0: 品红，1: 青色，2: 黄色，3: 黑色，4: Alpha。
 
-Buffers may be any of the image formats supported by sharp.
-For raw pixel input, the `options` object should contain a `raw` attribute, which follows the format of the attribute of the same name in the `sharp()` constructor.
+缓冲区可以是任何由 sharp 支持的图像格式。
+对于原始像素输入，`options` 对象应包含一个 `raw` 属性，其格式与 `sharp()` 构造函数中同名属性的格式相同。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| images | <code>Array.&lt;(string\|Buffer)&gt;</code> \| <code>string</code> \| <code>Buffer</code> | one or more images (file paths, Buffers). |
-| options | <code>Object</code> | image options, see `sharp()` constructor. |
-
-
+| images | <code>Array.&lt;(string\|Buffer)&gt;</code> \| <code>string</code> \| <code>Buffer</code> | 一个或多个图像（文件路径，缓冲区）。 |
+| options | <code>Object</code> | 图像选项，见 `sharp()` 构造函数。 |
 
 ## bandbool
 > bandbool(boolOp) ⇒ <code>Sharp</code>
 
-Perform a bitwise boolean operation on all input image channels (bands) to produce a single channel output image.
+对所有输入图像通道（波段）执行按位布尔操作，以生成单通道输出图像。
 
+**抛出**：
 
-**Throws**:
+- <code>Error</code> 无效的参数
 
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| boolOp | <code>string</code> | one of `and`, `or` or `eor` to perform that bitwise operation, like the C logic operators `&`, `|` and `^` respectively. |
+| boolOp | <code>string</code> | 其中一个 `and`、`or` 或 `eor`，以执行相应的按位操作，如 C 逻辑运算符 `&`、`|` 和 `^`。 |
 
-**Example**  
+**示例**  
 ```js
 sharp('3-channel-rgb-input.png')
   .bandbool(sharp.bool.and)
   .toFile('1-channel-output.png', function (err, info) {
-    // The output will be a single channel image where each pixel `P = R & G & B`.
-    // If `I(1,1) = [247, 170, 14] = [0b11110111, 0b10101010, 0b00001111]`
-    // then `O(1,1) = 0b11110111 & 0b10101010 & 0b00001111 = 0b00000010 = 2`.
+    // 输出将是一个单通道图像，其中每个像素 `P = R & G & B`。
+    // 如果 `I(1,1) = [247, 170, 14] = [0b11110111, 0b10101010, 0b00001111]`
+    // 那么 `O(1,1) = 0b11110111 & 0b10101010 & 0b00001111 = 0b00000010 = 2`。
   });
 ```

@@ -1,37 +1,33 @@
 ## toFile
 > toFile(fileOut, [callback]) ⇒ <code>Promise.&lt;Object&gt;</code>
 
-Write output image data to a file.
+将输出图像数据写入文件。
 
-If an explicit output format is not selected, it will be inferred from the extension,
-with JPEG, PNG, WebP, AVIF, TIFF, GIF, DZI, and libvips' V format supported.
-Note that raw pixel data is only supported for buffer output.
+如果未显式选择输出格式，则将根据扩展名推断，支持 JPEG、PNG、WebP、AVIF、TIFF、GIF、DZI 和 libvips 的 V 格式。请注意，仅支持缓冲区输出的原始像素数据。
 
-By default all metadata will be removed, which includes EXIF-based orientation.
-See [withMetadata](#withmetadata) for control over this.
+默认情况下，所有元数据将被删除，包括基于 EXIF 的方向。有关控制此设置，请参见 [withMetadata](#withmetadata)。
 
-The caller is responsible for ensuring directory structures and permissions exist.
+调用者负责确保目录结构和权限存在。
 
-A `Promise` is returned when `callback` is not provided.
+如果没有提供 `callback`，则返回一个 `Promise`。
 
+**返回**: <code>Promise.&lt;Object&gt;</code> - - 当未提供回调时  
+**抛出**:
 
-**Returns**: <code>Promise.&lt;Object&gt;</code> - - when no callback is provided  
-**Throws**:
-
-- <code>Error</code> Invalid parameters
+- <code>Error</code> 无效参数
 
 
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| fileOut | <code>string</code> | the path to write the image data to. |
-| [callback] | <code>function</code> | called on completion with two arguments `(err, info)`. `info` contains the output image `format`, `size` (bytes), `width`, `height`, `channels` and `premultiplied` (indicating if premultiplication was used). When using a crop strategy also contains `cropOffsetLeft` and `cropOffsetTop`. When using the attention crop strategy also contains `attentionX` and `attentionY`, the focal point of the cropped region. Animated output will also contain `pageHeight` and `pages`. May also contain `textAutofitDpi` (dpi the font was rendered at) if image was created from text. |
+| fileOut | <code>string</code> | 写入图像数据的路径。 |
+| [callback] | <code>function</code> | 在完成时调用，带有两个参数 `(err, info)`。`info` 包含输出图像的 `format`、`size`（字节）、`width`、`height`、`channels` 和 `premultiplied`（指示是否使用了预乘）。使用裁剪策略时还包含 `cropOffsetLeft` 和 `cropOffsetTop`。使用注意力裁剪策略时还包含 `attentionX` 和 `attentionY`，是裁剪区域的焦点。动态图像输出还将包含 `pageHeight` 和 `pages`。如果图像是从文本创建的，可能还会包含 `textAutofitDpi`（字体渲染时的 DPI）。 |
 
-**Example**  
+**示例**  
 ```js
 sharp(input)
   .toFile('output.png', (err, info) => { ... });
 ```
-**Example**  
+**示例**  
 ```js
 sharp(input)
   .toFile('output.png')
@@ -43,49 +39,43 @@ sharp(input)
 ## toBuffer
 > toBuffer([options], [callback]) ⇒ <code>Promise.&lt;Buffer&gt;</code>
 
-Write output to a Buffer.
-JPEG, PNG, WebP, AVIF, TIFF, GIF and raw pixel data output are supported.
+将输出写入缓冲区。
+支持 JPEG、PNG、WebP、AVIF、TIFF、GIF 和原始像素数据输出。
 
-Use [toFormat](#toformat) or one of the format-specific functions such as [jpeg](#jpeg), [png](#png) etc. to set the output format.
+使用 [toFormat](#toformat) 或其他格式特定函数，如 [jpeg](#jpeg)、[png](#png) 等来设置输出格式。
 
-If no explicit format is set, the output format will match the input image, except SVG input which becomes PNG output.
+如果未设置显式格式，则输出格式将与输入图像匹配，SVG 输入将转换为 PNG 输出。
 
-By default all metadata will be removed, which includes EXIF-based orientation.
-See [withMetadata](#withmetadata) for control over this.
+默认情况下，所有元数据将被删除，包括基于 EXIF 的方向。有关控制此设置，请参见 [withMetadata](#withmetadata)。
 
-`callback`, if present, gets three arguments `(err, data, info)` where:
-- `err` is an error, if any.
-- `data` is the output image data.
-- `info` contains the output image `format`, `size` (bytes), `width`, `height`,
-`channels` and `premultiplied` (indicating if premultiplication was used).
-When using a crop strategy also contains `cropOffsetLeft` and `cropOffsetTop`.
-Animated output will also contain `pageHeight` and `pages`.
-May also contain `textAutofitDpi` (dpi the font was rendered at) if image was created from text.
+`callback`（如果存在）会接收三个参数 `(err, data, info)`，其中：
+- `err` 是错误（如果存在）。
+- `data` 是输出的图像数据。
+- `info` 包含输出图像的 `format`、`size`（字节）、`width`、`height`、`channels` 和 `premultiplied`（指示是否使用了预乘）。使用裁剪策略时还包含 `cropOffsetLeft` 和 `cropOffsetTop`。动态图像输出还将包含 `pageHeight` 和 `pages`。如果图像是从文本创建的，可能还会包含 `textAutofitDpi`（字体渲染时的 DPI）。
 
-A `Promise` is returned when `callback` is not provided.
+如果未提供 `callback`，则返回一个 `Promise`。
 
+**返回**: <code>Promise.&lt;Buffer&gt;</code> - - 当未提供回调时  
 
-**Returns**: <code>Promise.&lt;Buffer&gt;</code> - - when no callback is provided  
-
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | [options] | <code>Object</code> |  |
-| [options.resolveWithObject] | <code>boolean</code> | Resolve the Promise with an Object containing `data` and `info` properties instead of resolving only with `data`. |
+| [options.resolveWithObject] | <code>boolean</code> | 使用包含 `data` 和 `info` 属性的对象解析 Promise，而不是仅使用 `data`。 |
 | [callback] | <code>function</code> |  |
 
-**Example**  
+**示例**  
 ```js
 sharp(input)
   .toBuffer((err, data, info) => { ... });
 ```
-**Example**  
+**示例**  
 ```js
 sharp(input)
   .toBuffer()
   .then(data => { ... })
   .catch(err => { ... });
 ```
-**Example**  
+**示例**  
 ```js
 sharp(input)
   .png()
@@ -93,19 +83,19 @@ sharp(input)
   .then(({ data, info }) => { ... })
   .catch(err => { ... });
 ```
-**Example**  
+**示例**  
 ```js
 const { data, info } = await sharp('my-image.jpg')
-  // output the raw pixels
+  // 输出原始像素
   .raw()
   .toBuffer({ resolveWithObject: true });
 
-// create a more type safe way to work with the raw pixel data
-// this will not copy the data, instead it will change `data`s underlying ArrayBuffer
-// so `data` and `pixelArray` point to the same memory location
+// 创建更安全的方式来处理原始像素数据
+// 这不会复制数据，而是会更改 `data` 的底层 ArrayBuffer
+// 因此 `data` 和 `pixelArray` 指向同一内存位置
 const pixelArray = new Uint8ClampedArray(data.buffer);
 
-// When you are done changing the pixelArray, sharp takes the `pixelArray` as an input
+// 完成更改 pixelArray 后，sharp 将 `pixelArray` 作为输入
 const { width, height, channels } = info;
 await sharp(pixelArray, { raw: { width, height, channels } })
   .toFile('my-changed-image.jpg');
@@ -115,13 +105,12 @@ await sharp(pixelArray, { raw: { width, height, channels } })
 ## keepExif
 > keepExif() ⇒ <code>Sharp</code>
 
-Keep all EXIF metadata from the input image in the output image.
+保留输入图像的所有 EXIF 元数据到输出图像中。
 
-EXIF metadata is unsupported for TIFF output.
+对于 TIFF 输出，不支持 EXIF 元数据。
 
-
-**Since**: 0.33.0  
-**Example**  
+**自**: 0.33.0  
+**示例**  
 ```js
 const outputWithExif = await sharp(inputWithExif)
   .keepExif()
@@ -132,20 +121,19 @@ const outputWithExif = await sharp(inputWithExif)
 ## withExif
 > withExif(exif) ⇒ <code>Sharp</code>
 
-Set EXIF metadata in the output image, ignoring any EXIF in the input image.
+在输出图像中设置 EXIF 元数据，忽略输入图像中的任何 EXIF。
 
+**抛出**:
 
-**Throws**:
+- <code>Error</code> 无效参数
 
-- <code>Error</code> Invalid parameters
+**自**: 0.33.0  
 
-**Since**: 0.33.0  
-
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| exif | <code>Object.&lt;string, Object.&lt;string, string&gt;&gt;</code> | Object keyed by IFD0, IFD1 etc. of key/value string pairs to write as EXIF data. |
+| exif | <code>Object.&lt;string, Object.&lt;string, string&gt;&gt;</code> | 按 IFD0、IFD1 等键入的对象，包含要作为 EXIF 数据写入的键/值字符串对。 |
 
-**Example**  
+**示例**  
 ```js
 const dataWithExif = await sharp(input)
   .withExif({
@@ -166,20 +154,19 @@ const dataWithExif = await sharp(input)
 ## withExifMerge
 > withExifMerge(exif) ⇒ <code>Sharp</code>
 
-Update EXIF metadata from the input image in the output image.
+更新输出图像中的 EXIF 元数据，使用输入图像的 EXIF 元数据。
 
+**抛出**:
 
-**Throws**:
+- <code>Error</code> 无效参数
 
-- <code>Error</code> Invalid parameters
+**自**: 0.33.0  
 
-**Since**: 0.33.0  
-
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| exif | <code>Object.&lt;string, Object.&lt;string, string&gt;&gt;</code> | Object keyed by IFD0, IFD1 etc. of key/value string pairs to write as EXIF data. |
+| exif | <code>Object.&lt;string, Object.&lt;string, string&gt;&gt;</code> | 按 IFD0、IFD1 等键入的对象，包含要作为 EXIF 数据写入的键/值字符串对。 |
 
-**Example**  
+**示例**  
 ```js
 const dataWithMergedExif = await sharp(inputWithExif)
   .withExifMerge({
@@ -194,13 +181,12 @@ const dataWithMergedExif = await sharp(inputWithExif)
 ## keepIccProfile
 > keepIccProfile() ⇒ <code>Sharp</code>
 
-Keep ICC profile from the input image in the output image.
+从输入图像中保留 ICC 配置文件到输出图像中。
 
-Where necessary, will attempt to convert the output colour space to match the profile.
+在必要时，将尝试将输出颜色空间转换为匹配配置文件。
 
-
-**Since**: 0.33.0  
-**Example**  
+**自**: 0.33.0  
+**示例**  
 ```js
 const outputWithIccProfile = await sharp(inputWithIccProfile)
   .keepIccProfile()
@@ -211,25 +197,24 @@ const outputWithIccProfile = await sharp(inputWithIccProfile)
 ## withIccProfile
 > withIccProfile(icc, [options]) ⇒ <code>Sharp</code>
 
-Transform using an ICC profile and attach to the output image.
+使用 ICC 配置文件进行变换并附加到输出图像。
 
-This can either be an absolute filesystem path or
-built-in profile name (`srgb`, `p3`, `cmyk`).
+这可以是绝对文件系统路径或内置配置文件名称（`srgb`、`p3`、`cmyk`）。
 
 
-**Throws**:
+**抛出**:
 
-- <code>Error</code> Invalid parameters
+- <code>Error</code> 无效参数
 
-**Since**: 0.33.0  
+**自**: 0.33.0  
 
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| icc | <code>string</code> |  | Absolute filesystem path to output ICC profile or built-in profile name (srgb, p3, cmyk). |
+| icc | <code>string</code> |  | 输出 ICC 配置文件的绝对文件系统路径或内置配置文件名称（srgb、p3、cmyk）。 |
 | [options] | <code>Object</code> |  |  |
-| [options.attach] | <code>number</code> | <code>true</code> | Should the ICC profile be included in the output image metadata? |
+| [options.attach] | <code>number</code> | <code>true</code> | 是否将 ICC 配置文件包含在输出图像元数据中？ |
 
-**Example**  
+**示例**  
 ```js
 const outputWithP3 = await sharp(input)
   .withIccProfile('p3')
@@ -240,14 +225,12 @@ const outputWithP3 = await sharp(input)
 ## keepMetadata
 > keepMetadata() ⇒ <code>Sharp</code>
 
-Keep all metadata (EXIF, ICC, XMP, IPTC) from the input image in the output image.
+保留输入图像中的所有元数据（EXIF、ICC、XMP、IPTC）到输出图像中。
 
-The default behaviour, when `keepMetadata` is not used, is to convert to the device-independent
-sRGB colour space and strip all metadata, including the removal of any ICC profile.
+当未使用 `keepMetadata` 时，默认行为是转换为与设备无关的 sRGB 颜色空间并删除所有元数据，包括移除任何 ICC 配置文件。
 
-
-**Since**: 0.33.0  
-**Example**  
+**自**: 0.33.0  
+**示例**  
 ```js
 const outputWithMetadata = await sharp(inputWithMetadata)
   .keepMetadata()
@@ -258,33 +241,32 @@ const outputWithMetadata = await sharp(inputWithMetadata)
 ## withMetadata
 > withMetadata([options]) ⇒ <code>Sharp</code>
 
-Keep most metadata (EXIF, XMP, IPTC) from the input image in the output image.
+从输入图像中保留大多数元数据（EXIF、XMP、IPTC）到输出图像中。
 
-This will also convert to and add a web-friendly sRGB ICC profile if appropriate.
+这还将转换并添加一个适合网页的 sRGB ICC 配置文件（如果合适）。
 
-Allows orientation and density to be set or updated.
+允许设置或更新方向和密度。
+
+**抛出**:
+
+- <code>Error</code> 无效参数
 
 
-**Throws**:
-
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | [options] | <code>Object</code> |  |
-| [options.orientation] | <code>number</code> | Used to update the EXIF `Orientation` tag, integer between 1 and 8. |
-| [options.density] | <code>number</code> | Number of pixels per inch (DPI). |
+| [options.orientation] | <code>number</code> | 用于更新 EXIF `Orientation` 标签，整数范围在 1 到 8 之间。 |
+| [options.density] | <code>number</code> | 每英寸像素数（DPI）。 |
 
-**Example**  
+**示例**  
 ```js
 const outputSrgbWithMetadata = await sharp(inputRgbWithMetadata)
   .withMetadata()
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
-// Set output metadata to 96 DPI
+// 将输出元数据设置为 96 DPI
 const data = await sharp(input)
   .withMetadata({ density: 96 })
   .toBuffer();
@@ -294,22 +276,22 @@ const data = await sharp(input)
 ## toFormat
 > toFormat(format, options) ⇒ <code>Sharp</code>
 
-Force output to a given format.
+强制输出为给定格式。
 
 
-**Throws**:
+**抛出**:
 
-- <code>Error</code> unsupported format or options
+- <code>Error</code> 不支持的格式或选项
 
 
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| format | <code>string</code> \| <code>Object</code> | as a string or an Object with an 'id' attribute |
-| options | <code>Object</code> | output options |
+| format | <code>string</code> \| <code>Object</code> | 作为字符串或带有 'id' 属性的对象 |
+| options | <code>Object</code> | 输出选项 |
 
-**Example**  
+**示例**  
 ```js
-// Convert any input to PNG output
+// 将任何输入转换为 PNG 输出
 const data = await sharp(input)
   .toFormat('png')
   .toBuffer();
@@ -319,34 +301,34 @@ const data = await sharp(input)
 ## jpeg
 > jpeg([options]) ⇒ <code>Sharp</code>
 
-Use these JPEG options for output image.
+使用这些 JPEG 选项进行输出图像。
 
 
-**Throws**:
+**抛出**:
 
-- <code>Error</code> Invalid options
+- <code>Error</code> 无效选项
 
 
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [options] | <code>Object</code> |  | output options |
-| [options.quality] | <code>number</code> | <code>80</code> | quality, integer 1-100 |
-| [options.progressive] | <code>boolean</code> | <code>false</code> | use progressive (interlace) scan |
-| [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:2:0&#x27;&quot;</code> | set to '4:4:4' to prevent chroma subsampling otherwise defaults to '4:2:0' chroma subsampling |
-| [options.optimiseCoding] | <code>boolean</code> | <code>true</code> | optimise Huffman coding tables |
-| [options.optimizeCoding] | <code>boolean</code> | <code>true</code> | alternative spelling of optimiseCoding |
-| [options.mozjpeg] | <code>boolean</code> | <code>false</code> | use mozjpeg defaults, equivalent to `{ trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, quantisationTable: 3 }` |
-| [options.trellisQuantisation] | <code>boolean</code> | <code>false</code> | apply trellis quantisation |
-| [options.overshootDeringing] | <code>boolean</code> | <code>false</code> | apply overshoot deringing |
-| [options.optimiseScans] | <code>boolean</code> | <code>false</code> | optimise progressive scans, forces progressive |
-| [options.optimizeScans] | <code>boolean</code> | <code>false</code> | alternative spelling of optimiseScans |
-| [options.quantisationTable] | <code>number</code> | <code>0</code> | quantization table to use, integer 0-8 |
-| [options.quantizationTable] | <code>number</code> | <code>0</code> | alternative spelling of quantisationTable |
-| [options.force] | <code>boolean</code> | <code>true</code> | force JPEG output, otherwise attempt to use input format |
+| [options] | <code>Object</code> |  | 输出选项 |
+| [options.quality] | <code>number</code> | <code>80</code> | 质量，整数范围 1-100 |
+| [options.progressive] | <code>boolean</code> | <code>false</code> | 使用渐进（交错）扫描 |
+| [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:2:0&#x27;&quot;</code> | 设置为 '4:4:4' 以防止色度下采样，否则默认为 '4:2:0' 色度下采样 |
+| [options.optimiseCoding] | <code>boolean</code> | <code>true</code> | 优化哈夫曼编码表 |
+| [options.optimizeCoding] | <code>boolean</code> | <code>true</code> | 优化哈夫曼编码表的另一种拼写 |
+| [options.mozjpeg] | <code>boolean</code> | <code>false</code> | 使用 mozjpeg 默认值，相当于 `{ trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, quantisationTable: 3 }` |
+| [options.trellisQuantisation] | <code>boolean</code> | <code>false</code> | 应用棋盘量化 |
+| [options.overshootDeringing] | <code>boolean</code> | <code>false</code> | 应用过冲去锯齿 |
+| [options.optimiseScans] | <code>boolean</code> | <code>false</code> | 优化渐进扫描，强制渐进 |
+| [options.optimizeScans] | <code>boolean</code> | <code>false</code> | 优化扫描的另一种拼写 |
+| [options.quantisationTable] | <code>number</code> | <code>0</code> | 使用的量化表，整数范围 0-8 |
+| [options.quantizationTable] | <code>number</code> | <code>0</code> | 量化表的另一种拼写 |
+| [options.force] | <code>boolean</code> | <code>true</code> | 强制 JPEG 输出，否则尝试使用输入格式 |
 
-**Example**  
+**示例**  
 ```js
-// Convert any input to very high quality JPEG output
+// 将任何输入转换为非常高质量的 JPEG 输出
 const data = await sharp(input)
   .jpeg({
     quality: 100,
@@ -354,9 +336,9 @@ const data = await sharp(input)
   })
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
-// Use mozjpeg to reduce output JPEG file size (slower)
+// 使用 mozjpeg 减小输出 JPEG 文件大小（较慢）
 const data = await sharp(input)
   .jpeg({ mozjpeg: true })
   .toBuffer();
@@ -366,53 +348,51 @@ const data = await sharp(input)
 ## png
 > png([options]) ⇒ <code>Sharp</code>
 
-Use these PNG options for output image.
+使用这些 PNG 选项进行输出图像。
 
-By default, PNG output is full colour at 8 bits per pixel.
+默认情况下，PNG 输出为每像素 8 位全色。
 
-Indexed PNG input at 1, 2 or 4 bits per pixel is converted to 8 bits per pixel.
-Set `palette` to `true` for slower, indexed PNG output.
+1、2 或 4 位每像素的索引 PNG 输入将转换为 8 位每像素。将 `palette` 设置为 `true` 可以生成较慢的索引 PNG 输出。
 
-For 16 bits per pixel output, convert to `rgb16` via
-[toColourspace](/api-colour#tocolourspace).
+对于 16 位每像素输出，通过 [toColourspace](/api-colour#tocolourspace) 转换为 `rgb16`。
 
 
-**Throws**:
+**抛出**:
 
-- <code>Error</code> Invalid options
+- <code>Error</code> 无效选项
 
 
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | [options] | <code>Object</code> |  |  |
-| [options.progressive] | <code>boolean</code> | <code>false</code> | use progressive (interlace) scan |
-| [options.compressionLevel] | <code>number</code> | <code>6</code> | zlib compression level, 0 (fastest, largest) to 9 (slowest, smallest) |
-| [options.adaptiveFiltering] | <code>boolean</code> | <code>false</code> | use adaptive row filtering |
-| [options.palette] | <code>boolean</code> | <code>false</code> | quantise to a palette-based image with alpha transparency support |
-| [options.quality] | <code>number</code> | <code>100</code> | use the lowest number of colours needed to achieve given quality, sets `palette` to `true` |
-| [options.effort] | <code>number</code> | <code>7</code> | CPU effort, between 1 (fastest) and 10 (slowest), sets `palette` to `true` |
-| [options.colours] | <code>number</code> | <code>256</code> | maximum number of palette entries, sets `palette` to `true` |
-| [options.colors] | <code>number</code> | <code>256</code> | alternative spelling of `options.colours`, sets `palette` to `true` |
-| [options.dither] | <code>number</code> | <code>1.0</code> | level of Floyd-Steinberg error diffusion, sets `palette` to `true` |
-| [options.force] | <code>boolean</code> | <code>true</code> | force PNG output, otherwise attempt to use input format |
+| [options.progressive] | <code>boolean</code> | <code>false</code> | 使用渐进（交错）扫描 |
+| [options.compressionLevel] | <code>number</code> | <code>6</code> | zlib 压缩级别，0（最快、最大）到 9（最慢、最小） |
+| [options.adaptiveFiltering] | <code>boolean</code> | <code>false</code> | 使用自适应行过滤 |
+| [options.palette] | <code>boolean</code> | <code>false</code> | 量化为支持 alpha 透明度的调色板图像 |
+| [options.quality] | <code>number</code> | <code>100</code> | 使用最低数量的颜色以达到给定质量，设置 `palette` 为 `true` |
+| [options.effort] | <code>number</code> | <code>7</code> | CPU 努力程度，范围在 1（最快）和 10（最慢）之间，设置 `palette` 为 `true` |
+| [options.colours] | <code>number</code> | <code>256</code> | 最大调色板项数，设置 `palette` 为 `true` |
+| [options.colors] | <code>number</code> | <code>256</code> | `options.colours` 的另一种拼写，设置 `palette` 为 `true` |
+| [options.dither] | <code>number</code> | <code>1.0</code> | Floyd-Steinberg 错误扩散级别，设置 `palette` 为 `true` |
+| [options.force] | <code>boolean</code> | <code>true</code> | 强制 PNG 输出，否则尝试使用输入格式 |
 
-**Example**  
+**示例**  
 ```js
-// Convert any input to full colour PNG output
+// 将任何输入转换为全色 PNG 输出
 const data = await sharp(input)
   .png()
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
-// Convert any input to indexed PNG output (slower)
+// 将任何输入转换为索引 PNG 输出（较慢）
 const data = await sharp(input)
   .png({ palette: true })
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
-// Output 16 bits per pixel RGB(A)
+// 输出 16 位每像素 RGB(A)
 const data = await sharp(input)
  .toColourspace('rgb16')
  .png()
@@ -423,40 +403,40 @@ const data = await sharp(input)
 ## webp
 > webp([options]) ⇒ <code>Sharp</code>
 
-Use these WebP options for output image.
+使用这些 WebP 选项进行输出图像。
 
 
-**Throws**:
+**抛出**:
 
-- <code>Error</code> Invalid options
+- <code>Error</code> 无效选项
 
 
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [options] | <code>Object</code> |  | output options |
-| [options.quality] | <code>number</code> | <code>80</code> | quality, integer 1-100 |
-| [options.alphaQuality] | <code>number</code> | <code>100</code> | quality of alpha layer, integer 0-100 |
-| [options.lossless] | <code>boolean</code> | <code>false</code> | use lossless compression mode |
-| [options.nearLossless] | <code>boolean</code> | <code>false</code> | use near_lossless compression mode |
-| [options.smartSubsample] | <code>boolean</code> | <code>false</code> | use high quality chroma subsampling |
-| [options.preset] | <code>string</code> | <code>&quot;&#x27;default&#x27;&quot;</code> | named preset for preprocessing/filtering, one of: default, photo, picture, drawing, icon, text |
-| [options.effort] | <code>number</code> | <code>4</code> | CPU effort, between 0 (fastest) and 6 (slowest) |
-| [options.loop] | <code>number</code> | <code>0</code> | number of animation iterations, use 0 for infinite animation |
-| [options.delay] | <code>number</code> \| <code>Array.&lt;number&gt;</code> |  | delay(s) between animation frames (in milliseconds) |
-| [options.minSize] | <code>boolean</code> | <code>false</code> | prevent use of animation key frames to minimise file size (slow) |
-| [options.mixed] | <code>boolean</code> | <code>false</code> | allow mixture of lossy and lossless animation frames (slow) |
-| [options.force] | <code>boolean</code> | <code>true</code> | force WebP output, otherwise attempt to use input format |
+| [options] | <code>Object</code> |  | 输出选项 |
+| [options.quality] | <code>number</code> | <code>80</code> | 质量，整数范围 1-100 |
+| [options.alphaQuality] | <code>number</code> | <code>100</code> | alpha 图层的质量，整数范围 0-100 |
+| [options.lossless] | <code>boolean</code> | <code>false</code> | 使用无损压缩模式 |
+| [options.nearLossless] | <code>boolean</code> | <code>false</code> | 使用近无损压缩模式 |
+| [options.smartSubsample] | <code>boolean</code> | <code>false</code> | 使用高质量色度下采样 |
+| [options.preset] | <code>string</code> | <code>&quot;&#x27;default&#x27;&quot;</code> | 预处理/过滤的命名预设，值包括：default、photo、picture、drawing、icon、text |
+| [options.effort] | <code>number</code> | <code>4</code> | CPU 努力，范围在 0（最快）和 6（最慢）之间 |
+| [options.loop] | <code>number</code> | <code>0</code> | 动画迭代次数，使用 0 表示无限动画 |
+| [options.delay] | <code>number</code> \| <code>Array.&lt;number&gt;</code> |  | 动画帧之间的延迟（以毫秒为单位） |
+| [options.minSize] | <code>boolean</code> | <code>false</code> | 防止使用动画关键帧来最小化文件大小（较慢） |
+| [options.mixed] | <code>boolean</code> | <code>false</code> | 允许混合有损和无损动画帧（较慢） |
+| [options.force] | <code>boolean</code> | <code>true</code> | 强制 WebP 输出，否则尝试使用输入格式 |
 
-**Example**  
+**示例**  
 ```js
-// Convert any input to lossless WebP output
+// 将任何输入转换为无损 WebP 输出
 const data = await sharp(input)
   .webp({ lossless: true })
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
-// Optimise the file size of an animated WebP
+// 优化动画 WebP 的文件大小
 const outputWebp = await sharp(inputWebp, { animated: true })
   .webp({ effort: 6 })
   .toBuffer();
@@ -466,58 +446,58 @@ const outputWebp = await sharp(inputWebp, { animated: true })
 ## gif
 > gif([options]) ⇒ <code>Sharp</code>
 
-Use these GIF options for the output image.
+使用这些 GIF 选项进行输出图像。
 
-The first entry in the palette is reserved for transparency.
+调色板的第一个条目保留透明。
 
-The palette of the input image will be re-used if possible.
+如果可能，将重用输入图像的调色板。
 
 
-**Throws**:
+**抛出**:
 
-- <code>Error</code> Invalid options
+- <code>Error</code> 无效选项
 
-**Since**: 0.30.0  
+**自**: 0.30.0  
 
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [options] | <code>Object</code> |  | output options |
-| [options.reuse] | <code>boolean</code> | <code>true</code> | re-use existing palette, otherwise generate new (slow) |
-| [options.progressive] | <code>boolean</code> | <code>false</code> | use progressive (interlace) scan |
-| [options.colours] | <code>number</code> | <code>256</code> | maximum number of palette entries, including transparency, between 2 and 256 |
-| [options.colors] | <code>number</code> | <code>256</code> | alternative spelling of `options.colours` |
-| [options.effort] | <code>number</code> | <code>7</code> | CPU effort, between 1 (fastest) and 10 (slowest) |
-| [options.dither] | <code>number</code> | <code>1.0</code> | level of Floyd-Steinberg error diffusion, between 0 (least) and 1 (most) |
-| [options.interFrameMaxError] | <code>number</code> | <code>0</code> | maximum inter-frame error for transparency, between 0 (lossless) and 32 |
-| [options.interPaletteMaxError] | <code>number</code> | <code>3</code> | maximum inter-palette error for palette reuse, between 0 and 256 |
-| [options.loop] | <code>number</code> | <code>0</code> | number of animation iterations, use 0 for infinite animation |
-| [options.delay] | <code>number</code> \| <code>Array.&lt;number&gt;</code> |  | delay(s) between animation frames (in milliseconds) |
-| [options.force] | <code>boolean</code> | <code>true</code> | force GIF output, otherwise attempt to use input format |
+| [options] | <code>Object</code> |  | 输出选项 |
+| [options.reuse] | <code>boolean</code> | <code>true</code> | 重用现有的调色板，否则生成新的（较慢） |
+| [options.progressive] | <code>boolean</code> | <code>false</code> | 使用渐进（交错）扫描 |
+| [options.colours] | <code>number</code> | <code>256</code> | 最大调色板条目数，包括透明度，范围在 2 到 256 之间 |
+| [options.colors] | <code>number</code> | <code>256</code> | `options.colours` 的另一种拼写 |
+| [options.effort] | <code>number</code> | <code>7</code> | CPU 努力，范围在 1（最快）和 10（最慢）之间 |
+| [options.dither] | <code>number</code> | <code>1.0</code> | Floyd-Steinberg 错误扩散级别，范围在 0（最少）和 1（最多）之间 |
+| [options.interFrameMaxError] | <code>number</code> | <code>0</code> | 透明度的最大帧间错误，范围在 0（无损）和 32 之间 |
+| [options.interPaletteMaxError] | <code>number</code> | <code>3</code> | 重新使用调色板的最大帧间错误，范围在 0 到 256 之间 |
+| [options.loop] | <code>number</code> | <code>0</code> | 动画迭代次数，使用 0 表示无限动画 |
+| [options.delay] | <code>number</code> \| <code>Array.&lt;number&gt;</code> |  | 动画帧之间的延迟（以毫秒为单位） |
+| [options.force] | <code>boolean</code> | <code>true</code> | 强制 GIF 输出，否则尝试使用输入格式 |
 
-**Example**  
+**示例**  
 ```js
-// Convert PNG to GIF
+// 将 PNG 转换为 GIF
 await sharp(pngBuffer)
   .gif()
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
-// Convert animated WebP to animated GIF
+// 将动画 WebP 转换为动画 GIF
 await sharp('animated.webp', { animated: true })
   .toFile('animated.gif');
 ```
-**Example**  
+**示例**  
 ```js
-// Create a 128x128, cropped, non-dithered, animated thumbnail of an animated GIF
+// 创建 128x128 的裁剪、无抖动、动画缩略图的动画 GIF
 const out = await sharp('in.gif', { animated: true })
   .resize({ width: 128, height: 128 })
   .gif({ dither: 0 })
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
-// Lossy file size reduction of animated GIF
+// 动画 GIF 的有损文件大小减小
 await sharp('in.gif', { animated: true })
   .gif({ interFrameMaxError: 8 })
   .toFile('optim.gif');
@@ -527,38 +507,38 @@ await sharp('in.gif', { animated: true })
 ## jp2
 > jp2([options]) ⇒ <code>Sharp</code>
 
-Use these JP2 options for output image.
+使用这些 JP2 选项进行输出图像。
 
-Requires libvips compiled with support for OpenJPEG.
-The prebuilt binaries do not include this - see
-[installing a custom libvips](https://sharp.pixelplumbing.com/install#custom-libvips).
+需要编译支持 OpenJPEG 的 libvips。
+预构建的二进制文件不包含此功能 - 请参见
+[安装自定义 libvips](https://sharp.pixelplumbing.com/install#custom-libvips)。
 
 
-**Throws**:
+**抛出**:
 
-- <code>Error</code> Invalid options
+- <code>Error</code> 无效选项
 
-**Since**: 0.29.1  
+**自**: 0.29.1  
 
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [options] | <code>Object</code> |  | output options |
-| [options.quality] | <code>number</code> | <code>80</code> | quality, integer 1-100 |
-| [options.lossless] | <code>boolean</code> | <code>false</code> | use lossless compression mode |
-| [options.tileWidth] | <code>number</code> | <code>512</code> | horizontal tile size |
-| [options.tileHeight] | <code>number</code> | <code>512</code> | vertical tile size |
-| [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:4:4&#x27;&quot;</code> | set to '4:2:0' to use chroma subsampling |
+| [options] | <code>Object</code> |  | 输出选项 |
+| [options.quality] | <code>number</code> | <code>80</code> | 质量，整数范围 1-100 |
+| [options.lossless] | <code>boolean</code> | <code>false</code> | 使用无损压缩模式 |
+| [options.tileWidth] | <code>number</code> | <code>512</code> | 横向瓦片大小 |
+| [options.tileHeight] | <code>number</code> | <code>512</code> | 纵向瓦片大小 |
+| [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:4:4&#x27;&quot;</code> | 设置为 '4:2:0' 以使用色度下采样 |
 
-**Example**  
+**示例**  
 ```js
-// Convert any input to lossless JP2 output
+// 将任何输入转换为无损 JP2 输出
 const data = await sharp(input)
   .jp2({ lossless: true })
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
-// Convert any input to very high quality JP2 output
+// 将任何输入转换为非常高质量 JP2 输出
 const data = await sharp(input)
   .jp2({
     quality: 100,
@@ -571,37 +551,36 @@ const data = await sharp(input)
 ## tiff
 > tiff([options]) ⇒ <code>Sharp</code>
 
-Use these TIFF options for output image.
+使用这些 TIFF 选项进行输出图像。
 
-The `density` can be set in pixels/inch via [withMetadata](#withmetadata)
-instead of providing `xres` and `yres` in pixels/mm.
-
-
-**Throws**:
-
-- <code>Error</code> Invalid options
+`density` 可以通过 [withMetadata](#withmetadata) 设置为每英寸像素，而不是提供以每毫米像素为单位的 `xres` 和 `yres`。
 
 
-| Param | Type | Default | Description |
+**抛出**:
+
+- <code>Error</code> 无效选项
+
+
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [options] | <code>Object</code> |  | output options |
-| [options.quality] | <code>number</code> | <code>80</code> | quality, integer 1-100 |
-| [options.force] | <code>boolean</code> | <code>true</code> | force TIFF output, otherwise attempt to use input format |
-| [options.compression] | <code>string</code> | <code>&quot;&#x27;jpeg&#x27;&quot;</code> | compression options: none, jpeg, deflate, packbits, ccittfax4, lzw, webp, zstd, jp2k |
-| [options.predictor] | <code>string</code> | <code>&quot;&#x27;horizontal&#x27;&quot;</code> | compression predictor options: none, horizontal, float |
-| [options.pyramid] | <code>boolean</code> | <code>false</code> | write an image pyramid |
-| [options.tile] | <code>boolean</code> | <code>false</code> | write a tiled tiff |
-| [options.tileWidth] | <code>number</code> | <code>256</code> | horizontal tile size |
-| [options.tileHeight] | <code>number</code> | <code>256</code> | vertical tile size |
-| [options.xres] | <code>number</code> | <code>1.0</code> | horizontal resolution in pixels/mm |
-| [options.yres] | <code>number</code> | <code>1.0</code> | vertical resolution in pixels/mm |
-| [options.resolutionUnit] | <code>string</code> | <code>&quot;&#x27;inch&#x27;&quot;</code> | resolution unit options: inch, cm |
-| [options.bitdepth] | <code>number</code> | <code>8</code> | reduce bitdepth to 1, 2 or 4 bit |
-| [options.miniswhite] | <code>boolean</code> | <code>false</code> | write 1-bit images as miniswhite |
+| [options] | <code>Object</code> |  | 输出选项 |
+| [options.quality] | <code>number</code> | <code>80</code> | 质量，整数范围 1-100 |
+| [options.force] | <code>boolean</code> | <code>true</code> | 强制 TIFF 输出，否则尝试使用输入格式 |
+| [options.compression] | <code>string</code> | <code>&quot;&#x27;jpeg&#x27;&quot;</code> | 压缩选项：none、jpeg、deflate、packbits、ccittfax4、lzw、webp、zstd、jp2k |
+| [options.predictor] | <code>string</code> | <code>&quot;&#x27;horizontal&#x27;&quot;</code> | 压缩预测选项：none、horizontal、float |
+| [options.pyramid] | <code>boolean</code> | <code>false</code> | 写入图像金字塔 |
+| [options.tile] | <code>boolean</code> | <code>false</code> | 写入平铺 TIFF |
+| [options.tileWidth] | <code>number</code> | <code>256</code> | 横向瓦片大小 |
+| [options.tileHeight] | <code>number</code> | <code>256</code> | 纵向瓦片大小 |
+| [options.xres] | <code>number</code> | <code>1.0</code> | 每毫米的横向分辨率 |
+| [options.yres] | <code>number</code> | <code>1.0</code> | 每毫米的纵向分辨率 |
+| [options.resolutionUnit] | <code>string</code> | <code>&quot;&#x27;inch&#x27;&quot;</code> | 分辨率单位选项：inch、cm |
+| [options.bitdepth] | <code>number</code> | <code>8</code> | 将位深度减少到 1、2 或 4 位 |
+| [options.miniswhite] | <code>boolean</code> | <code>false</code> | 将 1 位图像写为 miniswhite |
 
-**Example**  
+**示例**  
 ```js
-// Convert SVG input to LZW-compressed, 1 bit per pixel TIFF output
+// 将 SVG 输入转换为 LZW 压缩的 1 位每像素 TIFF 输出
 sharp('input.svg')
   .tiff({
     compression: 'lzw',
@@ -615,34 +594,34 @@ sharp('input.svg')
 ## avif
 > avif([options]) ⇒ <code>Sharp</code>
 
-Use these AVIF options for output image.
+使用这些 AVIF 选项进行输出图像。
 
-AVIF image sequences are not supported.
-Prebuilt binaries support a bitdepth of 8 only.
+不支持 AVIF 图像序列。
+预构建的二进制文件仅支持 8 位深度。
 
 
-**Throws**:
+**抛出**:
 
-- <code>Error</code> Invalid options
+- <code>Error</code> 无效选项
 
-**Since**: 0.27.0  
+**自**: 0.27.0  
 
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [options] | <code>Object</code> |  | output options |
-| [options.quality] | <code>number</code> | <code>50</code> | quality, integer 1-100 |
-| [options.lossless] | <code>boolean</code> | <code>false</code> | use lossless compression |
-| [options.effort] | <code>number</code> | <code>4</code> | CPU effort, between 0 (fastest) and 9 (slowest) |
-| [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:4:4&#x27;&quot;</code> | set to '4:2:0' to use chroma subsampling |
-| [options.bitdepth] | <code>number</code> | <code>8</code> | set bitdepth to 8, 10 or 12 bit |
+| [options] | <code>Object</code> |  | 输出选项 |
+| [options.quality] | <code>number</code> | <code>50</code> | 质量，整数范围 1-100 |
+| [options.lossless] | <code>boolean</code> | <code>false</code> | 使用无损压缩 |
+| [options.effort] | <code>number</code> | <code>4</code> | CPU 努力，范围在 0（最快）和 9（最慢）之间 |
+| [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:4:4&#x27;&quot;</code> | 设置为 '4:2:0' 以使用色度下采样 |
+| [options.bitdepth] | <code>number</code> | <code>8</code> | 将位深度设置为 8、10 或 12 位 |
 
-**Example**  
+**示例**  
 ```js
 const data = await sharp(input)
   .avif({ effort: 2 })
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
 const data = await sharp(input)
   .avif({ lossless: true })
@@ -653,29 +632,29 @@ const data = await sharp(input)
 ## heif
 > heif(options) ⇒ <code>Sharp</code>
 
-Use these HEIF options for output image.
+使用这些 HEIF 选项进行输出图像。
 
-Support for patent-encumbered HEIC images using `hevc` compression requires the use of a
-globally-installed libvips compiled with support for libheif, libde265 and x265.
+支持使用 `hevc` 压缩的专利受限 HEIC 图像需要使用
+安装了支持 libheif、libde265 和 x265 的全球安装的 libvips。
 
 
-**Throws**:
+**抛出**:
 
-- <code>Error</code> Invalid options
+- <code>Error</code> 无效选项
 
-**Since**: 0.23.0  
+**自**: 0.23.0  
 
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| options | <code>Object</code> |  | output options |
-| options.compression | <code>string</code> |  | compression format: av1, hevc |
-| [options.quality] | <code>number</code> | <code>50</code> | quality, integer 1-100 |
-| [options.lossless] | <code>boolean</code> | <code>false</code> | use lossless compression |
-| [options.effort] | <code>number</code> | <code>4</code> | CPU effort, between 0 (fastest) and 9 (slowest) |
-| [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:4:4&#x27;&quot;</code> | set to '4:2:0' to use chroma subsampling |
-| [options.bitdepth] | <code>number</code> | <code>8</code> | set bitdepth to 8, 10 or 12 bit |
+| options | <code>Object</code> |  | 输出选项 |
+| options.compression | <code>string</code> |  | 压缩格式：av1、hevc |
+| [options.quality] | <code>number</code> | <code>50</code> | 质量，整数范围 1-100 |
+| [options.lossless] | <code>boolean</code> | <code>false</code> | 使用无损压缩 |
+| [options.effort] | <code>number</code> | <code>4</code> | CPU 努力，范围在 0（最快）和 9（最慢）之间 |
+| [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:4:4&#x27;&quot;</code> | 设置为 '4:2:0' 以使用色度下采样 |
+| [options.bitdepth] | <code>number</code> | <code>8</code> | 将位深度设置为 8、10 或 12 位 |
 
-**Example**  
+**示例**  
 ```js
 const data = await sharp(input)
   .heif({ compression: 'hevc' })
@@ -686,62 +665,62 @@ const data = await sharp(input)
 ## jxl
 > jxl([options]) ⇒ <code>Sharp</code>
 
-Use these JPEG-XL (JXL) options for output image.
+使用这些 JPEG-XL (JXL) 选项进行输出图像。
 
-This feature is experimental, please do not use in production systems.
+此功能仍在实验阶段，请勿在生产系统中使用。
 
-Requires libvips compiled with support for libjxl.
-The prebuilt binaries do not include this - see
-[installing a custom libvips](https://sharp.pixelplumbing.com/install#custom-libvips).
+需要编译支持 libjxl 的 libvips。
+预构建的二进制文件不包含此功能 - 请参见
+[安装自定义 libvips](https://sharp.pixelplumbing.com/install#custom-libvips)。
 
-Image metadata (EXIF, XMP) is unsupported.
+图像元数据（EXIF、XMP）不受支持。
 
 
-**Throws**:
+**抛出**:
 
-- <code>Error</code> Invalid options
+- <code>Error</code> 无效选项
 
-**Since**: 0.31.3  
+**自**: 0.31.3  
 
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [options] | <code>Object</code> |  | output options |
-| [options.distance] | <code>number</code> | <code>1.0</code> | maximum encoding error, between 0 (highest quality) and 15 (lowest quality) |
-| [options.quality] | <code>number</code> |  | calculate `distance` based on JPEG-like quality, between 1 and 100, overrides distance if specified |
-| [options.decodingTier] | <code>number</code> | <code>0</code> | target decode speed tier, between 0 (highest quality) and 4 (lowest quality) |
-| [options.lossless] | <code>boolean</code> | <code>false</code> | use lossless compression |
-| [options.effort] | <code>number</code> | <code>7</code> | CPU effort, between 3 (fastest) and 9 (slowest) |
+| [options] | <code>Object</code> |  | 输出选项 |
+| [options.distance] | <code>number</code> | <code>1.0</code> | 最大编码错误，范围在 0（最高质量）到 15（最低质量）之间 |
+| [options.quality] | <code>number</code> |  | 根据 JPEG 类似质量计算 `distance`，在 1 到 100 之间，若指定则覆盖 `distance` |
+| [options.decodingTier] | <code>number</code> | <code>0</code> | 目标解码速度层，范围在 0（最高质量）到 4（最低质量）之间 |
+| [options.lossless] | <code>boolean</code> | <code>false</code> | 使用无损压缩 |
+| [options.effort] | <code>number</code> | <code>7</code> | CPU 努力，范围在 3（最快）和 9（最慢）之间 |
 
 
 
 ## raw
 > raw([options]) ⇒ <code>Sharp</code>
 
-Force output to be raw, uncompressed pixel data.
-Pixel ordering is left-to-right, top-to-bottom, without padding.
-Channel ordering will be RGB or RGBA for non-greyscale colourspaces.
+强制输出为原始、无压缩的像素数据。
+像素顺序为从左到右、从上到下，不带填充。
+频道顺序将是 RGB 或 RGBA，适用于非灰度色彩空间。
 
 
-**Throws**:
+**抛出**:
 
-- <code>Error</code> Invalid options
+- <code>Error</code> 无效选项
 
 
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [options] | <code>Object</code> |  | output options |
-| [options.depth] | <code>string</code> | <code>&quot;&#x27;uchar&#x27;&quot;</code> | bit depth, one of: char, uchar (default), short, ushort, int, uint, float, complex, double, dpcomplex |
+| [options] | <code>Object</code> |  | 输出选项 |
+| [options.depth] | <code>string</code> | <code>&quot;&#x27;uchar&#x27;&quot;</code> | 位深度，取值之一：char、uchar（默认）、short、ushort、int、uint、float、complex、double、dpcomplex |
 
-**Example**  
+**示例**  
 ```js
-// Extract raw, unsigned 8-bit RGB pixel data from JPEG input
+// 从 JPEG 输入提取原始、无符号 8 位 RGB 像素数据
 const { data, info } = await sharp('input.jpg')
   .raw()
   .toBuffer({ resolveWithObject: true });
 ```
-**Example**  
+**示例**  
 ```js
-// Extract alpha channel as raw, unsigned 16-bit pixel data from PNG input
+// 从 PNG 输入提取 alpha 通道作为原始、无符号 16 位像素数据
 const data = await sharp('input.png')
   .ensureAlpha()
   .extractChannel(3)
@@ -754,40 +733,39 @@ const data = await sharp('input.png')
 ## tile
 > tile([options]) ⇒ <code>Sharp</code>
 
-Use tile-based deep zoom (image pyramid) output.
+使用基于瓷砖的深度缩放（图像金字塔）输出。
 
-Set the format and options for tile images via the `toFormat`, `jpeg`, `png` or `webp` functions.
-Use a `.zip` or `.szi` file extension with `toFile` to write to a compressed archive file format.
+通过在 `toFormat`、`jpeg`、`png` 或 `webp` 函数中设置格式和选项来配置瓷砖图像。
+使用 `.zip` 或 `.szi` 文件扩展名与 `toFile` 一起写入压缩档案文件格式。
 
-The container will be set to `zip` when the output is a Buffer or Stream, otherwise it will default to `fs`.
+当输出是缓冲区或流时，容器将设置为 `zip`，否则默认为 `fs`。
 
-Requires libvips compiled with support for libgsf.
-The prebuilt binaries do not include this - see
-[installing a custom libvips](https://sharp.pixelplumbing.com/install#custom-libvips).
+需要编译支持 libgsf 的 libvips。
+预构建的二进制文件不包含此功能 - 请参见
+[安装自定义 libvips](https://sharp.pixelplumbing.com/install#custom-libvips)。
+
+**抛出**:
+
+- <code>Error</code> 无效参数
 
 
-**Throws**:
-
-- <code>Error</code> Invalid parameters
-
-
-| Param | Type | Default | Description |
+| 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | [options] | <code>Object</code> |  |  |
-| [options.size] | <code>number</code> | <code>256</code> | tile size in pixels, a value between 1 and 8192. |
-| [options.overlap] | <code>number</code> | <code>0</code> | tile overlap in pixels, a value between 0 and 8192. |
-| [options.angle] | <code>number</code> | <code>0</code> | tile angle of rotation, must be a multiple of 90. |
-| [options.background] | <code>string</code> \| <code>Object</code> | <code>&quot;{r: 255, g: 255, b: 255, alpha: 1}&quot;</code> | background colour, parsed by the [color](https://www.npmjs.org/package/color) module, defaults to white without transparency. |
-| [options.depth] | <code>string</code> |  | how deep to make the pyramid, possible values are `onepixel`, `onetile` or `one`, default based on layout. |
-| [options.skipBlanks] | <code>number</code> | <code>-1</code> | Threshold to skip tile generation. Range is 0-255 for 8-bit images, 0-65535 for 16-bit images. Default is 5 for `google` layout, -1 (no skip) otherwise. |
-| [options.container] | <code>string</code> | <code>&quot;&#x27;fs&#x27;&quot;</code> | tile container, with value `fs` (filesystem) or `zip` (compressed file). |
-| [options.layout] | <code>string</code> | <code>&quot;&#x27;dz&#x27;&quot;</code> | filesystem layout, possible values are `dz`, `iiif`, `iiif3`, `zoomify` or `google`. |
-| [options.centre] | <code>boolean</code> | <code>false</code> | centre image in tile. |
-| [options.center] | <code>boolean</code> | <code>false</code> | alternative spelling of centre. |
-| [options.id] | <code>string</code> | <code>&quot;&#x27;https://example.com/iiif&#x27;&quot;</code> | when `layout` is `iiif`/`iiif3`, sets the `@id`/`id` attribute of `info.json` |
-| [options.basename] | <code>string</code> |  | the name of the directory within the zip file when container is `zip`. |
+| [options.size] | <code>number</code> | <code>256</code> | 瓷砖大小（像素），范围在 1 到 8192 之间。 |
+| [options.overlap] | <code>number</code> | <code>0</code> | 瓷砖重叠（像素），范围在 0 到 8192 之间。 |
+| [options.angle] | <code>number</code> | <code>0</code> | 瓷砖旋转角度，必须是 90 的倍数。 |
+| [options.background] | <code>string</code> \| <code>Object</code> | <code>&quot;{r: 255, g: 255, b: 255, alpha: 1}&quot;</code> | 背景颜色，通过 [color](https://www.npmjs.org/package/color) 模块解析，默认为不透明的白色。 |
+| [options.depth] | <code>string</code> |  | 金字塔的深度，可能的值为 `onepixel`、`onetile` 或 `one`，默认基于布局。 |
+| [options.skipBlanks] | <code>number</code> | <code>-1</code> | 跳过瓷砖生成的阈值。8 位图像范围为 0-255，16 位图像范围为 0-65535。默认对 `google` 布局为 5，-1（不跳过）则为其他情况。 |
+| [options.container] | <code>string</code> | <code>&quot;&#x27;fs&#x27;&quot;</code> | 瓷砖容器，值为 `fs`（文件系统）或 `zip`（压缩文件）。 |
+| [options.layout] | <code>string</code> | <code>&quot;&#x27;dz&#x27;&quot;</code> | 文件系统布局，可能的值为 `dz`、`iiif`、`iiif3`、`zoomify` 或 `google`。 |
+| [options.centre] | <code>boolean</code> | <code>false</code> | 将图像居中在瓷砖中。 |
+| [options.center] | <code>boolean</code> | <code>false</code> | `center` 的另一种拼写。 |
+| [options.id] | <code>string</code> | <code>&quot;&#x27;https://example.com/iiif&#x27;&quot;</code> | 当 `layout` 为 `iiif` 或 `iiif3` 时，设置 `info.json` 的 `@id`/`id` 属性 |
+| [options.basename] | <code>string</code> |  | 当容器为 `zip` 时，设置 zip 文件中目录的名称。 |
 
-**Example**  
+**示例**  
 ```js
 sharp('input.tiff')
   .png()
@@ -795,17 +773,17 @@ sharp('input.tiff')
     size: 512
   })
   .toFile('output.dz', function(err, info) {
-    // output.dzi is the Deep Zoom XML definition
-    // output_files contains 512x512 tiles grouped by zoom level
+    // output.dzi 是深度缩放 XML 定义
+    // output_files 包含按缩放级别分组的 512x512 瓷砖
   });
 ```
-**Example**  
+**示例**  
 ```js
 const zipFileWithTiles = await sharp(input)
   .tile({ basename: "tiles" })
   .toBuffer();
 ```
-**Example**  
+**示例**  
 ```js
 const iiififier = sharp().tile({ layout: "iiif" });
 readableStream
@@ -817,23 +795,22 @@ readableStream
 ## timeout
 > timeout(options) ⇒ <code>Sharp</code>
 
-Set a timeout for processing, in seconds.
-Use a value of zero to continue processing indefinitely, the default behaviour.
+设置处理超时（以秒为单位）。
+使用零值继续无限处理，这是默认行为。
 
-The clock starts when libvips opens an input image for processing.
-Time spent waiting for a libuv thread to become available is not included.
+计时从 libvips 打开输入图像进行处理时开始。
+等待 libuv 线程变为可用的时间不包括在内。
 
+**自**: 0.29.2  
 
-**Since**: 0.29.2  
-
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | options | <code>Object</code> |  |
-| options.seconds | <code>number</code> | Number of seconds after which processing will be stopped |
+| options.seconds | <code>number</code> | 处理将在多少秒后停止 |
 
-**Example**  
+**示例**  
 ```js
-// Ensure processing takes no longer than 3 seconds
+// 确保处理时间不超过 3 秒
 try {
   const data = await sharp(input)
     .blur(1000)

@@ -1,92 +1,57 @@
 # sharp
 
-<img src="https://cdn.jsdelivr.net/gh/lovell/sharp@main/docs/image/sharp-logo.svg" width="160" height="160" alt="sharp logo" align="right">
+<img src="https://sharp.zhcndoc.com/image/sharp-logo.svg" width="160" height="160" alt="sharp logo" align="right">
 
-The typical use case for this high speed Node-API module
-is to convert large images in common formats to
-smaller, web-friendly JPEG, PNG, WebP, GIF and AVIF images of varying dimensions.
+这个高速 Node-API 模块的典型用例是将常见格式的大型图像转换为更小的、适合网络的 JPEG、PNG、WebP、GIF 和 AVIF 图像，尺寸各异。
 
-It can be used with all JavaScript runtimes
-that provide support for Node-API v9, including
-Node.js >= 18.17.0, Deno and Bun.
+它可以与所有支持 Node-API v9 的 JavaScript 运行时一起使用，包括 Node.js >= 18.17.0、Deno 和 Bun。
 
-Resizing an image is typically 4x-5x faster than using the
-quickest ImageMagick and GraphicsMagick settings
-due to its use of [libvips](https://github.com/libvips/libvips).
+调整图像大小的速度通常比使用最快的 ImageMagick 和 GraphicsMagick 设置快 4 到 5 倍，这要归功于它使用的 [libvips](https://github.com/libvips/libvips)。
 
-Colour spaces, embedded ICC profiles and alpha transparency channels are all handled correctly.
-Lanczos resampling ensures quality is not sacrificed for speed.
+色彩空间、嵌入的 ICC 配置文件和 alpha 透明通道都得到了正确处理。Lanczos 重采样确保速度的提高不会牺牲质量。
 
-As well as image resizing, operations such as
-rotation, extraction, compositing and gamma correction are available.
+除了图像调整大小外，还提供旋转、裁剪、合成和伽马校正等操作。
 
-Most modern macOS, Windows and Linux systems
-do not require any additional install or runtime dependencies.
+大多数现代 macOS、Windows 和 Linux 系统不需要任何额外的安装或运行时依赖。
 
-### Formats
+### 格式
 
-This module supports reading JPEG, PNG, WebP, GIF, AVIF, TIFF and SVG images.
+该模块支持读取 JPEG、PNG、WebP、GIF、AVIF、TIFF 和 SVG 图像。
 
-Output images can be in JPEG, PNG, WebP, GIF, AVIF and TIFF formats as well as uncompressed raw pixel data.
+输出图像可以为 JPEG、PNG、WebP、GIF、AVIF 和 TIFF 格式，以及未压缩的原始像素数据。
 
-Streams, Buffer objects and the filesystem can be used for input and output.
+可以使用流、Buffer 对象和文件系统进行输入和输出。
 
-A single input Stream can be split into multiple processing pipelines and output Streams.
+单个输入流可以拆分为多个处理管道和输出流。
 
-Deep Zoom image pyramids can be generated,
-suitable for use with "slippy map" tile viewers like
-[OpenSeadragon](https://github.com/openseadragon/openseadragon).
+可以生成深度缩放图像金字塔，适用于与“滑动地图”瓦片查看器如 [OpenSeadragon](https://github.com/openseadragon/openseadragon) 一起使用。
 
-### Fast
+### 快速
 
-This module is powered by the blazingly fast
-[libvips](https://github.com/libvips/libvips) image processing library,
-originally created in 1989 at Birkbeck College
-and currently maintained by a small team led by
-[John Cupitt](https://github.com/jcupitt).
+该模块由极速的 [libvips](https://github.com/libvips/libvips) 图像处理库驱动，该库最早于 1989 年在 Birkbeck College 创建，目前由 [John Cupitt](https://github.com/jcupitt) 领导的小团队维护。
 
-Only small regions of uncompressed image data
-are held in memory and processed at a time,
-taking full advantage of multiple CPU cores and L1/L2/L3 cache.
+在任何时候，只会在内存中持有和处理小区域的未压缩图像数据，充分利用多个 CPU 核心和 L1/L2/L3 缓存。
 
-Everything remains non-blocking thanks to _libuv_,
-no child processes are spawned and Promises/async/await are supported.
+得益于 _libuv_，所有操作都保持非阻塞，没有子进程被生成，同时支持 Promises/async/await。
 
-### Optimal
+### 优化
 
-The features of `mozjpeg` and `pngquant` can be used
-to optimise the file size of JPEG and PNG images respectively,
-without having to invoke separate `imagemin` processes.
+可以使用 `mozjpeg` 和 `pngquant` 的功能分别优化 JPEG 和 PNG 图像的文件大小，而无需调用单独的 `imagemin` 进程。
 
-Huffman tables are optimised when generating JPEG output images
-without having to use separate command line tools like
-[jpegoptim](https://github.com/tjko/jpegoptim) and
-[jpegtran](http://jpegclub.org/jpegtran/).
+在生成 JPEG 输出图像时，可优化哈夫曼表，而无需使用像 [jpegoptim](https://github.com/tjko/jpegoptim) 和 [jpegtran](http://jpegclub.org/jpegtran/) 这样的单独命令行工具。
 
-PNG filtering is disabled by default,
-which for diagrams and line art often produces the same result
-as [pngcrush](https://pmt.sourceforge.io/pngcrush/).
+PNG 过滤默认是禁用的，这对于图表和线条艺术而言，通常产生与 [pngcrush](https://pmt.sourceforge.io/pngcrush/) 相同的效果。
 
-The file size of animated GIF output is optimised
-without having to use separate command line tools such as
-[gifsicle](https://www.lcdf.org/gifsicle/).
+动画 GIF 输出的文件大小经过优化，无需使用像 [gifsicle](https://www.lcdf.org/gifsicle/) 这样的单独命令行工具。
 
-### Contributing
+### 贡献
 
-A [guide for contributors](https://github.com/lovell/sharp/blob/main/.github/CONTRIBUTING.md)
-covers reporting bugs, requesting features and submitting code changes.
+[贡献者指南](https://github.com/lovell/sharp/blob/main/.github/CONTRIBUTING.md) 涵盖了报告错误、请求功能和提交代码更改。
 
-### Licensing
+### 许可
 
-Copyright 2013 Lovell Fuller and others.
+版权所有 2013 Lovell Fuller 等。
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-[https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)
+根据 Apache 许可证第 2.0 版（“许可证”）授权；您不能在不遵守许可证的情况下使用此文件。您可以在 [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0) 获得许可证的副本。
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+除非适用法律要求或书面同意，否则根据许可证分发的软件都是在“按现状”基础上分发的，没有任何形式的担保或条件，无论是明示还是暗示。有关许可证的具体语言、治理权限和限制，请参阅许可证。
