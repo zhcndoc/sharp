@@ -17,7 +17,7 @@ title: 调整图像大小
 
 这些值中的一些基于 [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) CSS 属性。
 
-<img alt="调整大小时适配属性的各种值示例" width="100%" style="aspect-ratio: 998/243" src="https://cdn.jsdelivr.net/gh/lovell/sharp@main/docs/image/api-resize-fit.svg">
+<img alt="调整大小时适配属性的各种值示例" width="100%" style="aspect-ratio: 998/243" src="/api-resize-fit.svg">
 
 使用 **fit** 为 `cover` 或 `contain` 时，默认 **position** 为 `centre`。其他选项有：
 - `sharp.position`：`top`、`right top`、`right`、`right bottom`、`bottom`、`left bottom`、`left`、`left top`。
