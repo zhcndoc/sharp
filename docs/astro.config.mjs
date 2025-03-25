@@ -26,7 +26,7 @@ export default defineConfig({
         tag: 'meta',
         attrs: {
           'http-equiv': 'Content-Security-Policy',
-          content: "default-src 'self'; connect-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cdn.jsdelivr.net/gh/lovell/; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com/beacon.min.js/;"
+          content: "default-src *; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src *; object-src 'none'; style-src * 'unsafe-inline'; img-src * data:;"
         }
       }, {
         tag: 'link',
@@ -38,8 +38,8 @@ export default defineConfig({
       }, {
         tag: 'script',
         attrs: {
-          async: true,
-          href: 'https://www.zhcndoc.com/js/common.js',
+          defer: true,
+          src: 'https://www.zhcndoc.com/js/common.js',
         }
       }, {
         tag: 'script',
