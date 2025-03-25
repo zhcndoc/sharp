@@ -40,19 +40,7 @@ import { Duplex } from 'stream';
  */
 declare function sharp(options?: sharp.SharpOptions): sharp.Sharp;
 declare function sharp(
-    input?:
-        | Buffer
-        | ArrayBuffer
-        | Uint8Array
-        | Uint8ClampedArray
-        | Int8Array
-        | Uint16Array
-        | Int16Array
-        | Uint32Array
-        | Int32Array
-        | Float32Array
-        | Float64Array
-        | string,
+    input?: sharp.SharpInput | Array<sharp.SharpInput>,
     options?: sharp.SharpOptions,
 ): sharp.Sharp;
 
@@ -62,33 +50,35 @@ declare namespace sharp {
 
     /** An Object containing the version numbers of sharp, libvips and its dependencies. */
     const versions: {
-        vips: string;
+        aom?: string | undefined;
+        archive?: string | undefined;
         cairo?: string | undefined;
-        croco?: string | undefined;
+        cgif?: string | undefined;
         exif?: string | undefined;
         expat?: string | undefined;
         ffi?: string | undefined;
         fontconfig?: string | undefined;
         freetype?: string | undefined;
-        gdkpixbuf?: string | undefined;
-        gif?: string | undefined;
+        fribidi?: string | undefined;
         glib?: string | undefined;
-        gsf?: string | undefined;
         harfbuzz?: string | undefined;
-        jpeg?: string | undefined;
+        heif?: string | undefined;
+        highway?: string | undefined;
+        imagequant?: string | undefined;
         lcms?: string | undefined;
-        orc?: string | undefined;
+        mozjpeg?: string | undefined;
         pango?: string | undefined;
         pixman?: string | undefined;
         png?: string | undefined;
-        sharp?: string | undefined;
-        svg?: string | undefined;
+        "proxy-libintl"?: string | undefined;
+        rsvg?: string | undefined;
+        sharp: string;
+        spng?: string | undefined;
         tiff?: string | undefined;
+        vips: string;
         webp?: string | undefined;
-        avif?: string | undefined;
-        heif?: string | undefined;
         xml?: string | undefined;
-        zlib?: string | undefined;
+        "zlib-ng"?: string | undefined;
     };
 
     /** An Object containing the available interpolators and their proper values */
@@ -364,24 +354,72 @@ declare namespace sharp {
         //#region Operation functions
 
         /**
-         * Rotate the output image by either an explicit angle or auto-orient based on the EXIF Orientation tag.
+         * Rotate the output image by either an explicit angle
+         * or auto-orient based on the EXIF `Orientation` tag.
          *
-         * If an angle is provided, it is converted to a valid positive degree rotation. For example, -450 will produce a 270deg rotation.
+         * If an angle is provided, it is converted to a valid positive degree rotation.
+         * For example, `-450` will produce a 270 degree rotation.
          *
-         * When rotating by an angle other than a multiple of 90, the background colour can be provided with the background option.
+         * When rotating by an angle other than a multiple of 90,
+         * the background colour can be provided with the `background` option.
          *
-         * If no angle is provided, it is determined from the EXIF data. Mirroring is supported and may infer the use of a flip operation.
+         * If no angle is provided, it is determined from the EXIF data.
+         * Mirroring is supported and may infer the use of a flip operation.
          *
-         * The use of rotate implies the removal of the EXIF Orientation tag, if any.
+         * The use of `rotate` without an angle will remove the EXIF `Orientation` tag, if any.
          *
-         * Method order is important when both rotating and extracting regions, for example rotate(x).extract(y) will produce a different result to extract(y).rotate(x).
-         * @param angle angle of rotation. (optional, default auto)
-         * @param options if present, is an Object with optional attributes.
+         * Only one rotation can occur per pipeline (aside from an initial call without
+         * arguments to orient via EXIF data). Previous calls to `rotate` in the same
+         * pipeline will be ignored.
+         *
+         * Multi-page images can only be rotated by 180 degrees.
+         *
+         * Method order is important when rotating, resizing and/or extracting regions,
+         * for example `.rotate(x).extract(y)` will produce a different result to `.extract(y).rotate(x)`.
+         *
+         * @example
+         * const pipeline = sharp()
+         *   .rotate()
+         *   .resize(null, 200)
+         *   .toBuffer(function (err, outputBuffer, info) {
+         *     // outputBuffer contains 200px high JPEG image data,
+         *     // auto-rotated using EXIF Orientation tag
+         *     // info.width and info.height contain the dimensions of the resized image
+         *   });
+         * readableStream.pipe(pipeline);
+         *
+         * @example
+         * const rotateThenResize = await sharp(input)
+         *   .rotate(90)
+         *   .resize({ width: 16, height: 8, fit: 'fill' })
+         *   .toBuffer();
+         * const resizeThenRotate = await sharp(input)
+         *   .resize({ width: 16, height: 8, fit: 'fill' })
+         *   .rotate(90)
+         *   .toBuffer();
+         *
+         * @param {number} [angle=auto] angle of rotation.
+         * @param {Object} [options] - if present, is an Object with optional attributes.
+         * @param {string|Object} [options.background="#000000"] parsed by the [color](https://www.npmjs.org/package/color) module to extract values for red, green, blue and alpha.
+         * @returns {Sharp}
          * @throws {Error} Invalid parameters
-         * @returns A sharp instance that can be used to chain operations
          */
         rotate(angle?: number, options?: RotateOptions): Sharp;
 
+        /**
+         * Alias for calling `rotate()` with no arguments, which orients the image based
+         * on EXIF orientsion.
+         *
+         * This operation is aliased to emphasize its purpose, helping to remove any
+         * confusion between rotation and orientation.
+         *
+         * @example
+         * const output = await sharp(input).autoOrient().toBuffer();
+         *
+         * @returns {Sharp}
+         */
+        autoOrient(): Sharp
+  
         /**
          * Flip the image about the vertical Y axis. This always occurs after rotation, if any.
          * The use of flip implies the removal of the EXIF Orientation tag, if any.
@@ -799,8 +837,6 @@ declare namespace sharp {
          * Use tile-based deep zoom (image pyramid) output.
          * Set the format and options for tile images via the toFormat, jpeg, png or webp functions.
          * Use a .zip or .szi file extension with toFile to write to a compressed archive file format.
-         *
-         * Warning: multiple sharp instances concurrently producing tile output can expose a possible race condition in some versions of libgsf.
          * @param tile tile options
          * @throws {Error} Invalid options
          * @returns A sharp instance that can be used to chain operations
@@ -899,7 +935,27 @@ declare namespace sharp {
         //#endregion
     }
 
+    type SharpInput = Buffer
+        | ArrayBuffer
+        | Uint8Array
+        | Uint8ClampedArray
+        | Int8Array
+        | Uint16Array
+        | Int16Array
+        | Uint32Array
+        | Int32Array
+        | Float32Array
+        | Float64Array
+        | string;
+
     interface SharpOptions {
+        /**
+         * Auto-orient based on the EXIF `Orientation` tag, if present.
+         * Mirroring is supported and may infer the use of a flip operation.
+         *
+         * Using this option will remove the EXIF `Orientation` tag, if any.
+         */
+        autoOrient?: boolean;
         /**
          *  When to abort processing of invalid pixel data, one of (in order of sensitivity):
          *  'none' (least), 'truncated', 'error' or 'warning' (most), highers level imply lower levels, invalid metadata will always abort. (optional, default 'warning')
@@ -945,6 +1001,8 @@ declare namespace sharp {
         create?: Create | undefined;
         /** Describes a new text image to be created. */
         text?: CreateText | undefined;
+        /** Describes how array of input images should be joined. */
+        join?: Join | undefined;
     }
 
     interface CacheOptions {
@@ -1025,6 +1083,21 @@ declare namespace sharp {
         wrap?: TextWrap;
     }
 
+    interface Join {
+        /** Number of images per row. */
+        across?: number | undefined;
+        /** Treat input as frames of an animated image. */
+        animated?: boolean | undefined;
+        /** Space between images, in pixels. */
+        shim?: number | undefined;
+        /** Background colour. */
+        background?: Colour | Color | undefined;
+        /** Horizontal alignment. */
+        halign?: HorizontalAlignment | undefined;
+        /** Vertical alignment. */
+        valign?: VerticalAlignment | undefined;
+    }
+
     interface ExifDir {
         [k: string]: string;
     }
@@ -1064,6 +1137,13 @@ declare namespace sharp {
         width?: number | undefined;
         /** Number of pixels high (EXIF orientation is not taken into consideration) */
         height?: number | undefined;
+        /** Any changed metadata after the image orientation is applied. */
+        autoOrient: {
+            /** Number of pixels wide (EXIF orientation is taken into consideration) */
+            width: number;
+            /** Number of pixels high (EXIF orientation is taken into consideration) */
+            height: number;
+        };
         /** Name of colour space interpretation */
         space?: keyof ColourspaceEnum | undefined;
         /** Number of bands e.g. 3 for sRGB, 4 for CMYK */
@@ -1076,6 +1156,10 @@ declare namespace sharp {
         chromaSubsampling?: string | undefined;
         /** Boolean indicating whether the image is interlaced using a progressive scan */
         isProgressive?: boolean | undefined;
+        /** Boolean indicating whether the image is palette-based (GIF, PNG). */
+        isPalette?: boolean | undefined;
+        /** Number of bits per sample for each channel (GIF, PNG). */
+        bitsPerSample?: number | undefined;
         /** Number of pages/frames contained within the image, with support for TIFF, HEIF, PDF, animated GIF and animated WebP */
         pages?: number | undefined;
         /** Number of pixels high each page in a multi-page image will be. */
@@ -1102,8 +1186,8 @@ declare namespace sharp {
         tifftagPhotoshop?: Buffer | undefined;
         /** The encoder used to compress an HEIF file, `av1` (AVIF) or `hevc` (HEIC) */
         compression?: 'av1' | 'hevc';
-        /** Default background colour, if present, for PNG (bKGD) and GIF images, either an RGB Object or a single greyscale value */
-        background?: { r: number; g: number; b: number } | number;
+        /** Default background colour, if present, for PNG (bKGD) and GIF images */
+        background?: { r: number; g: number; b: number } | { gray: number };
         /** Details of each level in a multi-level image provided as an array of objects, requires libvips compiled with support for OpenSlide */
         levels?: LevelMetadata[] | undefined;
         /** Number of Sub Image File Directories in an OME-TIFF image */
@@ -1510,6 +1594,8 @@ declare namespace sharp {
         failOn?: FailOnOptions | undefined;
         /** see sharp() constructor, (optional, default 268402689) */
         limitInputPixels?: number | boolean | undefined;
+        /** see sharp() constructor, (optional, default false) */
+        autoOrient?: boolean | undefined;
     }
 
     interface TileOptions {
@@ -1649,6 +1735,10 @@ declare namespace sharp {
     type TextAlign = 'left' | 'centre' | 'center' | 'right';
 
     type TextWrap = 'word' | 'char' | 'word-char' | 'none';
+
+    type HorizontalAlignment = 'left' | 'centre' | 'center' | 'right';
+
+    type VerticalAlignment = 'top' | 'centre' | 'center' | 'bottom';
 
     type TileContainer = 'fs' | 'zip';
 

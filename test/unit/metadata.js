@@ -102,6 +102,8 @@ describe('Image metadata', function () {
       assert.strictEqual(false, metadata.hasProfile);
       assert.strictEqual(false, metadata.hasAlpha);
       assert.strictEqual(1, metadata.orientation);
+      assert.strictEqual(2464, metadata.autoOrient.width);
+      assert.strictEqual(3248, metadata.autoOrient.height);
       assert.strictEqual('undefined', typeof metadata.exif);
       assert.strictEqual('undefined', typeof metadata.icc);
       assert.strictEqual('inch', metadata.resolutionUnit);
@@ -148,6 +150,8 @@ describe('Image metadata', function () {
       assert.strictEqual(false, metadata.hasProfile);
       assert.strictEqual(false, metadata.hasAlpha);
       assert.strictEqual('undefined', typeof metadata.orientation);
+      assert.strictEqual(2809, metadata.autoOrient.width);
+      assert.strictEqual(2074, metadata.autoOrient.height);
       assert.strictEqual('undefined', typeof metadata.exif);
       assert.strictEqual('undefined', typeof metadata.icc);
       done();
@@ -198,6 +202,56 @@ describe('Image metadata', function () {
       assert.strictEqual('undefined', typeof metadata.exif);
       assert.strictEqual('undefined', typeof metadata.icc);
       done();
+    });
+  });
+
+  it('PNG with greyscale bKGD chunk - 8 bit', async () => {
+    const data = await sharp(fixtures.inputPng8BitGreyBackground).metadata();
+    assert.deepStrictEqual(data, {
+      background: {
+        gray: 0
+      },
+      bitsPerSample: 8,
+      channels: 2,
+      density: 72,
+      depth: 'uchar',
+      format: 'png',
+      hasAlpha: true,
+      hasProfile: false,
+      height: 32,
+      isPalette: false,
+      isProgressive: false,
+      space: 'b-w',
+      width: 32,
+      autoOrient: {
+        width: 32,
+        height: 32
+      }
+    });
+  });
+
+  it('PNG with greyscale bKGD chunk - 16 bit', async () => {
+    const data = await sharp(fixtures.inputPng16BitGreyBackground).metadata();
+    assert.deepStrictEqual(data, {
+      background: {
+        gray: 67
+      },
+      bitsPerSample: 16,
+      channels: 2,
+      density: 72,
+      depth: 'ushort',
+      format: 'png',
+      hasAlpha: true,
+      hasProfile: false,
+      height: 32,
+      isPalette: false,
+      isProgressive: false,
+      space: 'grey16',
+      width: 32,
+      autoOrient: {
+        width: 32,
+        height: 32
+      }
     });
   });
 
@@ -559,6 +613,10 @@ describe('Image metadata', function () {
           if (err) throw err;
           assert.strictEqual(true, metadata.hasProfile);
           assert.strictEqual(8, metadata.orientation);
+          assert.strictEqual(320, metadata.width);
+          assert.strictEqual(240, metadata.height);
+          assert.strictEqual(240, metadata.autoOrient.width);
+          assert.strictEqual(320, metadata.autoOrient.height);
           assert.strictEqual('object', typeof metadata.exif);
           assert.strictEqual(true, metadata.exif instanceof Buffer);
           // EXIF
@@ -878,11 +936,17 @@ describe('Image metadata', function () {
       channels: 3,
       depth: 'uchar',
       isProgressive: false,
+      isPalette: false,
+      bitsPerSample: 8,
       pages: 1,
       pagePrimary: 0,
       compression: 'av1',
       hasProfile: false,
-      hasAlpha: false
+      hasAlpha: false,
+      autoOrient: {
+        width: 2048,
+        height: 858
+      }
     });
   });
 
@@ -931,7 +995,7 @@ describe('Image metadata', function () {
     sharp(fixtures.inputJpgWithCorruptHeader)
       .metadata(function (err) {
         assert.strictEqual(true, !!err);
-        assert.ok(err.message.includes('Input file has corrupt header: VipsJpeg: Premature end of'), err);
+        assert.ok(err.message.includes('Input file has corrupt header: VipsJpeg: premature end of'), err);
         done();
       });
   });
@@ -940,7 +1004,7 @@ describe('Image metadata', function () {
     sharp(fs.readFileSync(fixtures.inputJpgWithCorruptHeader))
       .metadata(function (err) {
         assert.strictEqual(true, !!err);
-        assert.ok(err.message.includes('Input buffer has corrupt header: VipsJpeg: Premature end of'), err);
+        assert.ok(err.message.includes('Input buffer has corrupt header: VipsJpeg: premature end of'), err);
         done();
       });
   });

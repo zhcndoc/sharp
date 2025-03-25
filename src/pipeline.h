@@ -39,6 +39,7 @@ struct Composite {
 
 struct PipelineBaton {
   sharp::InputDescriptor *input;
+  std::vector<sharp::InputDescriptor *> join;
   std::string formatOut;
   std::string fileOut;
   void *bufferOut;
@@ -109,7 +110,6 @@ struct PipelineBaton {
   int claheWidth;
   int claheHeight;
   int claheMaxSlope;
-  bool useExifOrientation;
   int angle;
   double rotationAngle;
   std::vector<double> rotationBackground;
@@ -157,6 +157,7 @@ struct PipelineBaton {
   bool webpNearLossless;
   bool webpLossless;
   bool webpSmartSubsample;
+  bool webpSmartDeblock;
   VipsForeignWebpPreset webpPreset;
   int webpEffort;
   bool webpMinSize;
@@ -281,7 +282,6 @@ struct PipelineBaton {
     claheWidth(0),
     claheHeight(0),
     claheMaxSlope(3),
-    useExifOrientation(false),
     angle(0),
     rotationAngle(0.0),
     rotationBackground{ 0.0, 0.0, 0.0, 255.0 },
@@ -328,6 +328,7 @@ struct PipelineBaton {
     webpNearLossless(false),
     webpLossless(false),
     webpSmartSubsample(false),
+    webpSmartDeblock(false),
     webpPreset(VIPS_FOREIGN_WEBP_PRESET_DEFAULT),
     webpEffort(4),
     webpMinSize(false),
@@ -379,7 +380,7 @@ struct PipelineBaton {
     ensureAlpha(-1.0),
     colourspacePipeline(VIPS_INTERPRETATION_LAST),
     colourspace(VIPS_INTERPRETATION_LAST),
-    loop(-1),
+    loop(1),
     tileSize(256),
     tileOverlap(0),
     tileContainer(VIPS_FOREIGN_DZ_CONTAINER_FS),
