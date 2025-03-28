@@ -45,6 +45,10 @@ Requires libvips v8.16.1
   [#4207](https://github.com/lovell/sharp/pull/4207)
   [@calebmer](https://github.com/calebmer)
 
+* 公开腐蚀与膨胀操作。
+  [#4243](https://github.com/lovell/sharp/pull/4243)
+  [@qpincon](https://github.com/qpincon)
+
 * 添加对 RGBE 图像的支持。需要编译了辐射支持的 libvips。
   [#4316](https://github.com/lovell/sharp/pull/4316)
   [@florentzabera](https://github.com/florentzabera)

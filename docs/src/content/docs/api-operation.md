@@ -264,6 +264,48 @@ const gaussianBlurred = await sharp(input)
 ```
 
 
+## dilate
+> dilate([width]) ⇒ <code>Sharp</code>
+
+使用膨胀形态操作扩展前景对象。
+
+**抛出**:
+
+- <code>Error</code> 无效的参数
+
+| 参数 | 类型 | 默认 | 描述 |
+| --- | --- | --- | --- |
+| [width] | <code>Number</code> | <code>1</code> | 膨胀宽度（以像素为单位）。 |
+
+**示例**  
+```js
+const output = await sharp(input)
+  .dilate()
+  .toBuffer();
+```
+
+
+## erode
+> erode([width]) ⇒ <code>Sharp</code>
+
+使用腐蚀形态操作收缩前景对象。
+
+**抛出**:
+
+- <code>Error</code> 无效的参数
+
+| 参数 | 类型 | 默认 | 描述 |
+| --- | --- | --- | --- |
+| [width] | <code>Number</code> | <code>1</code> | 腐蚀宽度（以像素为单位）。 |
+
+**示例**  
+```js
+const output = await sharp(input)
+  .erode()
+  .toBuffer();
+```
+
+
 ## flatten
 > flatten([options]) ⇒ <code>Sharp</code>
 
