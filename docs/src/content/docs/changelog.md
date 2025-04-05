@@ -6,7 +6,7 @@ title: 更新日志
 
 Requires libvips v8.16.1
 
-### v0.34.0 - TBD
+### v0.34.0 - 2025 年 4 月 4 日
 
 * 最新消息：支持将多张输入图片拼接或制作成动画。
   [#1580](https://github.com/lovell/sharp/issues/1580)
