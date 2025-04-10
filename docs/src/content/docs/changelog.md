@@ -6,6 +6,17 @@ title: 更新日志
 
 Requires libvips v8.16.1
 
+### v0.34.2 - TBD
+
+* 确保使用 `pdfBackground` 构造函数的属性。
+  [#4207](https://github.com/lovell/sharp/pull/4207)
+
+### v0.34.1 - 2025 年 4 月 7 日
+
+* TypeScript：确保新的 `autoOrient` 属性是可选的。
+  [#4362](https://github.com/lovell/sharp/pull/4362)
+  [@styfle](https://github.com/styfle)
+
 ### v0.34.0 - 2025 年 4 月 4 日
 
 * 最新消息：支持将多张输入图片拼接或制作成动画。
