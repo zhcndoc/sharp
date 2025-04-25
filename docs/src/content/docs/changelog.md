@@ -8,6 +8,9 @@ Requires libvips v8.16.1
 
 ### v0.34.2 - TBD
 
+* 确保动画 GIF 转换为 WebP 时保留循环（在 0.34.0 中出现回归）。
+  [#3394](https://github.com/lovell/sharp/issues/3394)
+
 * 确保使用 `pdfBackground` 构造函数的属性。
   [#4207](https://github.com/lovell/sharp/pull/4207)
 
