@@ -14,6 +14,14 @@ Requires libvips v8.16.1
 * 确保使用 `pdfBackground` 构造函数的属性。
   [#4207](https://github.com/lovell/sharp/pull/4207)
 
+* 添加对预构建的 Windows ARM64 二进制文件的支持。
+  [#4375](https://github.com/lovell/sharp/pull/4375)
+  [@hans00](https://github.com/hans00)
+
+* TypeScript：确保在 WebP 定义中包含 `smartDeblock` 属性。
+  [#4387](https://github.com/lovell/sharp/pull/4387)
+  [@Stephen-X](https://github.com/Stephen-X)
+
 ### v0.34.1 - 2025 年 4 月 7 日
 
 * TypeScript：确保新的 `autoOrient` 属性是可选的。

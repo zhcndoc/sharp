@@ -2,7 +2,7 @@
 title: "高性能的 Node.js 图像处理库"
 ---
 
-<img src="/sharp-logo.svg" width="160" height="160" alt="sharp logo" align="right" style="margin-left: 19px">
+<img src="/sharp-logo.svg" width="160" height="160" alt="sharp logo" align="right">
 
 这个高速 Node-API 模块的典型用例是将常见格式的大图像转换为更小的、适合网页的 JPEG、PNG、WebP、GIF 和 AVIF 图像，尺寸各异。
 

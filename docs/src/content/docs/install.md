@@ -49,6 +49,7 @@ deno run --allow-ffi ...
 * Linux x64 (glibc >= 2.26, musl >= 1.2.2, 支持 SSE4.2 的 CPU)
 * Windows x64
 * Windows x86
+* Windows ARM64
 
 这为 JPEG、PNG、WebP、AVIF（限制为 8 位深度）、TIFF、GIF 和 SVG（输入）图像格式提供支持。
 

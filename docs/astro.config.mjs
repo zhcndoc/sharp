@@ -26,7 +26,7 @@ export default defineConfig({
         tag: 'meta',
         attrs: {
           'http-equiv': 'Content-Security-Policy',
-          content: "default-src *; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src *; object-src 'none'; style-src * 'unsafe-inline'; img-src * data:;"
+          content: "default-src 'self'; connect-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com/beacon.min.js/;"
         }
       }, {
         tag: 'link',
