@@ -18,9 +18,18 @@ Requires libvips v8.16.1
   [#4375](https://github.com/lovell/sharp/pull/4375)
   [@hans00](https://github.com/hans00)
 
+* 确保使用 `fit` 的 `contain` 进行调整大小时支持多个 alpha 通道。
+  [#4382](https://github.com/lovell/sharp/issues/4382)
+
+* TypeScript：确保 `metadata` 响应更接近现实。
+  [#4383](https://github.com/lovell/sharp/issues/4383)
+
 * TypeScript：确保在 WebP 定义中包含 `smartDeblock` 属性。
   [#4387](https://github.com/lovell/sharp/pull/4387)
   [@Stephen-X](https://github.com/Stephen-X)
+
+* 确保在 Windows 上支持宽字符文件名（0.34.0 中的回归）。
+  [#4391](https://github.com/lovell/sharp/issues/4391)
 
 ### v0.34.1 - 2025 年 4 月 7 日
 
