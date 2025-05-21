@@ -18,7 +18,7 @@ npm install sharp
 pnpm add sharp
 ```
 
-使用 `pnpm` 时，您可能需要将 `sharp` 添加到 [ignoredBuiltDependencies](https://pnpm.io/package_json#pnpmignoredbuiltdependencies) 以消除警告。
+使用 `pnpm` 时，您可能需要将 `sharp` 添加到 [ignoredBuiltDependencies](https://pnpm.io/settings#ignoredbuiltdependencies) 以消除警告。
 
 ```sh
 yarn add sharp
@@ -49,7 +49,7 @@ deno run --allow-ffi ...
 * Linux x64 (glibc >= 2.26, musl >= 1.2.2, 支持 SSE4.2 的 CPU)
 * Windows x64
 * Windows x86
-* Windows ARM64
+* Windows ARM64 (实验性，所有功能均需 ARMv8.4 的 CPU)
 
 这为 JPEG、PNG、WebP、AVIF（限制为 8 位深度）、TIFF、GIF 和 SVG（输入）图像格式提供支持。
 
@@ -87,7 +87,7 @@ npm install --cpu=x64 --os=linux --libc=musl sharp
 
 ### pnpm v8+
 
-使用 [supportedArchitectures](https://pnpm.io/package_json#pnpmsupportedarchitectures) 配置。
+使用 [supportedArchitectures](https://pnpm.io/settings#supportedarchitectures) 配置。
 
 ## 自定义 libvips
 
@@ -115,7 +115,7 @@ npm install --cpu=x64 --os=linux --libc=musl sharp
 npm install --save node-addon-api node-gyp
 ```
 
-使用 `pnpm` 时，您可能需要将 `sharp` 添加到 [onlyBuiltDependencies](https://pnpm.io/package_json#pnpmonlybuiltdependencies) 以确保安装脚本可以运行。
+使用 `pnpm` 时，您可能需要将 `sharp` 添加到 [onlyBuiltDependencies](https://pnpm.io/settings#onlybuiltdependencies) 以确保安装脚本可以运行。
 
 对于交叉编译，可以使用 `--platform`、`--arch` 和 `--libc` npm 标志（或 `npm_config_platform`，`npm_config_arch` 和 `npm_config_libc` 环境变量）来配置目标环境。
 

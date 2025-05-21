@@ -6,15 +6,16 @@ title: 更新日志
 
 Requires libvips v8.16.1
 
-### v0.34.2 - TBD
+### v0.34.2 - 20th May 2025
 
 * 确保动画 GIF 转换为 WebP 时保留循环（在 0.34.0 中出现回归）。
   [#3394](https://github.com/lovell/sharp/issues/3394)
 
 * 确保使用 `pdfBackground` 构造函数的属性。
   [#4207](https://github.com/lovell/sharp/pull/4207)
+  [#4398](https://github.com/lovell/sharp/issues/4398)
 
-* 添加对预构建的 Windows ARM64 二进制文件的支持。
+* 添加对预构建的 Windows ARM64 二进制文件的实验性支持。
   [#4375](https://github.com/lovell/sharp/pull/4375)
   [@hans00](https://github.com/hans00)
 
