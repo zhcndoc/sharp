@@ -15,9 +15,9 @@
 // Verify platform and compiler compatibility
 
 #if (VIPS_MAJOR_VERSION < 8) || \
-  (VIPS_MAJOR_VERSION == 8 && VIPS_MINOR_VERSION < 16) || \
-  (VIPS_MAJOR_VERSION == 8 && VIPS_MINOR_VERSION == 16 && VIPS_MICRO_VERSION < 1)
-#error "libvips version 8.16.1+ is required - please see https://sharp.pixelplumbing.com/install"
+  (VIPS_MAJOR_VERSION == 8 && VIPS_MINOR_VERSION < 17) || \
+  (VIPS_MAJOR_VERSION == 8 && VIPS_MINOR_VERSION == 17 && VIPS_MICRO_VERSION < 0)
+#error "libvips version 8.17.0+ is required - please see https://sharp.pixelplumbing.com/install"
 #endif
 
 #if defined(__has_include)
@@ -78,6 +78,7 @@ namespace sharp {
     VipsAlign joinHalign;
     VipsAlign joinValign;
     std::vector<double> pdfBackground;
+    bool jp2Oneshot;
 
     InputDescriptor():
       autoOrient(false),
@@ -120,7 +121,8 @@ namespace sharp {
       joinBackground{ 0.0, 0.0, 0.0, 255.0 },
       joinHalign(VIPS_ALIGN_LOW),
       joinValign(VIPS_ALIGN_LOW),
-      pdfBackground{ 255.0, 255.0, 255.0, 255.0 } {}
+      pdfBackground{ 255.0, 255.0, 255.0, 255.0 },
+      jp2Oneshot(false) {}
   };
 
   // Convenience methods to access the attributes of a Napi::Object

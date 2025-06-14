@@ -44,6 +44,7 @@ title: 构造函数
 | [options.subifd] | <code>number</code> | <code>-1</code> | 要为 OME-TIFF 提取的 subIFD（子图像文件目录），默认为主图像。 |
 | [options.level] | <code>number</code> | <code>0</code> | 从多级输入（OpenSlide）中提取的级别，基于零。 |
 | [options.pdfBackground] | <code>string</code> \| <code>Object</code> |  | PDF 部分透明时使用的背景颜色。由 [color](https://www.npmjs.org/package/color) 模块解析以提取红色、绿色、蓝色和透明度的值。需要使用以 PDFium、Poppler、ImageMagick 或 GraphicsMagick 支持编译的全球安装的 libvips。 |
+| [options.jp2Oneshot] | <code>boolean</code> | <code>false</code> | 设置为 `true` 以在单个操作中解码分块 JPEG 2000 图像，从而提高兼容性。 |
 | [options.animated] | <code>boolean</code> | <code>false</code> | 设置为 `true` 以读取动画图像（GIF, WebP, TIFF）的所有帧/页面，等效于将 `pages` 设置为 `-1`。 |
 | [options.raw] | <code>Object</code> |  | 描述原始像素输入图像数据。请参见 `raw()` 了解像素顺序。 |
 | [options.raw.width] | <code>number</code> |  | 整数像素宽度。 |

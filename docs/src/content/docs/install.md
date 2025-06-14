@@ -149,7 +149,7 @@ cd /usr/ports/graphics/vips/ && make install clean
 
 在大多数基于 glibc 的 Linux 系统（例如 Debian、Red Hat）上，默认的内存分配器不适合涉及大量小内存分配的长时间运行的多线程流程。
 
-因此，默认情况下，sharp 会在运行时检测到 glibc 分配器时限制线程基础的 [并发](api-utility#concurrency) 的使用。
+因此，默认情况下，sharp 会在运行时检测到 glibc 分配器时限制线程基础的 [并发](/api-utility#concurrency) 的使用。
 
 为帮助避免碎片并提高这些系统的性能，建议使用替代的内存分配器，例如 [jemalloc](https://github.com/jemalloc/jemalloc)。
 
