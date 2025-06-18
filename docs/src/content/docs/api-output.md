@@ -482,6 +482,7 @@ const outputWebp = await sharp(inputWebp, { animated: true })
 | [options.dither] | <code>number</code> | <code>1.0</code> | Floyd-Steinberg 错误扩散的水平，在 0（最少）和 1（最多）之间 |
 | [options.interFrameMaxError] | <code>number</code> | <code>0</code> | 透明度的最大帧间误差，范围在 0（无损）和 32 之间 |
 | [options.interPaletteMaxError] | <code>number</code> | <code>3</code> | 调色板重用的最大帧间误差，范围在 0 到 256 之间 |
+| [options.keepDuplicateFrames] | <code>boolean</code> | <code>false</code> | 在输出中保留重复帧，而不是将它们合并。 |
 | [options.loop] | <code>number</code> | <code>0</code> | 动画迭代次数，使用 0 表示无限动画 |
 | [options.delay] | <code>number</code> \| <code>Array.&lt;number&gt;</code> |  | 动画帧之间的延迟（以毫秒为单位） |
 | [options.force] | <code>boolean</code> | <code>true</code> | 强制 GIF 输出，否则尝试使用输入格式 |

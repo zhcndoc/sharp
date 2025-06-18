@@ -50,8 +50,6 @@ namespace sharp {
     bool rawPremultiplied;
     int pages;
     int page;
-    int level;
-    int subifd;
     int createChannels;
     int createWidth;
     int createHeight;
@@ -77,6 +75,10 @@ namespace sharp {
     std::vector<double> joinBackground;
     VipsAlign joinHalign;
     VipsAlign joinValign;
+    std::string svgStylesheet;
+    bool svgHighBitdepth;
+    int tiffSubifd;
+    int openSlideLevel;
     std::vector<double> pdfBackground;
     bool jp2Oneshot;
 
@@ -98,8 +100,6 @@ namespace sharp {
       rawPremultiplied(false),
       pages(1),
       page(0),
-      level(0),
-      subifd(-1),
       createChannels(0),
       createWidth(0),
       createHeight(0),
@@ -121,6 +121,9 @@ namespace sharp {
       joinBackground{ 0.0, 0.0, 0.0, 255.0 },
       joinHalign(VIPS_ALIGN_LOW),
       joinValign(VIPS_ALIGN_LOW),
+      svgHighBitdepth(false),
+      tiffSubifd(-1),
+      openSlideLevel(0),
       pdfBackground{ 255.0, 255.0, 255.0, 255.0 },
       jp2Oneshot(false) {}
   };
@@ -218,14 +221,9 @@ namespace sharp {
   ImageType DetermineImageType(char const *file);
 
   /*
-    Does this image type support multiple pages?
+    Format-specific options builder
   */
-  bool ImageTypeSupportsPage(ImageType imageType);
-
-  /*
-    Does this image type support removal of safety limits?
-  */
-  bool ImageTypeSupportsUnlimited(ImageType imageType);
+  vips::VOption* GetOptionsForImageType(ImageType imageType, InputDescriptor *descriptor);
 
   /*
     Open an image from the given InputDescriptor (filesystem, compressed buffer, raw pixel data)

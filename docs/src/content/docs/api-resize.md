@@ -37,6 +37,8 @@ title: 调整图像大小
 - `mitchell`：使用 [Mitchell-Netravali 样条](https://www.cs.utexas.edu/~fussell/courses/cs384g-fall2013/lectures/mitchell/Mitchell.pdf)。
 - `lanczos2`：使用 `a=2` 的 [Lanczos 内核](https://en.wikipedia.org/wiki/Lanczos_resampling#Lanczos_kernel)。
 - `lanczos3`：使用默认的 `a=3` 的 Lanczos 内核。
+- `mks2013`: 使用 Facebook 采用的 2013 年 [Magic Kernel Sharp](https://johncostella.com/magic/mks.pdf) 内核。
+- `mks2021`: 使用魔法内核锐化 2021 内核，具有比 2013 版本更准确（减少）的锐化效果。
 
 上采样时，这些内核映射到 `nearest`、`linear` 和 `cubic` 插值器。
 没有匹配的上采样插值器的下采样内核映射为 `cubic`。

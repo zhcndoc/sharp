@@ -1003,14 +1003,22 @@ declare namespace sharp {
         pages?: number | undefined;
         /** Page number to start extracting from for multi-page input (GIF, TIFF, PDF), zero based. (optional, default 0) */
         page?: number | undefined;
-        /** subIFD (Sub Image File Directory) to extract for OME-TIFF, defaults to main image. (optional, default -1) */
+        /** TIFF specific input options */
+        tiff?: TiffInputOptions | undefined;
+        /** SVG specific input options */
+        svg?: SvgInputOptions | undefined;
+        /** PDF specific input options */
+        pdf?: PdfInputOptions | undefined;
+        /** OpenSlide specific input options */
+        openSlide?: OpenSlideInputOptions | undefined;
+        /** JPEG 2000 specific input options */
+        jp2?: Jp2InputOptions | undefined;
+        /** Deprecated: use tiff.subifd instead */
         subifd?: number | undefined;
-        /** Level to extract from a multi-level input (OpenSlide), zero based. (optional, default 0) */
-        level?: number | undefined;
-        /** Background colour to use when PDF is partially transparent. Requires the use of a globally-installed libvips compiled with support for PDFium, Poppler, ImageMagick or GraphicsMagick. */
+        /** Deprecated: use pdf.background instead */
         pdfBackground?: Colour | Color | undefined;
-        /** Set to `true` to load JPEG 2000 images using [oneshot mode](https://github.com/libvips/libvips/issues/4205) */
-        jp2Oneshot?: boolean | undefined;
+        /** Deprecated: use openSlide.level instead */
+        level?: number | undefined;
         /** Set to `true` to read all frames/pages of an animated image (equivalent of setting `pages` to `-1`). (optional, default false) */
         animated?: boolean | undefined;
         /** Describes raw pixel input image data. See raw() for pixel ordering. */
@@ -1114,6 +1122,33 @@ declare namespace sharp {
         halign?: HorizontalAlignment | undefined;
         /** Vertical alignment. */
         valign?: VerticalAlignment | undefined;
+    }
+
+    interface TiffInputOptions {
+        /** Sub Image File Directory to extract, defaults to main image. Use -1 for all subifds. */
+        subifd?: number | undefined;
+    }
+
+    interface SvgInputOptions {
+        /** Custom CSS for SVG input, applied with a User Origin during the CSS cascade. */
+        stylesheet?: string | undefined;
+        /** Set to `true` to render SVG input at 32-bits per channel (128-bit) instead of 8-bits per channel (32-bit) RGBA. */
+        highBitdepth?: boolean | undefined;
+    }
+
+    interface PdfInputOptions {
+        /** Background colour to use when PDF is partially transparent. Requires the use of a globally-installed libvips compiled with support for PDFium, Poppler, ImageMagick or GraphicsMagick. */
+        background?: Colour | Color | undefined;
+    }
+
+    interface OpenSlideInputOptions {
+        /** Level to extract from a multi-level input, zero based. (optional, default 0) */
+        level?: number | undefined;
+    }
+
+    interface Jp2InputOptions {
+        /** Set to `true` to load JPEG 2000 images using [oneshot mode](https://github.com/libvips/libvips/issues/4205) */
+        oneshot?: boolean | undefined;
     }
 
     interface ExifDir {
@@ -1392,9 +1427,11 @@ declare namespace sharp {
         /** Level of Floyd-Steinberg error diffusion, between 0 (least) and 1 (most) (optional, default 1.0) */
         dither?: number | undefined;
         /** Maximum inter-frame error for transparency, between 0 (lossless) and 32 (optional, default 0) */
-        interFrameMaxError?: number;
+        interFrameMaxError?: number | undefined;
         /** Maximum inter-palette error for palette reuse, between 0 and 256 (optional, default 3) */
-        interPaletteMaxError?: number;
+        interPaletteMaxError?: number | undefined;
+        /** Keep duplicate frames in the output instead of combining them (optional, default false) */
+        keepDuplicateFrames?: boolean | undefined;
     }
 
     interface TiffOptions extends OutputOptions {
@@ -1729,6 +1766,8 @@ declare namespace sharp {
         mitchell: 'mitchell';
         lanczos2: 'lanczos2';
         lanczos3: 'lanczos3';
+        mks2013: 'mks2013';
+        mks2021: 'mks2021';
     }
 
     interface PresetEnum {

@@ -6,19 +6,27 @@ title: 更新日志
 
 Requires libvips v8.17.0
 
-### v0.34.3 - TBD
+### v0.34.3 - 待定
 
-* Upgrade to libvips v8.17.0 for upstream bug fixes.
+* 升级到 libvips v8.17.0，以修复上游的错误。
 
-* Expose JPEG 2000 `oneshot` decoder option.
+* 将“Magic Kernel Sharp”（无关）添加到缩放内核中。
+
+* 弃用顶层的格式特定构造参数，例如 `subifd` 变为 `tiff.subifd`。
+
+* 暴露 `stylesheet` 和 `highBitdepth` SVG 输入参数。
+
+* 暴露 `keepDuplicateFrames` GIF 输出参数。
+
+* 暴露 JPEG 2000 `oneshot` 解码器选项。
   [#4262](https://github.com/lovell/sharp/pull/4262)
   [@mbklein](https://github.com/mbklein)
 
-* Support composite operation with non-sRGB pipeline colourspace.
+* 支持与非 sRGB 管线色彩空间进行复合操作。
   [#4412](https://github.com/lovell/sharp/pull/4412)
   [@kleisauke](https://github.com/kleisauke)
 
-### v0.34.2 - 20th May 2025
+### v0.34.2 - 2025 年 5 月 20 日
 
 * 确保动画 GIF 转换为 WebP 时保留循环（在 0.34.0 中出现回归）。
   [#3394](https://github.com/lovell/sharp/issues/3394)

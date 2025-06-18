@@ -104,11 +104,9 @@ sharp.cache(false);
 
 一些图像格式库会生成额外线程，例如 libaom 在编码 AVIF 图像时管理其自己的 4 个线程，这些线程与此处设置的值无关。
 
-sharp 可以并行处理的最大图像数受 libuv 的 `UV_THREADPOOL_SIZE` 环境变量控制，默认值为 4。
-
-https://nodejs.org/api/cli.html#uv_threadpool_sizesize
-
-例如，默认情况下，有 8 个 CPU 核心的机器将并行处理 4 个图像，并每个图像使用最多 8 个线程，因此将会有最多 32 个并发线程。
+:::note
+还可进一步[控制性能表现](/performance)。
+:::
 
 
 **返回**: <code>number</code> - 并发数  
