@@ -18,6 +18,11 @@ Requires libvips v8.17.0
 
 * 暴露 `keepDuplicateFrames` GIF 输出参数。
 
+* 添加对 RAW 数码相机图像输入的支持。需要编译了 libraw 支持的 libvips。
+
+* 为动画图像的 `create` 和 `raw` 输入添加 `pageHeight` 选项。
+  [#3236](https://github.com/lovell/sharp/issues/3236)
+
 * 暴露 JPEG 2000 `oneshot` 解码器选项。
   [#4262](https://github.com/lovell/sharp/pull/4262)
   [@mbklein](https://github.com/mbklein)

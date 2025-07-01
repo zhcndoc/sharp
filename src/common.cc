@@ -93,6 +93,7 @@ namespace sharp {
       descriptor->rawWidth = AttrAsUint32(input, "rawWidth");
       descriptor->rawHeight = AttrAsUint32(input, "rawHeight");
       descriptor->rawPremultiplied = AttrAsBool(input, "rawPremultiplied");
+      descriptor->rawPageHeight = AttrAsUint32(input, "rawPageHeight");
     }
     // Multi-page input (GIF, TIFF, PDF)
     if (HasAttr(input, "pages")) {
@@ -129,6 +130,7 @@ namespace sharp {
       descriptor->createChannels = AttrAsUint32(input, "createChannels");
       descriptor->createWidth = AttrAsUint32(input, "createWidth");
       descriptor->createHeight = AttrAsUint32(input, "createHeight");
+      descriptor->createPageHeight = AttrAsUint32(input, "createPageHeight");
       if (HasAttr(input, "createNoiseType")) {
         descriptor->createNoiseType = AttrAsStr(input, "createNoiseType");
         descriptor->createNoiseMean = AttrAsDouble(input, "createNoiseMean");
@@ -282,6 +284,7 @@ namespace sharp {
       case ImageType::EXR: id = "exr"; break;
       case ImageType::JXL: id = "jxl"; break;
       case ImageType::RAD: id = "rad"; break;
+      case ImageType::DCRAW: id = "dcraw"; break;
       case ImageType::VIPS: id = "vips"; break;
       case ImageType::RAW: id = "raw"; break;
       case ImageType::UNKNOWN: id = "unknown"; break;
@@ -330,6 +333,8 @@ namespace sharp {
     { "VipsForeignLoadJxlBuffer", ImageType::JXL },
     { "VipsForeignLoadRadFile", ImageType::RAD },
     { "VipsForeignLoadRadBuffer", ImageType::RAD },
+    { "VipsForeignLoadDcRawFile", ImageType::DCRAW },
+    { "VipsForeignLoadDcRawBuffer", ImageType::DCRAW },
     { "VipsForeignLoadVips", ImageType::VIPS },
     { "VipsForeignLoadVipsFile", ImageType::VIPS },
     { "VipsForeignLoadRaw", ImageType::RAW }
@@ -453,6 +458,10 @@ namespace sharp {
         } else {
           image.get_image()->Type = is8bit ? VIPS_INTERPRETATION_sRGB : VIPS_INTERPRETATION_RGB16;
         }
+        if (descriptor->rawPageHeight > 0) {
+          image.set(VIPS_META_PAGE_HEIGHT, descriptor->rawPageHeight);
+          image.set(VIPS_META_N_PAGES, static_cast<int>(descriptor->rawHeight / descriptor->rawPageHeight));
+        }
         if (descriptor->rawPremultiplied) {
           image = image.unpremultiply();
         }
@@ -501,6 +510,10 @@ namespace sharp {
             .copy(VImage::option()->set("interpretation",
               channels < 3 ? VIPS_INTERPRETATION_B_W : VIPS_INTERPRETATION_sRGB))
             .new_from_image(background);
+        }
+        if (descriptor->createPageHeight > 0) {
+          image.set(VIPS_META_PAGE_HEIGHT, descriptor->createPageHeight);
+          image.set(VIPS_META_N_PAGES, static_cast<int>(descriptor->createHeight / descriptor->createPageHeight));
         }
         image = image.cast(VIPS_FORMAT_UCHAR);
         imageType = ImageType::RAW;
