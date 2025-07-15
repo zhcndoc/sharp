@@ -4,11 +4,11 @@ title: 更新日志
 
 ## v0.34 - *hat*
 
-Requires libvips v8.17.0
+Requires libvips v8.17.1
 
-### v0.34.3 - 待定
+### v0.34.3 - 10th July 2025
 
-* 升级到 libvips v8.17.0，以修复上游的错误。
+* 升级到 libvips v8.17.1，以修复上游的错误。
 
 * 将“Magic Kernel Sharp”（无关）添加到缩放内核中。
 
@@ -20,6 +20,8 @@ Requires libvips v8.17.0
 
 * 添加对 RAW 数码相机图像输入的支持。需要编译了 libraw 支持的 libvips。
 
+* 提供 XMP 元数据作为字符串，以及在可能的情况下作为 Buffer。
+
 * 为动画图像的 `create` 和 `raw` 输入添加 `pageHeight` 选项。
   [#3236](https://github.com/lovell/sharp/issues/3236)
 
@@ -30,6 +32,10 @@ Requires libvips v8.17.0
 * 支持与非 sRGB 管线色彩空间进行复合操作。
   [#4412](https://github.com/lovell/sharp/pull/4412)
   [@kleisauke](https://github.com/kleisauke)
+
+* 添加 `keepXmp` 和 `withXmp` 以控制输出的 XMP 元数据。
+  [#4416](https://github.com/lovell/sharp/pull/4416)
+  [@tpatel](https://github.com/tpatel)
 
 ### v0.34.2 - 2025 年 5 月 20 日
 

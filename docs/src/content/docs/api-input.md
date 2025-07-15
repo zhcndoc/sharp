@@ -44,6 +44,7 @@ title: 输入元数据
 - `icc`：包含原始 [ICC](https://www.npmjs.com/package/icc) 配置文件数据的缓冲区，如果存在
 - `iptc`：包含原始 IPTC 数据的缓冲区，如果存在
 - `xmp`：包含原始 XMP 数据的缓冲区，如果存在
+- `xmpAsString`: 包含 XMP 数据的字符串，如果是有效的 UTF-8。
 - `tifftagPhotoshop`：包含原始 TIFFTAG_PHOTOSHOP 数据的缓冲区，如果存在
 - `formatMagick`：包含通过 *magick 加载的图像格式的字符串
 - `comments`：表示 PNG 文本块的关键字/文本对数组（如果存在）。
