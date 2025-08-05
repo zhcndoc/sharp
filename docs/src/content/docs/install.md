@@ -44,8 +44,8 @@ deno run --allow-ffi ...
 * macOS ARM64
 * Linux ARM (glibc >= 2.31)
 * Linux ARM64 (glibc >= 2.26, musl >= 1.2.2)
-* Linux ppc64 (glibc >= 2.31)
-* Linux s390x (glibc >= 2.31)
+* Linux ppc64 (glibc >= 2.36)
+* Linux s390x (glibc >= 2.36)
 * Linux x64 (glibc >= 2.26, musl >= 1.2.2, 支持 SSE4.2 的 CPU)
 * Windows x64
 * Windows x86

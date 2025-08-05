@@ -230,14 +230,14 @@ jobs:
             nodejs_version: "18.17.0"
             nodejs_version_major: 18
           - platform: linux-s390x
-            distro: bullseye
+            distro: bookworm
             run_on_arch: s390x
             nodejs_arch: s390x
             nodejs_hostname: nodejs.org
             nodejs_version: "18.17.0"
             nodejs_version_major: 18
           - platform: linux-ppc64
-            distro: bullseye
+            distro: bookworm
             run_on_arch: ppc64le
             nodejs_arch: ppc64le
             nodejs_hostname: nodejs.org
@@ -269,7 +269,7 @@ jobs:
       contents: read
     name: "build-wasm32 [package]"
     runs-on: ubuntu-24.04
-    container: "emscripten/emsdk:4.0.10"
+    container: "emscripten/emsdk:4.0.11"
     steps:
       - uses: actions/checkout@v4
       - name: Dependencies
@@ -313,12 +313,13 @@ jobs:
           path: npm
       - name: Create npm workspace tarball
         run: tar -vcaf npm-workspace.tar.xz --directory npm --exclude=from-local-build.js .
-      - name: Parse semver for tag
+      - uses: actions/setup-node@v4
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: madhead/semver-utils@v4
-        id: semver
         with:
-          version: ${{ github.ref_name }}
+          node-version: "24"
+      - name: Create release notes
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: npm run package-release-notes
       - name: Create GitHub release for tag
         if: startsWith(github.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
@@ -327,4 +328,4 @@ jobs:
           artifactContentType: application/x-xz
           prerelease: ${{ contains(github.ref, '-rc') }}
           makeLatest: ${{ !contains(github.ref, '-rc') }}
-          bodyFile: "docs/src/content/docs/changelog/v${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}.${{ steps.semver.outputs.patch }}.md"
+          bodyFile: release-notes.md
