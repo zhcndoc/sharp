@@ -56,6 +56,8 @@ const rgba = await sharp(rgb)
 
 从多通道图像中提取单个通道。
 
+输出颜色空间将是 `b-w`（8bit）或 `grey16`（16bit）。
+
 **抛出**：
 
 - <code>Error</code> 无效的通道

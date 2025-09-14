@@ -2,43 +2,47 @@
 title: 安装
 ---
 
-与您选择的 JavaScript 包管理器兼容。
+支持您选择的任意 JavaScript 包管理器。
 
 :::caution
-请确保您的包管理器配置为安装可选依赖项
+请确保您的包管理器已配置为安装可选依赖项
 :::
 
-如果包管理器的锁定文件必须支持多个平台，请参见 [跨平台](#cross-platform) 部分以帮助决定哪个包管理器适合。
+如果包管理器的锁定文件必须支持多个平台，
+请参阅 [跨平台](#cross-platform) 部分
+以帮助决定使用哪个包管理器更合适。
 
-```sh
+```sh frame="none"
 npm install sharp
 ```
 
-```sh
+```sh frame="none"
 pnpm add sharp
 ```
 
-使用 `pnpm` 时，您可能需要将 `sharp` 添加到 [ignoredBuiltDependencies](https://pnpm.io/settings#ignoredbuiltdependencies) 以消除警告。
+使用 `pnpm` 时，您可能需要将 `sharp` 添加到
+[ignoredBuiltDependencies](https://pnpm.io/settings#ignoredbuiltdependencies)
+以消除警告。
 
-```sh
+```sh frame="none"
 yarn add sharp
 ```
 
-```sh
+```sh frame="none"
 bun add sharp
 ```
 
-```sh
+```sh frame="none"
 deno run --allow-ffi ...
 ```
 
 ## 先决条件
 
-* Node-API v9 兼容的运行时，例如 Node.js ^18.17.0 或 >=20.3.0。
+* 兼容 Node-API v9 的运行时环境，例如 Node.js ^18.17.0 或 >=20.3.0。
 
-## 预构建的二进制文件
+## 预编译二进制文件
 
-为最常见的平台提供已编译的 sharp 和 libvips 二进制文件：
+为最常用的平台提供了预编译的 sharp 和 libvips 二进制文件：
 
 * macOS x64 (>= 10.15)
 * macOS ARM64
@@ -46,37 +50,37 @@ deno run --allow-ffi ...
 * Linux ARM64 (glibc >= 2.26, musl >= 1.2.2)
 * Linux ppc64 (glibc >= 2.36)
 * Linux s390x (glibc >= 2.36)
-* Linux x64 (glibc >= 2.26, musl >= 1.2.2, 支持 SSE4.2 的 CPU)
+* Linux x64 (glibc >= 2.26, musl >= 1.2.2, 具备 SSE4.2 的 CPU)
 * Windows x64
 * Windows x86
-* Windows ARM64 (实验性，所有功能均需 ARMv8.4 的 CPU)
+* Windows ARM64（实验性，所有功能需 CPU 支持 ARMv8.4）
 
-这为 JPEG、PNG、WebP、AVIF（限制为 8 位深度）、TIFF、GIF 和 SVG（输入）图像格式提供支持。
+这提供了对 JPEG、PNG、WebP、AVIF（仅限 8 位深度）、TIFF、GIF 和 SVG（输入格式）图像格式的支持。
 
 ## 跨平台
 
-在安装时，包管理器会自动选择可用的当前 OS 平台和 CPU 架构的预构建二进制文件。
+安装时，包管理器会自动针对当前操作系统平台和 CPU 架构选择预编译二进制文件（如果有可用）。
 
-一些包管理器支持在同一安装树和/或使用相同的锁定文件中支持多个平台和架构。
+部分包管理器支持在同一安装树和/或使用同一锁定文件下，支持多平台和多架构。
 
 ### npm v10+
 
 :::caution
-多个平台共享的 npm `package-lock.json` 文件可能会由于 [npm bug #4828](https://github.com/npm/cli/issues/4828) 而导致安装问题
+多平台共享的 npm `package-lock.json` 文件可能会因 [npm bug #4828](https://github.com/npm/cli/issues/4828) 导致安装问题
 :::
 
-通过 `--os`、`--cpu` 和 `--libc` 标志提供有限的支持。
+通过 `--os`、`--cpu` 和 `--libc` 标志提供有限支持。
 
-要支持 macOS 的 Intel x64 和 ARM64 CPU：
-```sh
+要支持搭载 Intel x64 和 ARM64 CPU 的 macOS：
+```sh frame="none"
 npm install --cpu=x64 --os=darwin sharp
 npm install --cpu=arm64 --os=darwin sharp
 ```
 
-当目标是 Linux 时，必须指定 C 标准库。
+当交叉目标为 Linux 时，必须指定 C 标准库。
 
-要支持 glibc（例如 Debian）和 musl（例如 Alpine）Linux 的 Intel x64 CPU：
-```sh
+要支持搭载 Intel x64 CPU 的 glibc（例如 Debian）和 musl（例如 Alpine）Linux：
+```sh frame="none"
 npm install --cpu=x64 --os=linux --libc=glibc sharp
 npm install --cpu=x64 --os=linux --libc=musl sharp
 ```
@@ -91,89 +95,112 @@ npm install --cpu=x64 --os=linux --libc=musl sharp
 
 ## 自定义 libvips
 
-要使用自定义的全局安装的 libvips，而不是提供的二进制文件，确保它至少是 `package.json` 文件中 `config.libvips` 下列出的版本并且可以使用 `pkg-config --modversion vips-cpp` 进行定位。
+若要使用自定义的全局安装版本 libvips 替代所提供的二进制文件，
+请确保其版本至少为 `package.json` 中 `config.libvips` 标明的版本，
+且可通过 `pkg-config --modversion vips-cpp` 定位。
 
-有关编译 libvips 及其依赖项的帮助，请参见 [从源代码构建 libvips](https://www.libvips.org/install.html#building-libvips-from-source)。
+有关编译 libvips 及其依赖的帮助，请参阅
+[从源代码构建 libvips](https://www.libvips.org/install.html#building-libvips-from-source)。
 
-在 Windows 上不支持使用全局安装的 libvips，并且在 Rosetta 下运行 Node.js 的 macOS 上也不支持。
+在 Windows 平台及在 macOS 上通过 Rosetta 运行 Node.js 时，不支持使用全局安装的 libvips。
 
 ## 从源代码构建
 
-当检测到全局安装的 libvips 或者使用 `npm install --build-from-source` 标志时，该模块将在 `npm install` 时从源代码编译。
+当满足以下任一条件时，模块将在 `npm install` 时从源代码编译：
 
-可以通过设置 `SHARP_IGNORE_GLOBAL_LIBVIPS`（从不尝试使用它）或 `SHARP_FORCE_GLOBAL_LIBVIPS`（始终尝试使用它，即使缺失或过时）环境变量来跳过检测全局安装的 libvips 的逻辑。
+* 检测到已全局安装的 libvips，或
+* 使用 `npm install --build-from-source` 标志。
 
-从源代码构建需要：
+检测全局安装 libvips 的逻辑可通过设置环境变量进行跳过：
+`SHARP_IGNORE_GLOBAL_LIBVIPS`（永远不尝试使用）或
+`SHARP_FORCE_GLOBAL_LIBVIPS`（始终尝试使用，即使缺失或版本过旧）。
+
+从源码构建需要：
 
 * C++17 编译器
-* [node-addon-api](https://www.npmjs.com/package/node-addon-api) 版本 7+
-* [node-gyp](https://github.com/nodejs/node-gyp#installation) 版本 9+ 及其依赖项
+* 版本 7 及以上的 [node-addon-api](https://www.npmjs.com/package/node-addon-api)
+* 版本 9 及以上的 [node-gyp](https://github.com/nodejs/node-gyp#installation) 及其依赖
 
-这些依赖项在安装时会进行检查。如果无法找到 `node-addon-api` 或 `node-gyp`，请尝试通过以下命令添加：
+安装时会检查这些依赖。
+如果找不到 `node-addon-api` 或 `node-gyp`，尝试通过以下命令添加：
 
-```sh
+```sh frame="none"
 npm install --save node-addon-api node-gyp
 ```
 
-使用 `pnpm` 时，您可能需要将 `sharp` 添加到 [onlyBuiltDependencies](https://pnpm.io/settings#onlybuiltdependencies) 以确保安装脚本可以运行。
+使用 `pnpm` 时，您可能需要将 `sharp` 添加到
+[onlyBuiltDependencies](https://pnpm.io/settings#onlybuiltdependencies)
+以确保安装脚本能运行。
 
-对于交叉编译，可以使用 `--platform`、`--arch` 和 `--libc` npm 标志（或 `npm_config_platform`，`npm_config_arch` 和 `npm_config_libc` 环境变量）来配置目标环境。
+对于交叉编译，可以使用 npm 标志 `--platform`、`--arch` 和 `--libc`
+（或环境变量 `npm_config_platform`、`npm_config_arch` 和 `npm_config_libc`）
+来配置目标环境。
 
 ## WebAssembly
 
-为提供多线程 Wasm 通过 Workers 的运行时环境提供实验性支持。
+为支持通过 Worker 提供多线程 Wasm 的运行时环境提供实验性支持。
 
-在 Web 浏览器中使用不受支持。
+不支持在网页浏览器中使用。
 
-原生文本渲染不受支持。
+不支持本地文本渲染。
 
-不支持 [基于瓷砖的输出](/api-output#tile)。
+不支持[基于瓦片的输出](/api-output#tile)。
 
-```sh
+```sh frame="none"
 npm install --cpu=wasm32 sharp
 ```
 
 ## FreeBSD
 
-必须在运行 `npm install` 之前安装 `vips` 包。
+必须先安装 `vips` 包，然后再运行 `npm install`，此外还需安装额外的[从源代码构建](#building-from-source)依赖。
 
-```sh
+```sh frame="none"
 pkg install -y pkgconf vips
 ```
 
-```sh
+```sh frame="none"
 cd /usr/ports/graphics/vips/ && make install clean
 ```
 
 ## Linux 内存分配器
 
-在大多数基于 glibc 的 Linux 系统（例如 Debian、Red Hat）上，默认的内存分配器不适合涉及大量小内存分配的长时间运行的多线程流程。
+大多数基于 glibc 的 Linux 系统
+（例如 Debian、Red Hat）默认的内存分配器不适合长时间运行的多线程进程，
+且涉及大量小内存分配。
 
-因此，默认情况下，sharp 会在运行时检测到 glibc 分配器时限制线程基础的 [并发](/api-utility#concurrency) 的使用。
+因此，默认为防止碎片，sharp 在运行时检测到 glibc 分配器时
+会限制线程基础的 [并发](/api-utility#concurrency) 使用。
 
-为帮助避免碎片并提高这些系统的性能，建议使用替代的内存分配器，例如 [jemalloc](https://github.com/jemalloc/jemalloc)。
+为帮助减少碎片并提升性能，推荐在这些系统使用替代的内存分配器，如
+[jemalloc](https://github.com/jemalloc/jemalloc)。
 
-使用基于 musl 的 Linux（例如 Alpine）和非 Linux 系统的用户不受影响。
+使用 musl 的 Linux（如 Alpine）和非 Linux 系统不受影响。
 
 ## AWS Lambda
 
-[部署包](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-package.html) 的 `node_modules` 目录必须包括适用于 linux-x64 或 linux-arm64 平台的二进制文件，具体取决于选择的架构。
+部署包的 `node_modules` 目录必须包含对应所选架构的 linux-x64 或 linux-arm64 平台的二进制文件。
 
-在架构与目标架构不同的机器上构建部署包时，请参见 [跨平台](#cross-platform) 部分以帮助决定哪个包管理器适合以及如何配置它。
+当在与目标架构不同的机器上构建部署包时，
+请参考[跨平台](#cross-platform) 部分帮助确定合适的包管理器并进行配置。
 
-一些包管理器使用符号链接但 AWS Lambda 不支持在部署包中使用这些符号链接。
+部分包管理器会使用符号链接，
+但 AWS Lambda 不支持部署包中的符号链接。
 
-要获得最佳性能，选择最大可用内存。1536 MB 的函数提供的 CPU 时间约为 128 MB 函数的 12 倍。
+为获得最佳性能，选择最大可用内存。
+1536 MB 的函数提供约 12 倍于 128 MB 函数的 CPU 时间。
 
-在与 AWS API Gateway 集成时，请确保其配置了相关的 [二进制媒体类型](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-payload-encodings.html)。
+与 AWS API Gateway 集成时，确保配置了相关
+[二进制媒体类型](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-payload-encodings.html)。
 
 ## 打包工具
 
 ### webpack
 
-确保通过 [externals](https://webpack.js.org/configuration/externals/) 配置将 sharp 排除在打包之外。
+确保通过
+[externals](https://webpack.js.org/configuration/externals/)
+配置将 sharp 排除在打包之外。
 
-```js
+```js frame="none"
 externals: {
   'sharp': 'commonjs sharp'
 }
@@ -181,9 +208,11 @@ externals: {
 
 ### esbuild
 
-确保通过 [external](https://esbuild.github.io/api/#external) 配置将 sharp 排除在打包之外。
+确保通过
+[external](https://esbuild.github.io/api/#external)
+配置将 sharp 排除在打包之外。
 
-```js
+```js frame="none"
 buildSync({
   entryPoints: ['app.js'],
   bundle: true,
@@ -192,13 +221,13 @@ buildSync({
 })
 ```
 
-```sh
+```sh frame="none"
 esbuild app.js --bundle --platform=node --external:sharp
 ```
 
-对于 `serverless-esbuild`，请确保通过 `serverless.yml` 配置安装特定平台的二进制文件。
+对于 `serverless-esbuild`，确保通过 `serverless.yml` 配置安装特定平台的二进制文件。
 
-```yaml
+```yaml frame="none"
 custom:
   esbuild:
     external:
@@ -212,9 +241,11 @@ custom:
 
 #### electron-builder
 
-确保使用 [asarUnpack](https://www.electron.build/app-builder-lib.interface.platformspecificbuildoptions#asarunpack) 选项将 `sharp` 从 ASAR 存档文件中解包。
+确保使用
+[asarUnpack](https://www.electron.build/app-builder-lib.interface.platformspecificbuildoptions#asarunpack)
+选项将 `sharp` 从 ASAR 归档文件中解包。
 
-```json
+```json frame="none"
 {
   "build": {
     "asar": true,
@@ -228,9 +259,11 @@ custom:
 
 #### electron-forge
 
-确保使用 [unpack](https://js.electronforge.io/interfaces/_electron_forge_maker_squirrel.InternalOptions.Options.html#asar) 选项将 `sharp` 从 ASAR 存档文件中解包。
+确保使用
+[unpack](https://js.electronforge.io/interfaces/_electron_forge_maker_squirrel.InternalOptions.Options.html#asar)
+选项将 `sharp` 从 ASAR 归档文件中解包。
 
-```json
+```json frame="none"
 {
   "packagerConfig": {
     "asar": {
@@ -240,13 +273,17 @@ custom:
 }
 ```
 
-在使用 `electron-forge` 和 [Webpack](#webpack) 时，您可能还需要添加 [forge-externals-plugin](https://www.npmjs.com/package/@timfish/forge-externals-plugin)。
+使用带有 [Webpack](#webpack) 的 `electron-forge` 时，
+您可能还需要添加
+[forge-externals-plugin](https://www.npmjs.com/package/@timfish/forge-externals-plugin)。
 
 ### vite
 
-确保通过 [build.rollupOptions](https://vitejs.dev/config/build-options.html) 配置将 sharp 排除在打包之外。
+确保通过
+[build.rollupOptions](https://vitejs.dev/config/build-options.html)
+配置将 `sharp` 排除在打包之外。
 
-```js
+```js frame="none"
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -262,36 +299,41 @@ export default defineConfig({
 
 ## TypeScript
 
-TypeScript 定义自 v0.32.0 起作为 `sharp` 包的一部分发布。
+自 v0.32.0 版本起，TypeScript 类型定义作为 `sharp` 包的一部分发布。
 
-以前通过 `@types/sharp` 包提供，现已不再使用。
+早期版本通过 `@types/sharp` 包提供，现已弃用。
 
-使用 TypeScript 时，请确保 `devDependencies` 包含 `@types/node` 包。
+使用 TypeScript 时，请确保 `devDependencies` 中包含 `@types/node` 包。
 
 ## 字体
 
-在创建文本图像或渲染包含文本元素的 SVG 图像时，使用 `fontconfig` 找到相关字体。
+创建文本图像或渲染包含文本元素的 SVG 图像时，
+使用 `fontconfig` 查找相关字体。
 
-在 Windows 和 macOS 系统上，所有系统字体都可供使用。
+在 Windows 和 macOS 系统上，所有系统字体均可使用。
 
-在使用 Homebrew 的 macOS 系统上，您可能需要将 `PANGOCAIRO_BACKEND` 环境变量设置为 `fontconfig` 的值以确保用于字体发现，而不是使用 Core Text。
+在使用 Homebrew 的 macOS 系统上，您可能需要将
+`PANGOCAIRO_BACKEND` 环境变量设置为 `fontconfig`
+以确保使用它进行字体查找，而非 Core Text。
 
-在 Linux 系统上，通过包管理器安装时，如果包含相关 [`fontconfig` 配置](https://www.freedesktop.org/software/fontconfig/fontconfig-user.html)，则字体可供使用。
+在 Linux 系统上，通过包管理器安装且包含相关
+[`fontconfig` 配置](https://www.freedesktop.org/software/fontconfig/fontconfig-user.html)的字体可用。
 
-如果找不到 `fontconfig` 配置，将发生以下错误：
+如果找不到 `fontconfig` 配置，将出现以下错误：
 ```
 Fontconfig error: Cannot load default config file
 ```
 
-在没有控制字体包的无服务器环境中，使用 `FONTCONFIG_PATH` 环境变量指向自定义位置。
+在无法控制字体包的无服务器环境中，
+请使用 `FONTCONFIG_PATH` 环境变量指向自定义路径。
 
-嵌入的 SVG 字体不受支持。
+嵌入式 SVG 字体不被支持。
 
 ## 已知冲突
 
 ### Canvas 和 Windows
 
-如果在同一 Windows 进程中同时使用 `canvas` 和 `sharp` 模块，可能会发生以下错误：
+如果在同一个 Windows 进程中同时使用 `canvas` 和 `sharp` 模块，可能会发生以下错误：
 ```
-指定的过程无法找到。
+The specified procedure could not be found.
 ```

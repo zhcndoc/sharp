@@ -16,7 +16,7 @@ title: "高性能的 Node.js 图像处理库"
 
 大多数现代 macOS、Windows 和 Linux 系统不需要额外的安装或运行时依赖。
 
-```sh
+```sh frame="none"
 npm install sharp
 ```
 

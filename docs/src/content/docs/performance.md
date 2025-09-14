@@ -12,7 +12,7 @@ sharp 可以并行处理的最大图像数量由 libuv 的
 
 当使用超过 4 个物理 CPU 核心时，应在 Node.js 进程启动前设置此环境变量，以增加线程池大小。
 
-```sh
+```sh frame="none"
 export UV_THREADPOOL_SIZE="$(lscpu -p | egrep -v "^#" | sort -u -t, -k 2,4 | wc -l)"
 ```
 
@@ -28,7 +28,7 @@ libvips 使用 glib 管理的线程池来避免频繁创建新线程带来的开
 [`MALLOC_ARENA_MAX`](https://www.gnu.org/software/libc/manual/html_node/Memory-Allocation-Tunables.html)
 环境变量以减少内存池数量。
 
-```sh
+```sh frame="none"
 export MALLOC_ARENA_MAX="2"
 ```
 
@@ -129,7 +129,7 @@ export MALLOC_ARENA_MAX="2"
 
 需要 Docker。
 
-```sh
+```sh frame="none"
 git clone https://github.com/lovell/sharp.git
 cd sharp/test/bench
 ./run-with-docker.sh
