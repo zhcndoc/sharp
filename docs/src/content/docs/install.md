@@ -20,9 +20,7 @@ npm install sharp
 pnpm add sharp
 ```
 
-使用 `pnpm` 时，您可能需要将 `sharp` 添加到
-[ignoredBuiltDependencies](https://pnpm.io/settings#ignoredbuiltdependencies)
-以消除警告。
+在使用 `pnpm` 时，将 `sharp` 添加到 [ignoredBuiltDependencies](https://pnpm.io/settings#ignoredbuiltdependencies) 以消除警告。
 
 ```sh frame="none"
 yarn add sharp
@@ -33,7 +31,8 @@ bun add sharp
 ```
 
 ```sh frame="none"
-deno run --allow-ffi ...
+deno add --quiet npm:sharp
+deno run --allow-env --allow-ffi --allow-read --allow-sys ...
 ```
 
 ## 先决条件
