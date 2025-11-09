@@ -1,0 +1,6 @@
+{
+  "app_dir": "/",
+  "build_command": "cd docs && npm run build",
+  "install_command": "cd docs && npm install",
+  "output_dir": "docs/dist"
+}
