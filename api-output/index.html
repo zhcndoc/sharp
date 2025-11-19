@@ -1,0 +1,1391 @@
+<!DOCTYPE html><html lang="zh-CN" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-bguv2lll"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com/beacon.min.js/;"/><title>输出选项  -  Sharp 中文文档</title><link rel="canonical" href="https://sharp.zhcndoc.com/api-output/"/><link rel="sitemap" href="/sitemap-index.xml"/><link rel="author" href="/humans.txt" type="text/plain"/><script defer src="https://www.zhcndoc.com/js/common.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"sharp","description":"高性能 Node.js 图像处理库","url":"https://sharp.zhcndoc.com","codeRepository":"https://github.com/lovell/sharp","programmingLanguage":["JavaScript","C++"],"runtimePlatform":"Node.js","copyrightHolder":{"@context":"https://schema.org","@type":"Person","name":"Lovell Fuller"},"copyrightYear":2013,"license":"https://www.apache.org/licenses/LICENSE-2.0"}</script><link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v5.15.9"/><meta name="generator" content="Starlight v0.36.2"/><meta property="og:title" content="输出选项"/><meta property="og:type" content="article"/><meta property="og:url" content="https://sharp.zhcndoc.com/api-output/"/><meta property="og:locale" content="zh-CN"/><meta property="og:description" content="高性能 Node.js 图像处理。最快的模块用于调整 JPEG、PNG、WebP 和 TIFF 图像的大小。"/><meta property="og:site_name" content="Sharp 中文文档"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="高性能 Node.js 图像处理。最快的模块用于调整 JPEG、PNG、WebP 和 TIFF 图像的大小。"/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="/_astro/index.0FQvORdW.css"><script type="module" src="/_astro/page.B1D-nYk3.js"></script></head> <body class="astro-bguv2lll"> <a href="#_top" class="astro-7q3lir66">跳转到内容</a>  <div class="page sl-flex astro-vrdttmbt"> <header class="header astro-vrdttmbt"><div class="header astro-kmkmnagf"> <div class="title-wrapper sl-flex astro-kmkmnagf"> <a href="/" class="site-title sl-flex astro-m46x6ez3">  <img class="astro-m46x6ez3" alt="#" src="/_astro/sharp-logo.CiVIswaO.svg" width="550" height="550">  <span class="astro-m46x6ez3" translate="no"> Sharp 中文文档 </span> </a>  </div> <div class="sl-flex print:hidden astro-kmkmnagf"> <site-search class="astro-kmkmnagf astro-v37mnknz" data-translations="{&#34;placeholder&#34;:&#34;搜索&#34;}"> <button data-open-modal disabled aria-label="搜索" aria-keyshortcuts="Control+K" class="astro-v37mnknz"> <svg aria-hidden="true" class="astro-v37mnknz astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg> <span class="sl-hidden md:sl-block astro-v37mnknz" aria-hidden="true">搜索</span> <kbd class="sl-hidden md:sl-flex astro-v37mnknz" style="display: none;"> <kbd class="astro-v37mnknz">Ctrl</kbd><kbd class="astro-v37mnknz">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="搜索" class="astro-v37mnknz"> <div class="dialog-frame sl-flex astro-v37mnknz">  <button data-close-modal class="sl-flex md:sl-hidden astro-v37mnknz"> 取消 </button> <div class="search-container astro-v37mnknz"> <div id="starlight__search" class="astro-v37mnknz"></div> </div> </div> </dialog> </site-search>  <script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script> <script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.cjYDvRdi.js"></script>   </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-kmkmnagf"> <div class="sl-flex social-icons astro-kmkmnagf"> <a href="https://opencollective.com/libvips" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">Open Collective</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.86 5.17a11.94 11.94 0 0 1 0 13.66l-3.1-3.1a7.68 7.68 0 0 0 0-7.46l3.1-3.1Zm-3.03-3.03-3.1 3.1a7.71 7.71 0 1 0 0 13.51l3.1 3.11a12 12 0 1 1 0-19.73Z"/><path d="M21.86 5.17a11.94 11.94 0 0 1 0 13.66l-3.1-3.1a7.68 7.68 0 0 0 0-7.46l3.1-3.1Z"/></svg></a><a href="https://github.com/lovell/sharp" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">GitHub</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a> </div> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">选择主题</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">深色</option><option value="light" class="astro-4yphtoen">浅色</option><option value="auto" selected class="astro-4yphtoen">自动</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label>  </starlight-theme-select>  <script>
+	StarlightThemeProvider.updatePickers();
+</script> <script type="module">const r="starlight-theme",o=e=>e==="auto"||e==="dark"||e==="light"?e:"auto",c=()=>o(typeof localStorage<"u"&&localStorage.getItem(r));function n(e){typeof localStorage<"u"&&localStorage.setItem(r,e==="light"||e==="dark"?e:"")}const l=()=>matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";function t(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e==="auto"?l():e,n(e)}matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{c()==="auto"&&t("auto")});class s extends HTMLElement{constructor(){super(),t(c()),this.querySelector("select")?.addEventListener("change",a=>{a.currentTarget instanceof HTMLSelectElement&&t(o(a.currentTarget.value))})}}customElements.define("starlight-theme-select",s);</script> <script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div> </header> <nav class="sidebar print:hidden astro-vrdttmbt" aria-label="主要"> <starlight-menu-button class="print:hidden astro-jif73yzw"> <button aria-expanded="false" aria-label="菜单" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-jif73yzw"> <svg aria-hidden="true" class="open-menu astro-jif73yzw astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg> <svg aria-hidden="true" class="close-menu astro-jif73yzw astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg> </button> </starlight-menu-button> <script type="module">class s extends HTMLElement{constructor(){super(),this.btn=this.querySelector("button"),this.btn.addEventListener("click",()=>this.toggleExpanded());const t=this.closest("nav");t&&t.addEventListener("keyup",e=>this.closeOnEscape(e))}setExpanded(t){this.setAttribute("aria-expanded",String(t)),document.body.toggleAttribute("data-mobile-menu-expanded",t)}toggleExpanded(){this.setExpanded(this.getAttribute("aria-expanded")!=="true")}closeOnEscape(t){t.code==="Escape"&&(this.setExpanded(!1),this.btn.focus())}}customElements.define("starlight-menu-button",s);</script>   <div id="starlight__sidebar" class="sidebar-pane astro-vrdttmbt"> <div class="sidebar-content sl-flex astro-vrdttmbt"> <sl-sidebar-state-persist data-hash="0q6qkwk" class="astro-kku4brbg"> <script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script>  <ul class="top-level astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/" aria-current="false" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">首页</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/install/" aria-current="false" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">安装</span>  </a> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">API</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="0"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/api-constructor/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">构造函数</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/api-input/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">输入元数据</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/api-output/" aria-current="page" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">输出选项</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/api-resize/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">调整图像大小</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/api-composite/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">合成图像</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/api-operation/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">图像操作</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/api-colour/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">颜色操作</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/api-channel/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">频道操作</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/api-utility/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">全局属性</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <a href="/performance/" aria-current="false" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">性能</span>  </a> </li><li class="astro-3ii7xxms"> <details class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">更新日志</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="1"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/changelog/v0.34.5/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.34.5 - 6th November 2025</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.34.4/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.34.4 - 17th September 2025</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.34.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.34.3 - 2025年7月10日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.34.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.34.2 - 2025年5月20日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.34.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.34.1 - 2025年4月7日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.34.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.34.0 - 2025年4月4日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.33.5/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.33.5 - 2024年8月16日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.33.4/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.33.4 - 2024年5月16日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.33.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.33.3 - 2024年3月23日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.33.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.33.2 - 2024年1月12日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.33.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.33.1 - 2023年12月17日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.33.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.33.0 - 2023年11月29日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.32.6/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.32.6 - 2023年9月18日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.32.5/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.32.5 - 2023年8月15日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.32.4/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.32.4 - 2023年7月21日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.32.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.32.3 - 2023年7月14日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.32.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.32.2 - 2023年7月11日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.32.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.32.1 - 2023年4月27日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.32.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.32.0 - 2023年3月24日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.31.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.31.3 - 2022年12月21日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.31.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.31.2 - 2022年11月4日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.31.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.31.1 - 2022年9月29日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.31.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.31.0 - 2022年9月5日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.30.7/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.30.7 - 2022年6月22日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.30.6/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.30.6 - 2022年5月30日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.30.5/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.30.5 - 2022年5月23日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.30.4/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.30.4 - 2022年4月18日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.30.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.30.3 - 2022年3月14日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.30.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.30.2 - 2022年3月2日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.30.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.30.1 - 2022年2月9日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.30.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.30.0 - 2022年2月1日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.29.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.29.3 - 2021年11月14日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.29.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.29.2 - 2021年10月21日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.29.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.29.1 - 2021年9月7日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.29.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.29.0 - 2021年8月17日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.28.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.28.3 - 2021年5月24日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.28.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.28.2 - 2021年5月10日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.28.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.28.1 - 2021年4月5日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.28.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.28.0 - 2021年3月29日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.27.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.27.2 - 2021年2月22日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.27.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.27.1 - 2021年1月27日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.27.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.27.0 - 2020年12月22日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.26.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.26.3 - 2020年11月16日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.26.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.26.2 - 2020年10月14日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.26.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.26.1 - 2020年9月20日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.26.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.26.0 - 2020年8月25日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.25.4/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.25.4 - 2020年6月12日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.25.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.25.3 - 2020年5月17日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.25.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.25.2 - 2020年3月20日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.25.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.25.1 - 2020年3月7日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.25.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.25.0 - 2020年3月7日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.24.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.24.1 - 2020年2月15日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.24.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.24.0 - 2020年1月16日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.23.4/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.23.4 - 2019年12月5日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.23.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.23.3 - 2019年11月17日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.23.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.23.2 - 2019年10月28日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.23.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.23.1 - 2019年9月26日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.23.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.23.0 - 2019年7月29日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.22.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.22.1 - 2019年4月25日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.22.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.22.0 - 2019年3月18日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.21.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.21.3 - 2019年1月19日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.21.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.21.2 - 2019年1月13日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.21.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.21.1 - 2018年12月7日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.21.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.21.0 - 2018年10月4日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.20.8/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.20.8 - 2018年9月5日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.20.7/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.20.7 - 2018年8月21日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.20.6/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.20.6 - 2018年8月20日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.20.5/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.20.5 - 2018年6月27日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.20.4/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.20.4 - 2018年6月20日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.20.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.20.3 - 2018年5月29日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.20.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.20.2 - 2018年4月28日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.20.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.20.1 - 2018年3月17日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.20.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.20.0 - 2018年3月5日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.19.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.19.1 - 2018年2月24日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.19.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.19.0 - 2018年1月11日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.18.4/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.18.4 - 2017年9月18日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.18.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.18.3 - 2017年9月13日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.18.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.18.2 - 2017年7月1日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.18.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.18.1 - 2017年5月30日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.18.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.18.0 - 2017年5月30日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.17.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.17.3 - 2017年4月1日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.17.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.17.2 - 2017年2月11日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.17.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.17.1 - 2017年1月15日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.17.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.17.0 - 2016年12月11日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.16.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.16.2 - 2016年10月22日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.16.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.16.1 - 2016年10月13日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.16.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.16.0 - 2016年8月18日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.15.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.15.1 - 2016年7月12日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.15.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.15.0 - 2016年5月21日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.14.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.14.1 - 2016年4月16日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.14.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.14.0 - 2016年4月2日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.13.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.13.1 - 2016年2月27日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.13.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.13.0 - 2016年2月15日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.12.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.12.2 - 2016年1月16日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.12.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.12.1 - 2015年12月12日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.12.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.12.0 - 2015年11月23日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.11.4/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.11.4 - 2015年11月5日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.11.3/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.11.3 - 2015年9月8日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.11.2/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.11.2 - 2015年8月28日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.11.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.11.1 - 2015年8月12日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.11.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.11.0 - 2015年7月15日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.10.1/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.10.1 - 2015年6月1日</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/changelog/v0.10.0/" aria-current="false" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">v0.10.0 - 2015年4月23日</span>  </a> </li> </ul>  </details> </li> </ul>   <script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script> </sl-sidebar-state-persist>  <div class="md:sl-hidden"> <div class="mobile-preferences sl-flex astro-wu23bvmt"> <div class="social-icons astro-wu23bvmt"> <a href="https://opencollective.com/libvips" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">Open Collective</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.86 5.17a11.94 11.94 0 0 1 0 13.66l-3.1-3.1a7.68 7.68 0 0 0 0-7.46l3.1-3.1Zm-3.03-3.03-3.1 3.1a7.71 7.71 0 1 0 0 13.51l3.1 3.11a12 12 0 1 1 0-19.73Z"/><path d="M21.86 5.17a11.94 11.94 0 0 1 0 13.66l-3.1-3.1a7.68 7.68 0 0 0 0-7.46l3.1-3.1Z"/></svg></a><a href="https://github.com/lovell/sharp" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">GitHub</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a> </div> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">选择主题</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">深色</option><option value="light" class="astro-4yphtoen">浅色</option><option value="auto" selected class="astro-4yphtoen">自动</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label>  </starlight-theme-select>  <script>
+	StarlightThemeProvider.updatePickers();
+</script>   </div>  </div> </div> </div> </nav> <div class="main-frame astro-vrdttmbt">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-67yu43on"> <aside class="right-sidebar-container print:hidden astro-67yu43on"> <div class="right-sidebar astro-67yu43on"> <div class="lg:sl-hidden astro-pb3aqygn"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-doynk5tl"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-doynk5tl"><details id="starlight__mobile-toc" class="astro-doynk5tl"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-doynk5tl"><span class="toggle sl-flex astro-doynk5tl">本页内容<svg aria-hidden="true" class="caret astro-doynk5tl astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-doynk5tl"></span></summary><div class="dropdown astro-doynk5tl"><ul class="isMobile astro-g2bywc46" style="--depth: 0;"> <li class="astro-g2bywc46" style="--depth: 0;"> <a href="#_top" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">概述</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#tofile" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">toFile</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#tobuffer" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">toBuffer</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#keepexif" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">keepExif</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#withexif" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">withExif</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#withexifmerge" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">withExifMerge</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#keepiccprofile" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">keepIccProfile</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#withiccprofile" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">withIccProfile</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#keepxmp" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">keepXmp</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#withxmp" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">withXmp</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#keepmetadata" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">keepMetadata</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#withmetadata" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">withMetadata</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#toformat" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">toFormat</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#jpeg" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">jpeg</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#png" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">png</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#webp" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">webp</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#gif" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">gif</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#jp2" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">jp2</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#tiff" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">tiff</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#avif" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">avif</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#heif" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">heif</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#jxl" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">jxl</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#raw" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">raw</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#tile" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">tile</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#timeout" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">timeout</span> </a>  </li> </ul> </div></details></nav></mobile-starlight-toc><script type="module" src="/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C181hMzK.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-pb3aqygn"><div class="sl-container astro-pb3aqygn"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">本页内容</h2><ul class="astro-g2bywc46" style="--depth: 0;"> <li class="astro-g2bywc46" style="--depth: 0;"> <a href="#_top" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">概述</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#tofile" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">toFile</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#tobuffer" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">toBuffer</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#keepexif" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">keepExif</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#withexif" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">withExif</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#withexifmerge" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">withExifMerge</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#keepiccprofile" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">keepIccProfile</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#withiccprofile" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">withIccProfile</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#keepxmp" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">keepXmp</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#withxmp" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">withXmp</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#keepmetadata" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">keepMetadata</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#withmetadata" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">withMetadata</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#toformat" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">toFormat</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#jpeg" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">jpeg</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#png" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">png</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#webp" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">webp</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#gif" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">gif</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#jp2" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">jp2</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#tiff" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">tiff</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#avif" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">avif</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#heif" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">heif</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#jxl" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">jxl</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#raw" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">raw</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#tile" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">tile</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#timeout" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">timeout</span> </a>  </li> </ul> </nav></starlight-toc><script type="module" src="/_astro/TableOfContents.astro_astro_type_script_index_0_lang.CKWWgpjV.js"></script></div></div> </div> </aside> <div class="main-pane astro-67yu43on">  <main data-pagefind-body class="astro-bguv2lll" lang="zh-CN" dir="ltr">    <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <h1 id="_top" class="astro-j6tvhyss">输出选项</h1>  </div> </div>  <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <div class="sl-markdown-content"> <div class="sl-heading-wrapper level-h2"><h2 id="tofile">toFile</h2><a class="sl-anchor-link" href="#tofile"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “toFile”</span></a></div>
+<blockquote>
+<p>toFile(fileOut, [callback]) ⇒ <code>Promise.&#x3C;Object></code></p>
+</blockquote>
+<p>将输出图像数据写入文件。</p>
+<p>如果未选择明确的输出格式，则将根据扩展名推断格式，支持 JPEG、PNG、WebP、AVIF、TIFF、GIF、DZI 以及 libvips 的 V 格式。请注意，仅支持为缓冲区输出提供原始像素数据。</p>
+<p>默认情况下，所有元数据将被移除，包括基于 EXIF 的方向。有关此方面的控制，请参见 <a href="#withmetadata">withMetadata</a>。</p>
+<p>调用者负责确保目录结构和权限存在。</p>
+<p>当未提供 <code dir="auto">callback</code> 时，将返回一个 <code dir="auto">Promise</code>。</p>
+<p><strong>返回</strong>: <code>Promise.&#x3C;Object></code> - 未提供回调时
+<strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效参数</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>fileOut</td><td><code>string</code></td><td>写入图像数据的路径。</td></tr><tr><td>[callback]</td><td><code>function</code></td><td>完成时调用，传递两个参数 <code dir="auto">(err, info)</code>。<code dir="auto">info</code> 包含输出图像的 <code dir="auto">format</code>、<code dir="auto">size</code>（字节）、<code dir="auto">width</code>、<code dir="auto">height</code>、<code dir="auto">channels</code> 和 <code dir="auto">premultiplied</code>（指示是否使用了预乘）。当使用裁剪策略时，还包含 <code dir="auto">cropOffsetLeft</code> 和 <code dir="auto">cropOffsetTop</code>。使用注意裁剪策略时，还包含 <code dir="auto">attentionX</code> 和 <code dir="auto">attentionY</code>，表示裁剪区域的焦点。动画输出还将包含 <code dir="auto">pageHeight</code> 和 <code dir="auto">pages</code>。如果图像是从文本创建的，也可能包含 <code dir="auto">textAutofitDpi</code>（字体渲染时的 DPI）。</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.v4551.css"><script type="module" src="/_astro/ec.p1z7b.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toFile</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">output.png</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--1:#403F53"><span style="--0:#D7DBE0">err</span><span style="--0:#D6DEEB">, </span><span style="--0:#D7DBE0">info</span></span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=></span><span style="--0:#D6DEEB;--1:#403F53"> { </span><span style="--0:#7FDBCA;--1:#096E72">...</span><span style="--0:#D6DEEB;--1:#403F53"> });</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="sharp(input)  .toFile(&#x27;output.png&#x27;, (err, info) => { ... });"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toFile</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">output.png</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">then</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">info</span><span style="--0:#D6DEEB"> </span></span><span style="--0:#C792EA;--1:#8844AE">=></span><span style="--0:#D6DEEB;--1:#403F53"> { </span><span style="--0:#7FDBCA;--1:#096E72">...</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">catch</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">err</span><span style="--0:#D6DEEB"> </span></span><span style="--0:#C792EA;--1:#8844AE">=></span><span style="--0:#D6DEEB;--1:#403F53"> { </span><span style="--0:#7FDBCA;--1:#096E72">...</span><span style="--0:#D6DEEB;--1:#403F53"> });</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="sharp(input)  .toFile(&#x27;output.png&#x27;)  .then(info => { ... })  .catch(err => { ... });"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="tobuffer">toBuffer</h2><a class="sl-anchor-link" href="#tobuffer"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “toBuffer”</span></a></div>
+<blockquote>
+<p>toBuffer([options], [callback]) ⇒ <code>Promise.&#x3C;Buffer></code></p>
+</blockquote>
+<p>将输出写入 Buffer。支持 JPEG、PNG、WebP、AVIF、TIFF、GIF 和原始像素数据输出。</p>
+<p>使用 <a href="#toformat">toFormat</a> 或其他格式特定函数，如 <a href="#jpeg">jpeg</a>、<a href="#png">png</a> 等来设置输出格式。</p>
+<p>如果未设置明确的格式，则输出格式将与输入图像匹配，除非输入为 SVG，则输出将为 PNG。</p>
+<p>默认情况下，所有元数据将被移除，包括基于 EXIF 的方向。有关此方面的控制，请参见 <a href="#withmetadata">withMetadata</a>。</p>
+<p><code dir="auto">callback</code>（如果存在）接收三个参数 <code dir="auto">(err, data, info)</code>，其中：</p>
+<ul>
+<li><code dir="auto">err</code> 是一个错误（如果有）。</li>
+<li><code dir="auto">data</code> 是输出图像数据。</li>
+<li><code dir="auto">info</code> 包含输出图像的 <code dir="auto">format</code>、<code dir="auto">size</code>（字节）、<code dir="auto">width</code>、<code dir="auto">height</code>、<code dir="auto">channels</code> 和 <code dir="auto">premultiplied</code>（指示是否使用了预乘）。当使用裁剪策略时，还包含 <code dir="auto">cropOffsetLeft</code> 和 <code dir="auto">cropOffsetTop</code>。动画输出还将包含 <code dir="auto">pageHeight</code> 和 <code dir="auto">pages</code>。如果图像是从文本创建的，也可能包含 <code dir="auto">textAutofitDpi</code>（字体渲染时的 DPI）。</li>
+</ul>
+<p>当未提供 <code dir="auto">callback</code> 时，将返回一个 <code dir="auto">Promise</code>。</p>
+<p><strong>返回</strong>: <code>Promise.&#x3C;Buffer></code> - 未提供回调时</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>[options]</td><td><code>Object</code></td><td></td></tr><tr><td>[options.resolveWithObject]</td><td><code>boolean</code></td><td>用包含 <code dir="auto">data</code> 和 <code dir="auto">info</code> 属性的对象解析 Promise，而不是仅用 <code dir="auto">data</code>。</td></tr><tr><td>[callback]</td><td><code>function</code></td><td></td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--1:#403F53"><span style="--0:#D7DBE0">err</span><span style="--0:#D6DEEB">, </span><span style="--0:#D7DBE0">data</span><span style="--0:#D6DEEB">, </span><span style="--0:#D7DBE0">info</span></span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=></span><span style="--0:#D6DEEB;--1:#403F53"> { </span><span style="--0:#7FDBCA;--1:#096E72">...</span><span style="--0:#D6DEEB;--1:#403F53"> });</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="sharp(input)  .toBuffer((err, data, info) => { ... });"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">then</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">data</span><span style="--0:#D6DEEB"> </span></span><span style="--0:#C792EA;--1:#8844AE">=></span><span style="--0:#D6DEEB;--1:#403F53"> { </span><span style="--0:#7FDBCA;--1:#096E72">...</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">catch</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">err</span><span style="--0:#D6DEEB"> </span></span><span style="--0:#C792EA;--1:#8844AE">=></span><span style="--0:#D6DEEB;--1:#403F53"> { </span><span style="--0:#7FDBCA;--1:#096E72">...</span><span style="--0:#D6DEEB;--1:#403F53"> });</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="sharp(input)  .toBuffer()  .then(data => { ... })  .catch(err => { ... });"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">png</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">({ resolveWithObject: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">then</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--1:#403F53"><span style="--0:#D6DEEB">{ </span><span style="--0:#D7DBE0">data</span><span style="--0:#D6DEEB">, </span><span style="--0:#D7DBE0">info</span><span style="--0:#D6DEEB"> }</span></span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=></span><span style="--0:#D6DEEB;--1:#403F53"> { </span><span style="--0:#7FDBCA;--1:#096E72">...</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">catch</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">err</span><span style="--0:#D6DEEB"> </span></span><span style="--0:#C792EA;--1:#8844AE">=></span><span style="--0:#D6DEEB;--1:#403F53"> { </span><span style="--0:#7FDBCA;--1:#096E72">...</span><span style="--0:#D6DEEB;--1:#403F53"> });</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="sharp(input)  .png()  .toBuffer({ resolveWithObject: true })  .then(({ data, info }) => { ... })  .catch(err => { ... });"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const { </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE">, </span><span style="--0:#82AAFF;--1:#3B61B0">info</span><span style="--0:#C792EA;--1:#8844AE"> } = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">my-image.jpg</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#919F9F;--1:#5D6376">// 输出原始像素</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">raw</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">({ resolveWithObject: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53"> });</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 创建一种更安全的方式来处理原始像素数据</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 这不会复制数据，而是会改变 `data` 的底层 ArrayBuffer</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 因此 `data` 和 `pixelArray` 指向相同的内存位置</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">pixelArray</span><span style="--0:#C792EA;--1:#8844AE"> = </span><span style="--0:#7FDBCA;--1:#096E72">new</span><span style="--0:#C792EA;--1:#8844AE"> </span><span style="--0:#82AAFF;--1:#3B61B0">Uint8ClampedArray</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#7FDBCA;--1:#096E72">data</span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#7FDBCA;--1:#096E72">buffer</span><span style="--0:#D6DEEB;--1:#403F53">);</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 当你完成更改 pixelArray 后，sharp 将 `pixelArray` 作为输入</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const { </span><span style="--0:#82AAFF;--1:#3B61B0">width</span><span style="--0:#C792EA;--1:#8844AE">, </span><span style="--0:#82AAFF;--1:#3B61B0">height</span><span style="--0:#C792EA;--1:#8844AE">, </span><span style="--0:#82AAFF;--1:#3B61B0">channels</span><span style="--0:#C792EA;--1:#8844AE"> } = </span><span style="--1:#403F53"><span style="--0:#D7DBE0">info</span><span style="--0:#D6DEEB">;</span></span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">await</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">pixelArray</span><span style="--0:#D6DEEB">, { raw: { </span><span style="--0:#D7DBE0">width</span><span style="--0:#D6DEEB">, </span><span style="--0:#D7DBE0">height</span><span style="--0:#D6DEEB">, </span><span style="--0:#D7DBE0">channels</span><span style="--0:#D6DEEB"> } })</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toFile</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">my-changed-image.jpg</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">);</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const { data, info } = await sharp(&#x27;my-image.jpg&#x27;)  // 输出原始像素  .raw()  .toBuffer({ resolveWithObject: true });// 创建一种更安全的方式来处理原始像素数据// 这不会复制数据，而是会改变 &#x60;data&#x60; 的底层 ArrayBuffer// 因此 &#x60;data&#x60; 和 &#x60;pixelArray&#x60; 指向相同的内存位置const pixelArray = new Uint8ClampedArray(data.buffer);// 当你完成更改 pixelArray 后，sharp 将 &#x60;pixelArray&#x60; 作为输入const { width, height, channels } = info;await sharp(pixelArray, { raw: { width, height, channels } })  .toFile(&#x27;my-changed-image.jpg&#x27;);"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="keepexif">keepExif</h2><a class="sl-anchor-link" href="#keepexif"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “keepExif”</span></a></div>
+<blockquote>
+<p>keepExif() ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>在输出图像中保留输入图像的所有 EXIF 元数据。</p>
+<p>TIFF 输出不支持 EXIF 元数据。</p>
+<p><strong>自</strong>: 0.33.0
+<strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">outputWithExif</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">inputWithExif</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">keepExif</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const outputWithExif = await sharp(inputWithExif)  .keepExif()  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="withexif">withExif</h2><a class="sl-anchor-link" href="#withexif"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “withExif”</span></a></div>
+<blockquote>
+<p>withExif(exif) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>在输出图像中设置 EXIF 元数据，忽略输入图像中的任何 EXIF。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效参数</li>
+</ul>
+<p><strong>自</strong>: 0.33.0</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>exif</td><td><code>Object.&#x3C;string, Object.&#x3C;string, string>></code></td><td>按 IFD0、IFD1 等键入的对象，键值对写入为 EXIF 数据。</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">dataWithExif</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">withExif</span><span style="--0:#D6DEEB;--1:#403F53">({</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">IFD0: {</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">Copyright: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">国家美术馆</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">},</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">IFD3: {</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">GPSLatitudeRef: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">N</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">GPSLatitude: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">51/1 30/1 3230/100</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">GPSLongitudeRef: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">W</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">GPSLongitude: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">0/1 7/1 4366/100</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">})</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const dataWithExif = await sharp(input)  .withExif({    IFD0: {      Copyright: &#x27;国家美术馆&#x27;    },    IFD3: {      GPSLatitudeRef: &#x27;N&#x27;,      GPSLatitude: &#x27;51/1 30/1 3230/100&#x27;,      GPSLongitudeRef: &#x27;W&#x27;,      GPSLongitude: &#x27;0/1 7/1 4366/100&#x27;    }  })  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="withexifmerge">withExifMerge</h2><a class="sl-anchor-link" href="#withexifmerge"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “withExifMerge”</span></a></div>
+<blockquote>
+<p>withExifMerge(exif) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>在输出图像中更新输入图像的 EXIF 元数据。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效参数</li>
+</ul>
+<p><strong>自</strong>: 0.33.0</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>exif</td><td><code>Object.&#x3C;string, Object.&#x3C;string, string>></code></td><td>按 IFD0、IFD1 等键入的对象，键值对写入为 EXIF 数据。</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">dataWithMergedExif</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">inputWithExif</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">withExifMerge</span><span style="--0:#D6DEEB;--1:#403F53">({</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">IFD0: {</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">Copyright: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">国家美术馆</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">})</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const dataWithMergedExif = await sharp(inputWithExif)  .withExifMerge({    IFD0: {      Copyright: &#x27;国家美术馆&#x27;    }  })  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="keepiccprofile">keepIccProfile</h2><a class="sl-anchor-link" href="#keepiccprofile"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “keepIccProfile”</span></a></div>
+<blockquote>
+<p>keepIccProfile() ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>在输出图像中保留输入图像的 ICC 配置文件。</p>
+<p>当输入和输出色彩空间不同时，请与<a href="/api-colour/#tocolourspace">toColourspace</a>一起使用，并可选择性地使用<a href="/api-colour/#pipelinecolourspace">pipelineColourspace</a>。</p>
+<p><strong>自</strong>: 0.33.0
+<strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">outputWithIccProfile</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">inputWithIccProfile</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">keepIccProfile</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const outputWithIccProfile = await sharp(inputWithIccProfile)  .keepIccProfile()  .toBuffer();"><div></div></button></div></figure></div>
+<p><strong>Example</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">cmykOutputWithIccProfile</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">cmykInputWithIccProfile</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">pipelineColourspace</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">cmyk</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toColourspace</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">cmyk</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">keepIccProfile</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const cmykOutputWithIccProfile = await sharp(cmykInputWithIccProfile)  .pipelineColourspace(&#x27;cmyk&#x27;)  .toColourspace(&#x27;cmyk&#x27;)  .keepIccProfile()  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="withiccprofile">withIccProfile</h2><a class="sl-anchor-link" href="#withiccprofile"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “withIccProfile”</span></a></div>
+<blockquote>
+<p>withIccProfile(icc, [options]) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>使用 ICC 配置文件进行转换并附加到输出图像。</p>
+<p>这可以是绝对文件系统路径或内置配置文件名称（<code dir="auto">srgb</code>、<code dir="auto">p3</code>、<code dir="auto">cmyk</code>）。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效参数</li>
+</ul>
+<p><strong>自</strong>: 0.33.0</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>默认</th><th>描述</th></tr></thead><tbody><tr><td>icc</td><td><code>string</code></td><td></td><td>输出 ICC 配置文件的绝对文件系统路径或内置配置文件名称（srgb、p3、cmyk）。</td></tr><tr><td>[options]</td><td><code>Object</code></td><td></td><td></td></tr><tr><td>[options.attach]</td><td><code>number</code></td><td><code>true</code></td><td>是否将 ICC 配置文件包含在输出图像的元数据中？</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">outputWithP3</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">withIccProfile</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">p3</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const outputWithP3 = await sharp(input)  .withIccProfile(&#x27;p3&#x27;)  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="keepxmp">keepXmp</h2><a class="sl-anchor-link" href="#keepxmp"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “keepXmp”</span></a></div>
+<blockquote>
+<p>keepXmp() ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>在输出图像中保留输入图像的 XMP 元数据。</p>
+<p><strong>自</strong>: 0.34.3
+<strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">outputWithXmp</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">inputWithXmp</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">keepXmp</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const outputWithXmp = await sharp(inputWithXmp)  .keepXmp()  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="withxmp">withXmp</h2><a class="sl-anchor-link" href="#withxmp"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “withXmp”</span></a></div>
+<blockquote>
+<p>withXmp(xmp) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>在输出图像中设置 XMP 元数据。</p>
+<p>支持 PNG、JPEG、WebP 和 TIFF 输出。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> Invalid parameters</li>
+</ul>
+<p><strong>Since</strong>: 0.34.3</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Param</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>xmp</td><td><code>string</code></td><td>包含要嵌入输出图像的 XMP 元数据的字符串。</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">xmpString</span><span style="--0:#C792EA;--1:#8844AE"> = </span><span style="--0:#D6DEEB;--1:#403F53">`</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ECC48D;--1:#3B61B0">  </span></span><span style="--0:#ECC48D;--1:#3B61B0">&#x3C;?xml version="1.0"?></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ECC48D;--1:#3B61B0">  </span></span><span style="--0:#ECC48D;--1:#3B61B0">&#x3C;x:xmpmeta xmlns:x="adobe:ns:meta/"></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ECC48D;--1:#3B61B0">    </span></span><span style="--0:#ECC48D;--1:#3B61B0">&#x3C;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ECC48D;--1:#3B61B0">      </span></span><span style="--0:#ECC48D;--1:#3B61B0">&#x3C;rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ECC48D;--1:#3B61B0">        </span></span><span style="--0:#ECC48D;--1:#3B61B0">&#x3C;dc:creator>&#x3C;rdf:Seq>&#x3C;rdf:li>John Doe&#x3C;/rdf:li>&#x3C;/rdf:Seq>&#x3C;/dc:creator></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ECC48D;--1:#3B61B0">      </span></span><span style="--0:#ECC48D;--1:#3B61B0">&#x3C;/rdf:Description></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ECC48D;--1:#3B61B0">    </span></span><span style="--0:#ECC48D;--1:#3B61B0">&#x3C;/rdf:RDF></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#ECC48D;--1:#3B61B0">  </span></span><span style="--0:#ECC48D;--1:#3B61B0">&#x3C;/x:xmpmeta></span><span style="--0:#D6DEEB;--1:#403F53">`</span><span style="--0:#D6DEEB;--1:#403F53">;</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">withXmp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">xmpString</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const xmpString = &#x60;  <?xml version=&#x22;1.0&#x22;?>  <x:xmpmeta xmlns:x=&#x22;adobe:ns:meta/&#x22;>    <rdf:RDF xmlns:rdf=&#x22;http://www.w3.org/1999/02/22-rdf-syntax-ns#&#x22;>      <rdf:Description rdf:about=&#x22;&#x22; xmlns:dc=&#x22;http://purl.org/dc/elements/1.1/&#x22;>        <dc:creator><rdf:Seq><rdf:li>John Doe</rdf:li></rdf:Seq></dc:creator>      </rdf:Description>    </rdf:RDF>  </x:xmpmeta>&#x60;;const data = await sharp(input)  .withXmp(xmpString)  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="keepmetadata">keepMetadata</h2><a class="sl-anchor-link" href="#keepmetadata"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “keepMetadata”</span></a></div>
+<blockquote>
+<p>keepMetadata() ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>在输出图像中保留输入图像的所有元数据（EXIF、ICC、XMP、IPTC）。</p>
+<p>当未使用 <code dir="auto">keepMetadata</code> 时，默认行为是转换为设备独立的 sRGB 颜色空间并剥离所有元数据，包括移除任何 ICC 配置文件。</p>
+<p><strong>自</strong>: 0.33.0
+<strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">outputWithMetadata</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">inputWithMetadata</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">keepMetadata</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const outputWithMetadata = await sharp(inputWithMetadata)  .keepMetadata()  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="withmetadata">withMetadata</h2><a class="sl-anchor-link" href="#withmetadata"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “withMetadata”</span></a></div>
+<blockquote>
+<p>withMetadata([options]) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>在输出图像中保留输入图像的大多数元数据（EXIF、XMP、IPTC）。</p>
+<p>如果适用，这还将转换并添加一个适于网络的 sRGB ICC 配置文件。</p>
+<p>允许设置或更新方向和密度。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效参数</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>[options]</td><td><code>Object</code></td><td></td></tr><tr><td>[options.orientation]</td><td><code>number</code></td><td>用于更新 EXIF <code dir="auto">Orientation</code> 标签，整数在 1 和 8 之间。</td></tr><tr><td>[options.density]</td><td><code>number</code></td><td>每英寸的像素数（DPI）。</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">outputSrgbWithMetadata</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">inputRgbWithMetadata</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">withMetadata</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const outputSrgbWithMetadata = await sharp(inputRgbWithMetadata)  .withMetadata()  .toBuffer();"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 将输出元数据设置为 96 DPI</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">withMetadata</span><span style="--0:#D6DEEB;--1:#403F53">({ density: </span><span style="--0:#F78C6C;--1:#AA0982">96</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 将输出元数据设置为 96 DPIconst data = await sharp(input)  .withMetadata({ density: 96 })  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="toformat">toFormat</h2><a class="sl-anchor-link" href="#toformat"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “toFormat”</span></a></div>
+<blockquote>
+<p>toFormat(format, options) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>强制输出为给定格式。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 不支持的格式或选项</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>format</td><td><code>string</code> | <code>Object</code></td><td>作为字符串或带有 ‘id’ 属性的对象</td></tr><tr><td>options</td><td><code>Object</code></td><td>输出选项</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 将任何输入转换为 PNG 输出</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toFormat</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">png</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 将任何输入转换为 PNG 输出const data = await sharp(input)  .toFormat(&#x27;png&#x27;)  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="jpeg">jpeg</h2><a class="sl-anchor-link" href="#jpeg"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “jpeg”</span></a></div>
+<blockquote>
+<p>jpeg([options]) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>使用这些 JPEG 选项设置输出图像。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效选项</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>默认</th><th>描述</th></tr></thead><tbody><tr><td>[options]</td><td><code>Object</code></td><td></td><td>输出选项</td></tr><tr><td>[options.quality]</td><td><code>number</code></td><td><code>80</code></td><td>质量，整数 1-100</td></tr><tr><td>[options.progressive]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用渐进（交错）扫描</td></tr><tr><td>[options.chromaSubsampling]</td><td><code>string</code></td><td><code>“‘4:2:0‘“</code></td><td>设置为 ‘4:4:4’ 以防止色度子采样，否则默认使用 ‘4:2:0’ 色度子采样</td></tr><tr><td>[options.optimiseCoding]</td><td><code>boolean</code></td><td><code>true</code></td><td>优化哈夫曼编码表</td></tr><tr><td>[options.optimizeCoding]</td><td><code>boolean</code></td><td><code>true</code></td><td>优化哈夫曼编码表的另一种拼写</td></tr><tr><td>[options.mozjpeg]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用 mozjpeg 默认值，相当于 <code dir="auto">{ trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, quantisationTable: 3 }</code></td></tr><tr><td>[options.trellisQuantisation]</td><td><code>boolean</code></td><td><code>false</code></td><td>应用 trellis 量化</td></tr><tr><td>[options.overshootDeringing]</td><td><code>boolean</code></td><td><code>false</code></td><td>应用过冲去锯齿</td></tr><tr><td>[options.optimiseScans]</td><td><code>boolean</code></td><td><code>false</code></td><td>优化渐进扫描，强制渐进</td></tr><tr><td>[options.optimizeScans]</td><td><code>boolean</code></td><td><code>false</code></td><td>优化渐进扫描的另一种拼写</td></tr><tr><td>[options.quantisationTable]</td><td><code>number</code></td><td><code>0</code></td><td>要使用的量化表，整数 0-8</td></tr><tr><td>[options.quantizationTable]</td><td><code>number</code></td><td><code>0</code></td><td>量化表的另一种拼写</td></tr><tr><td>[options.force]</td><td><code>boolean</code></td><td><code>true</code></td><td>强制 JPEG 输出，否则尝试使用输入格式</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 将任何输入转换为非常高质量的 JPEG 输出</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">jpeg</span><span style="--0:#D6DEEB;--1:#403F53">({</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">quality: </span><span style="--0:#F78C6C;--1:#AA0982">100</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">chromaSubsampling: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">4:4:4</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">})</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 将任何输入转换为非常高质量的 JPEG 输出const data = await sharp(input)  .jpeg({    quality: 100,    chromaSubsampling: &#x27;4:4:4&#x27;  })  .toBuffer();"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 使用 mozjpeg 减小输出 JPEG 文件大小（较慢）</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">jpeg</span><span style="--0:#D6DEEB;--1:#403F53">({ mozjpeg: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 使用 mozjpeg 减小输出 JPEG 文件大小（较慢）const data = await sharp(input)  .jpeg({ mozjpeg: true })  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="png">png</h2><a class="sl-anchor-link" href="#png"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “png”</span></a></div>
+<blockquote>
+<p>png([options]) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>使用这些 PNG 选项设置输出图像。</p>
+<p>默认情况下，PNG 输出为每像素 8 位的全彩色。</p>
+<p>1、2 或 4 位每像素的索引 PNG 输入转换为 8 位每像素。
+设置 <code dir="auto">palette</code> 为 <code dir="auto">true</code> 以获取较慢、索引的 PNG 输出。</p>
+<p>对于 16 位每像素输出，通过 <a href="/api-colour/#tocolourspace">toColourspace</a> 转换为 <code dir="auto">rgb16</code>。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效选项</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>默认</th><th>描述</th></tr></thead><tbody><tr><td>[options]</td><td><code>Object</code></td><td></td><td></td></tr><tr><td>[options.progressive]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用渐进（交错）扫描</td></tr><tr><td>[options.compressionLevel]</td><td><code>number</code></td><td><code>6</code></td><td>zlib 压缩级别，0（最快、最大）到 9（最慢、最小）</td></tr><tr><td>[options.adaptiveFiltering]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用自适应行过滤</td></tr><tr><td>[options.palette]</td><td><code>boolean</code></td><td><code>false</code></td><td>量化为支持 alpha 透明的调色板图像</td></tr><tr><td>[options.quality]</td><td><code>number</code></td><td><code>100</code></td><td>使用实现给定质量所需的最低颜色数，设置 <code dir="auto">palette</code> 为 <code dir="auto">true</code></td></tr><tr><td>[options.effort]</td><td><code>number</code></td><td><code>7</code></td><td>CPU 努力程度，在 1（最快）和 10（最慢）之间，设置 <code dir="auto">palette</code> 为 <code dir="auto">true</code></td></tr><tr><td>[options.colours]</td><td><code>number</code></td><td><code>256</code></td><td>最大调色板条目数，设置 <code dir="auto">palette</code> 为 <code dir="auto">true</code></td></tr><tr><td>[options.colors]</td><td><code>number</code></td><td><code>256</code></td><td><code dir="auto">options.colours</code> 的另一种拼写，设置 <code dir="auto">palette</code> 为 <code dir="auto">true</code></td></tr><tr><td>[options.dither]</td><td><code>number</code></td><td><code>1.0</code></td><td>Floyd-Steinberg 错误扩散的水平，设置 <code dir="auto">palette</code> 为 <code dir="auto">true</code></td></tr><tr><td>[options.force]</td><td><code>boolean</code></td><td><code>true</code></td><td>强制 PNG 输出，否则尝试使用输入格式</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 将任何输入转换为全彩色 PNG 输出</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">png</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 将任何输入转换为全彩色 PNG 输出const data = await sharp(input)  .png()  .toBuffer();"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 将任何输入转换为索引 PNG 输出（较慢）</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">png</span><span style="--0:#D6DEEB;--1:#403F53">({ palette: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 将任何输入转换为索引 PNG 输出（较慢）const data = await sharp(input)  .png({ palette: true })  .toBuffer();"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 输出 16 位每像素 RGB(A)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent"> </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toColourspace</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">rgb16</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent"> </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">png</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent"> </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 输出 16 位每像素 RGB(A)const data = await sharp(input) .toColourspace(&#x27;rgb16&#x27;) .png() .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="webp">webp</h2><a class="sl-anchor-link" href="#webp"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “webp”</span></a></div>
+<blockquote>
+<p>webp([options]) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>使用这些 WebP 选项设置输出图像。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效选项</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>默认</th><th>描述</th></tr></thead><tbody><tr><td>[options]</td><td><code>Object</code></td><td></td><td>输出选项</td></tr><tr><td>[options.quality]</td><td><code>number</code></td><td><code>80</code></td><td>质量，整数 1-100</td></tr><tr><td>[options.alphaQuality]</td><td><code>number</code></td><td><code>100</code></td><td>alpha 层质量，整数 0-100</td></tr><tr><td>[options.lossless]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用无损压缩模式</td></tr><tr><td>[options.nearLossless]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用近无损压缩模式</td></tr><tr><td>[options.smartSubsample]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用高质量的色度子采样</td></tr><tr><td>[options.smartDeblock]</td><td><code>boolean</code></td><td><code>false</code></td><td>自动调整去块过滤器，可以改善低对比度边缘（较慢）</td></tr><tr><td>[options.preset]</td><td><code>string</code></td><td><code>“‘default‘“</code></td><td>预处理/过滤的命名预设，选项为：default、photo、picture、drawing、icon、text</td></tr><tr><td>[options.effort]</td><td><code>number</code></td><td><code>4</code></td><td>CPU 努力程度，在 0（最快）和 6（最慢）之间</td></tr><tr><td>[options.loop]</td><td><code>number</code></td><td><code>0</code></td><td>动画迭代次数，使用 0 表示无限动画</td></tr><tr><td>[options.delay]</td><td><code>number</code> | <code>Array.&#x3C;number></code></td><td></td><td>动画帧之间的延迟（以毫秒为单位）</td></tr><tr><td>[options.minSize]</td><td><code>boolean</code></td><td><code>false</code></td><td>防止使用动画关键帧以最小化文件大小（较慢）</td></tr><tr><td>[options.mixed]</td><td><code>boolean</code></td><td><code>false</code></td><td>允许损失和无损动画帧的混合（较慢）</td></tr><tr><td>[options.force]</td><td><code>boolean</code></td><td><code>true</code></td><td>强制 WebP 输出，否则尝试使用输入格式</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 将任何输入转换为无损 WebP 输出</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">webp</span><span style="--0:#D6DEEB;--1:#403F53">({ lossless: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 将任何输入转换为无损 WebP 输出const data = await sharp(input)  .webp({ lossless: true })  .toBuffer();"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 优化动画 WebP 的文件大小</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">outputWebp</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">inputWebp</span></span><span style="--0:#C792EA;--1:#8844AE">, { animated: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#C792EA;--1:#8844AE"> }</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">webp</span><span style="--0:#D6DEEB;--1:#403F53">({ effort: </span><span style="--0:#F78C6C;--1:#AA0982">6</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 优化动画 WebP 的文件大小const outputWebp = await sharp(inputWebp, { animated: true })  .webp({ effort: 6 })  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="gif">gif</h2><a class="sl-anchor-link" href="#gif"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “gif”</span></a></div>
+<blockquote>
+<p>gif([options]) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>使用这些 GIF 选项为输出图像设置。</p>
+<p>调色板中的第一个条目保留用于透明度。</p>
+<p>如果可能，将重新使用输入图像的调色板。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效选项</li>
+</ul>
+<p><strong>自</strong>: 0.30.0</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>默认</th><th>描述</th></tr></thead><tbody><tr><td>[options]</td><td><code>Object</code></td><td></td><td>输出选项</td></tr><tr><td>[options.reuse]</td><td><code>boolean</code></td><td><code>true</code></td><td>重新使用现有调色板，否则生成新的（较慢）</td></tr><tr><td>[options.progressive]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用渐进（交错）扫描</td></tr><tr><td>[options.colours]</td><td><code>number</code></td><td><code>256</code></td><td>最大调色板条目数，包括透明度，范围在 2 到 256 之间</td></tr><tr><td>[options.colors]</td><td><code>number</code></td><td><code>256</code></td><td><code dir="auto">options.colours</code> 的另一种拼写</td></tr><tr><td>[options.effort]</td><td><code>number</code></td><td><code>7</code></td><td>CPU 努力程度，在 1（最快）和 10（最慢）之间</td></tr><tr><td>[options.dither]</td><td><code>number</code></td><td><code>1.0</code></td><td>Floyd-Steinberg 错误扩散的水平，在 0（最少）和 1（最多）之间</td></tr><tr><td>[options.interFrameMaxError]</td><td><code>number</code></td><td><code>0</code></td><td>透明度的最大帧间误差，范围在 0（无损）和 32 之间</td></tr><tr><td>[options.interPaletteMaxError]</td><td><code>number</code></td><td><code>3</code></td><td>调色板重用的最大帧间误差，范围在 0 到 256 之间</td></tr><tr><td>[options.keepDuplicateFrames]</td><td><code>boolean</code></td><td><code>false</code></td><td>在输出中保留重复帧，而不是将它们合并。</td></tr><tr><td>[options.loop]</td><td><code>number</code></td><td><code>0</code></td><td>动画迭代次数，使用 0 表示无限动画</td></tr><tr><td>[options.delay]</td><td><code>number</code> | <code>Array.&#x3C;number></code></td><td></td><td>动画帧之间的延迟（以毫秒为单位）</td></tr><tr><td>[options.force]</td><td><code>boolean</code></td><td><code>true</code></td><td>强制 GIF 输出，否则尝试使用输入格式</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 将 PNG 转换为 GIF</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">await</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">pngBuffer</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">gif</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 将 PNG 转换为 GIFawait sharp(pngBuffer)  .gif()  .toBuffer();"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 将动画 WebP 转换为动画 GIF</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">await</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">animated.webp</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">, { animated: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toFile</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">animated.gif</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">);</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 将动画 WebP 转换为动画 GIFawait sharp(&#x27;animated.webp&#x27;, { animated: true })  .toFile(&#x27;animated.gif&#x27;);"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 创建一个 128x128 像素、裁剪的、非抖动的动画缩略图</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">out</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">in.gif</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#C792EA;--1:#8844AE">, { animated: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#C792EA;--1:#8844AE"> }</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">resize</span><span style="--0:#D6DEEB;--1:#403F53">({ width: </span><span style="--0:#F78C6C;--1:#AA0982">128</span><span style="--0:#D6DEEB;--1:#403F53">, height: </span><span style="--0:#F78C6C;--1:#AA0982">128</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">gif</span><span style="--0:#D6DEEB;--1:#403F53">({ dither: </span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 创建一个 128x128 像素、裁剪的、非抖动的动画缩略图const out = await sharp(&#x27;in.gif&#x27;, { animated: true })  .resize({ width: 128, height: 128 })  .gif({ dither: 0 })  .toBuffer();"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 动画 GIF 的有损文件大小缩减</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">await</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">in.gif</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">, { animated: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">gif</span><span style="--0:#D6DEEB;--1:#403F53">({ interFrameMaxError: </span><span style="--0:#F78C6C;--1:#AA0982">8</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toFile</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">optim.gif</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">);</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 动画 GIF 的有损文件大小缩减await sharp(&#x27;in.gif&#x27;, { animated: true })  .gif({ interFrameMaxError: 8 })  .toFile(&#x27;optim.gif&#x27;);"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="jp2">jp2</h2><a class="sl-anchor-link" href="#jp2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “jp2”</span></a></div>
+<blockquote>
+<p>jp2([options]) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>使用这些 JP2 选项设置输出图像。</p>
+<p>需要使用 OpenJPEG 编译的 libvips。
+预构建的二进制文件不包括此项 - 请参阅
+<a href="/install#custom-libvips">安装自定义 libvips</a>。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效选项</li>
+</ul>
+<p><strong>自</strong>: 0.29.1</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>默认</th><th>描述</th></tr></thead><tbody><tr><td>[options]</td><td><code>Object</code></td><td></td><td>输出选项</td></tr><tr><td>[options.quality]</td><td><code>number</code></td><td><code>80</code></td><td>质量，整数 1-100</td></tr><tr><td>[options.lossless]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用无损压缩模式</td></tr><tr><td>[options.tileWidth]</td><td><code>number</code></td><td><code>512</code></td><td>水平瓦片大小</td></tr><tr><td>[options.tileHeight]</td><td><code>number</code></td><td><code>512</code></td><td>垂直瓦片大小</td></tr><tr><td>[options.chromaSubsampling]</td><td><code>string</code></td><td><code>“‘4:4:4‘“</code></td><td>设置为 ‘4:2:0’ 以使用色度子采样</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 将任何输入转换为无损 JP2 输出</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">jp2</span><span style="--0:#D6DEEB;--1:#403F53">({ lossless: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 将任何输入转换为无损 JP2 输出const data = await sharp(input)  .jp2({ lossless: true })  .toBuffer();"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 将任何输入转换为非常高质量 JP2 输出</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">jp2</span><span style="--0:#D6DEEB;--1:#403F53">({</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">quality: </span><span style="--0:#F78C6C;--1:#AA0982">100</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">chromaSubsampling: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">4:4:4</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">})</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 将任何输入转换为非常高质量 JP2 输出const data = await sharp(input)  .jp2({    quality: 100,    chromaSubsampling: &#x27;4:4:4&#x27;  })  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="tiff">tiff</h2><a class="sl-anchor-link" href="#tiff"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “tiff”</span></a></div>
+<blockquote>
+<p>tiff([options]) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>使用这些 TIFF 选项设置输出图像。</p>
+<p>通过 <a href="#withmetadata">withMetadata</a> 可以以每英寸像素设置 <code dir="auto">density</code>，而不是提供 <code dir="auto">xres</code> 和 <code dir="auto">yres</code> 以每毫米像素。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效选项</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>默认</th><th>描述</th></tr></thead><tbody><tr><td>[options]</td><td><code>Object</code></td><td></td><td>输出选项</td></tr><tr><td>[options.quality]</td><td><code>number</code></td><td><code>80</code></td><td>质量，整数 1-100</td></tr><tr><td>[options.force]</td><td><code>boolean</code></td><td><code>true</code></td><td>强制 TIFF 输出，否则尝试使用输入格式</td></tr><tr><td>[options.compression]</td><td><code>string</code></td><td><code>“‘jpeg‘“</code></td><td>压缩选项：none、jpeg、deflate、packbits、ccittfax4、lzw、webp、zstd、jp2k</td></tr><tr><td>[options.bigtiff]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用 BigTIFF 变体（当压缩为 none 时无效）</td></tr><tr><td>[options.predictor]</td><td><code>string</code></td><td><code>“‘horizontal‘“</code></td><td>压缩预测选项：none、horizontal、float</td></tr><tr><td>[options.pyramid]</td><td><code>boolean</code></td><td><code>false</code></td><td>写入图像金字塔</td></tr><tr><td>[options.tile]</td><td><code>boolean</code></td><td><code>false</code></td><td>写入切片 TIFF</td></tr><tr><td>[options.tileWidth]</td><td><code>number</code></td><td><code>256</code></td><td>水平瓦片大小</td></tr><tr><td>[options.tileHeight]</td><td><code>number</code></td><td><code>256</code></td><td>垂直瓦片大小</td></tr><tr><td>[options.xres]</td><td><code>number</code></td><td><code>1.0</code></td><td>每毫米像素的水平分辨率</td></tr><tr><td>[options.yres]</td><td><code>number</code></td><td><code>1.0</code></td><td>每毫米像素的垂直分辨率</td></tr><tr><td>[options.resolutionUnit]</td><td><code>string</code></td><td><code>“‘inch‘“</code></td><td>分辨率单位选项：inch、cm</td></tr><tr><td>[options.bitdepth]</td><td><code>number</code></td><td><code>8</code></td><td>将位深度减少到 1、2 或 4 位</td></tr><tr><td>[options.miniswhite]</td><td><code>boolean</code></td><td><code>false</code></td><td>以白色小图像表示 1 位图像</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 将 SVG 输入转换为 LZW 压缩、每像素 1 位 TIFF 输出</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">input.svg</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">tiff</span><span style="--0:#D6DEEB;--1:#403F53">({</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">compression: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">lzw</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">bitdepth: </span><span style="--0:#F78C6C;--1:#AA0982">1</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">})</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toFile</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">1-bpp-output.tiff</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">then</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">info</span><span style="--0:#D6DEEB"> </span></span><span style="--0:#C792EA;--1:#8844AE">=></span><span style="--0:#D6DEEB;--1:#403F53"> { </span><span style="--0:#7FDBCA;--1:#096E72">...</span><span style="--0:#D6DEEB;--1:#403F53"> });</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 将 SVG 输入转换为 LZW 压缩、每像素 1 位 TIFF 输出sharp(&#x27;input.svg&#x27;)  .tiff({    compression: &#x27;lzw&#x27;,    bitdepth: 1  })  .toFile(&#x27;1-bpp-output.tiff&#x27;)  .then(info => { ... });"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="avif">avif</h2><a class="sl-anchor-link" href="#avif"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “avif”</span></a></div>
+<blockquote>
+<p>avif([options]) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>使用这些 AVIF 选项设置输出图像。</p>
+<p>不支持 AVIF 图像序列。
+预构建的二进制文件仅支持 8 位深度。</p>
+<p>此功能在 Windows ARM64 平台上是实验性的，并且需要支持 ARM64v8.4 或更高版本的 CPU。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效选项</li>
+</ul>
+<p><strong>自</strong>: 0.27.0</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>默认</th><th>描述</th></tr></thead><tbody><tr><td>[options]</td><td><code>Object</code></td><td></td><td>输出选项</td></tr><tr><td>[options.quality]</td><td><code>number</code></td><td><code>50</code></td><td>质量，整数 1-100</td></tr><tr><td>[options.lossless]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用无损压缩</td></tr><tr><td>[options.effort]</td><td><code>number</code></td><td><code>4</code></td><td>CPU 努力程度，在 0（最快）和 9（最慢）之间</td></tr><tr><td>[options.chromaSubsampling]</td><td><code>string</code></td><td><code>“‘4:4:4‘“</code></td><td>设置为 ‘4:2:0’ 以使用色度子采样</td></tr><tr><td>[options.bitdepth]</td><td><code>number</code></td><td><code>8</code></td><td>将位深度设置为 8、10 或 12 位</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">avif</span><span style="--0:#D6DEEB;--1:#403F53">({ effort: </span><span style="--0:#F78C6C;--1:#AA0982">2</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const data = await sharp(input)  .avif({ effort: 2 })  .toBuffer();"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">avif</span><span style="--0:#D6DEEB;--1:#403F53">({ lossless: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const data = await sharp(input)  .avif({ lossless: true })  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="heif">heif</h2><a class="sl-anchor-link" href="#heif"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “heif”</span></a></div>
+<blockquote>
+<p>heif(options) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>使用这些 HEIF 选项设置输出图像。</p>
+<p>对使用 <code dir="auto">hevc</code> 压缩的受专利保护的 HEIC 图像的支持需要使用全局安装的 libvips 编译，并支持 libheif、libde265 和 x265。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效选项</li>
+</ul>
+<p><strong>自</strong>: 0.23.0</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>默认</th><th>描述</th></tr></thead><tbody><tr><td>options</td><td><code>Object</code></td><td></td><td>输出选项</td></tr><tr><td>options.compression</td><td><code>string</code></td><td></td><td>压缩格式：av1，hevc</td></tr><tr><td>[options.quality]</td><td><code>number</code></td><td><code>50</code></td><td>质量，整数 1-100</td></tr><tr><td>[options.lossless]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用无损压缩</td></tr><tr><td>[options.effort]</td><td><code>number</code></td><td><code>4</code></td><td>CPU 努力程度，在 0（最快）和 9（最慢）之间</td></tr><tr><td>[options.chromaSubsampling]</td><td><code>string</code></td><td><code>“‘4:4:4‘“</code></td><td>设置为 ‘4:2:0’ 以使用色度子采样</td></tr><tr><td>[options.bitdepth]</td><td><code>number</code></td><td><code>8</code></td><td>将位深度设置为 8、10 或 12 位</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">heif</span><span style="--0:#D6DEEB;--1:#403F53">({ compression: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">hevc</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const data = await sharp(input)  .heif({ compression: &#x27;hevc&#x27; })  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="jxl">jxl</h2><a class="sl-anchor-link" href="#jxl"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “jxl”</span></a></div>
+<blockquote>
+<p>jxl([options]) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>使用这些 JPEG-XL (JXL) 选项设置输出图像。</p>
+<p>此功能为实验性，请勿在生产系统中使用。</p>
+<p>需要支持 libjxl 的 libvips 编译。
+预构建的二进制文件不包括此项 - 请参阅
+<a href="/install/#custom-libvips">安装自定义 libvips</a>。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效选项</li>
+</ul>
+<p><strong>自</strong>: 0.31.3</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>默认</th><th>描述</th></tr></thead><tbody><tr><td>[options]</td><td><code>Object</code></td><td></td><td>输出选项</td></tr><tr><td>[options.distance]</td><td><code>number</code></td><td><code>1.0</code></td><td>最大编码错误，范围在 0（最高质量）到 15（最低质量）之间</td></tr><tr><td>[options.quality]</td><td><code>number</code></td><td></td><td>根据 JPEG 类似质量计算 <code dir="auto">distance</code>，范围在 1 到 100 之间，如果指定了则覆盖距离</td></tr><tr><td>[options.decodingTier]</td><td><code>number</code></td><td><code>0</code></td><td>目标解码速度层，范围在 0（最高质量）到 4（最低质量）之间</td></tr><tr><td>[options.lossless]</td><td><code>boolean</code></td><td><code>false</code></td><td>使用无损压缩</td></tr><tr><td>[options.effort]</td><td><code>number</code></td><td><code>7</code></td><td>CPU 努力程度，在 1（最快）和 9（最慢）之间</td></tr><tr><td>[options.loop]</td><td><code>number</code></td><td><code>0</code></td><td>动画迭代次数，使用 0 表示无限动画</td></tr><tr><td>[options.delay]</td><td><code>number</code> | <code>Array.&#x3C;number></code></td><td></td><td>动画帧之间的延迟（以毫秒为单位）</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="raw">raw</h2><a class="sl-anchor-link" href="#raw"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “raw”</span></a></div>
+<blockquote>
+<p>raw([options]) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>强制输出为原始的、无压缩的像素数据。
+像素顺序为从左到右、从上到下，不带填充。
+通道顺序将是 RGB 或 RGBA，适用于非灰度颜色空间。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效选项</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>默认</th><th>描述</th></tr></thead><tbody><tr><td>[options]</td><td><code>Object</code></td><td></td><td>输出选项</td></tr><tr><td>[options.depth]</td><td><code>string</code></td><td><code>“‘uchar‘“</code></td><td>位深度，值之一：char、uchar（默认）、short、ushort、int、uint、float、complex、double、dpcomplex</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 从 JPEG 输入提取原始的无符号 8 位 RGB 像素数据</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const { </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE">, </span><span style="--0:#82AAFF;--1:#3B61B0">info</span><span style="--0:#C792EA;--1:#8844AE"> } = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">input.jpg</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">raw</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">({ resolveWithObject: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53"> });</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 从 JPEG 输入提取原始的无符号 8 位 RGB 像素数据const { data, info } = await sharp(&#x27;input.jpg&#x27;)  .raw()  .toBuffer({ resolveWithObject: true });"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 从 PNG 输入提取 alpha 通道作为原始的无符号 16 位像素数据</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">input.png</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">ensureAlpha</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">extractChannel</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toColourspace</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">b-w</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">raw</span><span style="--0:#D6DEEB;--1:#403F53">({ depth: </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">ushort</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 从 PNG 输入提取 alpha 通道作为原始的无符号 16 位像素数据const data = await sharp(&#x27;input.png&#x27;)  .ensureAlpha()  .extractChannel(3)  .toColourspace(&#x27;b-w&#x27;)  .raw({ depth: &#x27;ushort&#x27; })  .toBuffer();"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="tile">tile</h2><a class="sl-anchor-link" href="#tile"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “tile”</span></a></div>
+<blockquote>
+<p>tile([options]) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>使用基于瓦片的深度缩放（图像金字塔）输出。</p>
+<p>通过 <code dir="auto">toFormat</code>、<code dir="auto">jpeg</code>、<code dir="auto">png</code> 或 <code dir="auto">webp</code> 函数设置瓦片图像的格式和选项。
+使用 <code dir="auto">.zip</code> 或 <code dir="auto">.szi</code> 文件扩展名与 <code dir="auto">toFile</code> 一起写入压缩归档文件格式。</p>
+<p>当输出为缓冲区或流时，容器将被设置为 <code dir="auto">zip</code>，否则默认为 <code dir="auto">fs</code>。</p>
+<p><strong>抛出</strong>:</p>
+<ul>
+<li><code>Error</code> 无效参数</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>默认</th><th>描述</th></tr></thead><tbody><tr><td>[options]</td><td><code>Object</code></td><td></td><td></td></tr><tr><td>[options.size]</td><td><code>number</code></td><td><code>256</code></td><td>瓦片大小（以像素为单位），值范围在 1 到 8192 之间。</td></tr><tr><td>[options.overlap]</td><td><code>number</code></td><td><code>0</code></td><td>瓦片重叠（以像素为单位），值范围在 0 到 8192 之间。</td></tr><tr><td>[options.angle]</td><td><code>number</code></td><td><code>0</code></td><td>瓦片的旋转角度，必须是 90 的倍数。</td></tr><tr><td>[options.background]</td><td><code>string</code> | <code>Object</code></td><td><code>”{r: 255, g: 255, b: 255, alpha: 1}“</code></td><td>背景颜色，由 <a href="https://www.npmjs.org/package/color">color</a> 模块解析，默认为无透明度的白色。</td></tr><tr><td>[options.depth]</td><td><code>string</code></td><td></td><td>要制作金字塔的深度，可能的值为 <code dir="auto">onepixel</code>、<code dir="auto">onetile</code> 或 <code dir="auto">one</code>，默认基于布局。</td></tr><tr><td>[options.skipBlanks]</td><td><code>number</code></td><td><code>-1</code></td><td>跳过瓦片生成的阈值。范围为 0-255（8 位图像），0-65535（16 位图像）。默认值为 <code dir="auto">google</code> 布局的 5，否则为 -1（无跳过）。</td></tr><tr><td>[options.container]</td><td><code>string</code></td><td><code>“‘fs‘“</code></td><td>瓦片容器，值为 <code dir="auto">fs</code>（文件系统）或 <code dir="auto">zip</code>（压缩文件）。</td></tr><tr><td>[options.layout]</td><td><code>string</code></td><td><code>“‘dz‘“</code></td><td>文件系统布局，可能的值为 <code dir="auto">dz</code>、<code dir="auto">iiif</code>、<code dir="auto">iiif3</code>、<code dir="auto">zoomify</code> 或 <code dir="auto">google</code>。</td></tr><tr><td>[options.centre]</td><td><code>boolean</code></td><td><code>false</code></td><td>在瓦片中居中图像。</td></tr><tr><td>[options.center]</td><td><code>boolean</code></td><td><code>false</code></td><td><code dir="auto">centre</code> 的另一种拼写。</td></tr><tr><td>[options.id]</td><td><code>string</code></td><td><code>“‘<a href="https://example.com/iiif&#x26;#x27">https://example.com/iiif&#x26;#x27</a>;“</code></td><td>当 <code dir="auto">layout</code> 为 <code dir="auto">iiif</code>/<code dir="auto">iiif3</code> 时，设置 <code dir="auto">info.json</code> 的 <code dir="auto">@id</code>/<code dir="auto">id</code> 属性</td></tr><tr><td>[options.basename]</td><td><code>string</code></td><td></td><td>当容器为 zip 时，zip 文件中的目录名称。</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">input.tiff</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">png</span><span style="--0:#D6DEEB;--1:#403F53">()</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">tile</span><span style="--0:#D6DEEB;--1:#403F53">({</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">size: </span><span style="--0:#F78C6C;--1:#AA0982">512</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">})</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toFile</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">output.dz</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">, </span><span style="--0:#C792EA;--1:#8844AE">function</span><span style="--0:#D9F5DD;--1:#111111">(</span><span style="--1:#403F53"><span style="--0:#D7DBE0">err</span><span style="--0:#D6DEEB">, </span><span style="--0:#D7DBE0">info</span></span><span style="--0:#D9F5DD;--1:#111111">)</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#919F9F;--1:#5D6376">// output.dzi 是 Deep Zoom XML 定义</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#919F9F;--1:#5D6376">// output_files 包含按缩放级别分组的 512x512 瓦片</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">});</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="sharp(&#x27;input.tiff&#x27;)  .png()  .tile({    size: 512  })  .toFile(&#x27;output.dz&#x27;, function(err, info) {    // output.dzi 是 Deep Zoom XML 定义    // output_files 包含按缩放级别分组的 512x512 瓦片  });"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">zipFileWithTiles</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">tile</span><span style="--0:#D6DEEB;--1:#403F53">({ basename: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">tiles</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const zipFileWithTiles = await sharp(input)  .tile({ basename: &#x22;tiles&#x22; })  .toBuffer();"><div></div></button></div></figure></div>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">iiififier</span><span style="--0:#C792EA;--1:#8844AE"> = </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--0:#D6DEEB;--1:#403F53">()</span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">tile</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#C792EA;--1:#8844AE">{ layout: </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">iiif</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C792EA;--1:#8844AE"> }</span><span style="--0:#D6DEEB;--1:#403F53">);</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D7DBE0;--1:#403F53">readableStream</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">pipe</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">iiififier</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">pipe</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">writeableStream</span><span style="--0:#D6DEEB">);</span></span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="const iiififier = sharp().tile({ layout: &#x22;iiif&#x22; });readableStream  .pipe(iiififier)  .pipe(writeableStream);"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="timeout">timeout</h2><a class="sl-anchor-link" href="#timeout"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “timeout”</span></a></div>
+<blockquote>
+<p>timeout(options) ⇒ <code>Sharp</code></p>
+</blockquote>
+<p>为处理设置超时（以秒为单位）。
+使用零值以无限期继续处理，默认行为。</p>
+<p>时钟在 libvips 打开输入图像进行处理时开始。
+等待 libuv 线程可用的时间不包括在内。</p>
+<p><strong>自</strong>: 0.29.2</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>options</td><td><code>Object</code></td><td></td></tr><tr><td>options.seconds</td><td><code>number</code></td><td>超时处理后停止的秒数</td></tr></tbody></table>
+<p><strong>示例</strong></p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="js"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5D6376">// 确保处理时间不超过 3 秒</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">try</span><span style="--0:#D6DEEB;--1:#403F53"> {</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">const </span><span style="--0:#82AAFF;--1:#3B61B0">data</span><span style="--0:#C792EA;--1:#8844AE"> = await </span><span style="--0:#82AAFF;--1:#3B61B0">sharp</span><span style="--1:#403F53"><span style="--0:#D6DEEB">(</span><span style="--0:#D7DBE0">input</span><span style="--0:#D6DEEB">)</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">blur</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#F78C6C;--1:#AA0982">1000</span><span style="--0:#D6DEEB;--1:#403F53">)</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">timeout</span><span style="--0:#D6DEEB;--1:#403F53">({ seconds: </span><span style="--0:#F78C6C;--1:#AA0982">3</span><span style="--0:#D6DEEB;--1:#403F53"> })</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">toBuffer</span><span style="--0:#D6DEEB;--1:#403F53">();</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">} </span><span style="--0:#C792EA;--1:#8844AE">catch</span><span style="--1:#403F53"><span style="--0:#D6DEEB"> (</span><span style="--0:#D7DBE0">err</span><span style="--0:#D6DEEB">) {</span></span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">if</span><span style="--0:#D6DEEB;--1:#403F53"> (</span><span style="--0:#7FDBCA;--1:#096E72">err</span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#FAF39F;--1:#111111">message</span><span style="--0:#C792EA;--1:#8844AE">.</span><span style="--0:#82AAFF;--1:#3B61B0">includes</span><span style="--0:#D6DEEB;--1:#403F53">(</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">timeout</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">)) { </span><span style="--0:#7FDBCA;--1:#096E72">...</span><span style="--0:#D6DEEB;--1:#403F53"> }</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">}</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="// 确保处理时间不超过 3 秒try {  const data = await sharp(input)    .blur(1000)    .timeout({ seconds: 3 })    .toBuffer();} catch (err) {  if (err.message.includes(&#x27;timeout&#x27;)) { ... }}"><div></div></button></div></figure></div> </div> <footer class="sl-flex astro-3yyafb3n"> <div class="meta sl-flex astro-3yyafb3n">   </div> <div class="pagination-links print:hidden astro-u2l5gyhi" dir="ltr"> <a href="/api-input/" rel="prev" class="astro-u2l5gyhi"> <svg aria-hidden="true" class="astro-u2l5gyhi astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg> <span class="astro-u2l5gyhi"> 上一页 <br class="astro-u2l5gyhi"> <span class="link-title astro-u2l5gyhi">输入元数据</span> </span> </a> <a href="/api-resize/" rel="next" class="astro-u2l5gyhi"> <svg aria-hidden="true" class="astro-u2l5gyhi astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg> <span class="astro-u2l5gyhi"> 下一页 <br class="astro-u2l5gyhi"> <span class="link-title astro-u2l5gyhi">调整图像大小</span> </span> </a> </div>   </footer>  </div> </div>   </main> </div> </div>  </div> </div>  </body></html>
