@@ -1,9 +1,10 @@
-// Copyright 2013 Lovell Fuller and others.
-// SPDX-License-Identifier: Apache-2.0
+/*!
+  Copyright 2013 Lovell Fuller and others.
+  SPDX-License-Identifier: Apache-2.0
+*/
 
-'use strict';
-
-const assert = require('assert');
+const { describe, it } = require('node:test');
+const assert = require('node:assert');
 
 const fixtures = require('../fixtures');
 const sharp = require('../../');
@@ -322,7 +323,7 @@ describe('composite', () => {
   describe('string gravity', () => {
     Object.keys(sharp.gravity).forEach(gravity => {
       it(gravity, done => {
-        const expected = fixtures.expected('overlay-gravity-' + gravity + '.jpg');
+        const expected = fixtures.expected(`overlay-gravity-${gravity}.jpg`);
         sharp(fixtures.inputJpg)
           .resize(80)
           .composite([{
@@ -344,7 +345,7 @@ describe('composite', () => {
   describe('tile and gravity', () => {
     Object.keys(sharp.gravity).forEach(gravity => {
       it(gravity, done => {
-        const expected = fixtures.expected('overlay-tile-gravity-' + gravity + '.jpg');
+        const expected = fixtures.expected(`overlay-tile-gravity-${gravity}.jpg`);
         sharp(fixtures.inputJpg)
           .resize(80)
           .composite([{

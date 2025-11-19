@@ -9,7 +9,7 @@ title: 全局属性
 一个对象，包含了 sharp、libvips 的版本号和（在使用预构建的二进制文件时）其依赖项的版本号。
 
 
-**示例**  
+**示例**
 ```js
 console.log(sharp.versions);
 ```
@@ -21,7 +21,7 @@ console.log(sharp.versions);
 一个对象，包含可用的插值器及其正确值
 
 
-**只读**: true  
+**只读**: true
 **属性**
 
 | 名称 | 类型 | 默认 | 描述 |
@@ -40,7 +40,7 @@ console.log(sharp.versions);
 一个对象，包含表示可用输入和输出格式/方法的嵌套布尔值。
 
 
-**示例**  
+**示例**
 ```js
 console.log(sharp.format);
 ```
@@ -54,7 +54,7 @@ console.log(sharp.format);
 - 完成时发出 `change` 事件
 
 
-**示例**  
+**示例**
 ```js
 sharp.queue.on('change', function(queueLength) {
   console.log('队列中包含 ' + queueLength + ' 个任务');
@@ -79,11 +79,11 @@ sharp.queue.on('change', function(queueLength) {
 | [options.files] | <code>number</code> | <code>20</code> | 最大打开文件数 |
 | [options.items] | <code>number</code> | <code>100</code> | 最大缓存操作数 |
 
-**示例**  
+**示例**
 ```js
 const stats = sharp.cache();
 ```
-**示例**  
+**示例**
 ```js
 sharp.cache( { items: 200 } );
 sharp.cache( { files: 0 } );
@@ -105,17 +105,17 @@ sharp.cache(false);
 一些图像格式库会生成额外线程，例如 libaom 在编码 AVIF 图像时管理其自己的 4 个线程，这些线程与此处设置的值无关。
 
 :::note
-还可进一步[控制性能表现](/performance)。
+还可进一步[控制性能表现](/performance/)。
 :::
 
 
-**返回**: <code>number</code> - 并发数  
+**返回**: <code>number</code> - 并发数
 
 | 参数 | 类型 |
 | --- | --- |
-| [concurrency] | <code>number</code> | 
+| [concurrency] | <code>number</code> |
 
-**示例**  
+**示例**
 ```js
 const threads = sharp.concurrency(); // 4
 sharp.concurrency(2); // 2
@@ -131,7 +131,7 @@ sharp.concurrency(0); // 4
 - process 是当前正在处理的调整大小任务数量。
 
 
-**示例**  
+**示例**
 ```js
 const counters = sharp.counters(); // { queue: 2, process: 4 }
 ```
@@ -149,14 +149,14 @@ const counters = sharp.counters(); // { queue: 2, process: 4 }
 
 | 参数 | 类型 | 默认 |
 | --- | --- | --- |
-| [simd] | <code>boolean</code> | <code>true</code> | 
+| [simd] | <code>boolean</code> | <code>true</code> |
 
-**示例**  
+**示例**
 ```js
 const simd = sharp.simd();
 // simd 是 `true`，如果当前启用了 highway 的运行时使用
 ```
-**示例**  
+**示例**
 ```js
 const simd = sharp.simd(false);
 // 在运行时防止 libvips 使用 highway
@@ -172,7 +172,7 @@ const simd = sharp.simd(false);
 该变量设置后将阻止所有“不受信任”的操作。
 
 
-**自**: 0.32.4  
+**自**: 0.32.4
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
@@ -195,7 +195,7 @@ sharp.block({
 这对于定义允许的操作列表非常有用。
 
 
-**自**: 0.32.4  
+**自**: 0.32.4
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |

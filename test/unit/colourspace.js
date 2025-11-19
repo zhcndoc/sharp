@@ -1,22 +1,23 @@
-// Copyright 2013 Lovell Fuller and others.
-// SPDX-License-Identifier: Apache-2.0
+/*!
+  Copyright 2013 Lovell Fuller and others.
+  SPDX-License-Identifier: Apache-2.0
+*/
 
-'use strict';
-
-const assert = require('assert');
+const { describe, it } = require('node:test');
+const assert = require('node:assert');
 
 const sharp = require('../../');
 const fixtures = require('../fixtures');
 
-describe('Colour space conversion', function () {
-  it('To greyscale', function (done) {
+describe('Colour space conversion', () => {
+  it('To greyscale', (_t, done) => {
     sharp(fixtures.inputJpg)
       .resize(320, 240)
       .greyscale()
       .toFile(fixtures.path('output.greyscale-gamma-0.0.jpg'), done);
   });
 
-  it('To greyscale with gamma correction', function (done) {
+  it('To greyscale with gamma correction', (_t, done) => {
     sharp(fixtures.inputJpg)
       .resize(320, 240)
       .gamma()
@@ -24,19 +25,19 @@ describe('Colour space conversion', function () {
       .toFile(fixtures.path('output.greyscale-gamma-2.2.jpg'), done);
   });
 
-  it('Not to greyscale', function (done) {
+  it('Not to greyscale', (_t, done) => {
     sharp(fixtures.inputJpg)
       .resize(320, 240)
       .greyscale(false)
       .toFile(fixtures.path('output.greyscale-not.jpg'), done);
   });
 
-  it('Greyscale with single channel output', function (done) {
+  it('Greyscale with single channel output', (_t, done) => {
     sharp(fixtures.inputJpg)
       .resize(320, 240)
       .greyscale()
       .toColourspace('b-w')
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(1, info.channels);
         assert.strictEqual(320, info.width);
@@ -55,10 +56,10 @@ describe('Colour space conversion', function () {
     assert.strictEqual(format, 'webp');
   });
 
-  it('From CMYK to sRGB', function (done) {
+  it('From CMYK to sRGB', (_t, done) => {
     sharp(fixtures.inputJpgWithCmykProfile)
       .resize(320)
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(true, data.length > 0);
         assert.strictEqual('jpeg', info.format);
@@ -67,13 +68,13 @@ describe('Colour space conversion', function () {
       });
   });
 
-  it('From CMYK to sRGB with white background, not yellow', function (done) {
+  it('From CMYK to sRGB with white background, not yellow', (_t, done) => {
     sharp(fixtures.inputJpgWithCmykProfile)
       .resize(320, 240, {
         fit: sharp.fit.contain,
         background: 'white'
       })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual('jpeg', info.format);
         assert.strictEqual(320, info.width);
@@ -82,10 +83,10 @@ describe('Colour space conversion', function () {
       });
   });
 
-  it('From profile-less CMYK to sRGB', function (done) {
+  it('From profile-less CMYK to sRGB', (_t, done) => {
     sharp(fixtures.inputJpgWithCmykNoProfile)
       .resize(320)
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual('jpeg', info.format);
         assert.strictEqual(320, info.width);
@@ -122,14 +123,14 @@ describe('Colour space conversion', function () {
     );
   });
 
-  it('CMYK profile to CMYK profile with negate', (done) => {
+  it('CMYK profile to CMYK profile with negate', (_t, done) => {
     sharp(fixtures.inputTiffFogra)
       .resize(320, 240)
       .toColourspace('cmyk')
       .pipelineColourspace('cmyk')
       .withIccProfile(fixtures.path('XCMYK 2017.icc'))
       .negate()
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual('tiff', info.format);
         assert.strictEqual(320, info.width);
@@ -143,13 +144,13 @@ describe('Colour space conversion', function () {
       });
   });
 
-  it('From sRGB with RGB16 pipeline, resize with gamma, to sRGB', function (done) {
+  it('From sRGB with RGB16 pipeline, resize with gamma, to sRGB', (_t, done) => {
     sharp(fixtures.inputPngGradients)
       .pipelineColourspace('rgb16')
       .resize(320)
       .gamma()
       .toColourspace('srgb')
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(320, info.width);
         fixtures.assertSimilar(fixtures.expected('colourspace-gradients-gamma-resize.png'), data, {
@@ -177,15 +178,15 @@ describe('Colour space conversion', function () {
     assert.strictEqual(b, 34);
   });
 
-  it('Invalid pipelineColourspace input', function () {
-    assert.throws(function () {
+  it('Invalid pipelineColourspace input', () => {
+    assert.throws(() => {
       sharp(fixtures.inputJpg)
         .pipelineColorspace(null);
     }, /Expected string for colourspace but received null of type object/);
   });
 
-  it('Invalid toColourspace input', function () {
-    assert.throws(function () {
+  it('Invalid toColourspace input', () => {
+    assert.throws(() => {
       sharp(fixtures.inputJpg)
         .toColourspace(null);
     });

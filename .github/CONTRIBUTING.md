@@ -6,8 +6,6 @@ Hello, thank you for your interest in helping!
 
 Please create a [new issue](https://github.com/lovell/sharp/issues/new) containing the steps to reproduce the problem.
 
-If you're having installation problems, please include the output of running `npm install --verbose sharp`.
-
 New bugs are assigned a `triage` label whilst under investigation.
 
 ## Submit a new feature request
@@ -16,7 +14,7 @@ If a [similar request](https://github.com/lovell/sharp/labels/enhancement) exist
 it's probably fastest to add a comment to it about your requirement.
 
 Implementation is usually straightforward if libvips
-[already supports](https://www.libvips.org/API/current/func-list.html)
+[already supports](https://www.libvips.org/API/current/function-list.html)
 the feature you need.
 
 ## Submit a Pull Request to fix a bug
@@ -27,12 +25,11 @@ Please select the `main` branch as the destination for your Pull Request so your
 
 Please squash your changes into a single commit using a command like `git rebase -i upstream/main`.
 
-To test C++ changes, you can compile the module using `npm install --build-from-source` and then run the tests using `npm test`.
+To test C++ changes, you can compile the module using `npm run build` and then run the tests using `npm test`.
 
 ## Submit a Pull Request with a new feature
 
 Please add JavaScript [unit tests](https://github.com/lovell/sharp/tree/main/test/unit) to cover your new feature.
-A test coverage report for the JavaScript code is generated in the `coverage/lcov-report` directory.
 Please also update the [TypeScript definitions](https://github.com/lovell/sharp/tree/main/lib/index.d.ts), along with the [type definition tests](https://github.com/lovell/sharp/tree/main/test/types/sharp.test-d.ts).
 
 Where possible, the functional tests use gradient-based perceptual hashes

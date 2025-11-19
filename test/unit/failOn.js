@@ -1,19 +1,20 @@
-// Copyright 2013 Lovell Fuller and others.
-// SPDX-License-Identifier: Apache-2.0
+/*!
+  Copyright 2013 Lovell Fuller and others.
+  SPDX-License-Identifier: Apache-2.0
+*/
 
-'use strict';
-
-const assert = require('assert');
-const fs = require('fs');
+const { describe, it } = require('node:test');
+const assert = require('node:assert');
+const fs = require('node:fs');
 
 const sharp = require('../../lib');
 const fixtures = require('../fixtures');
 
 describe('failOn', () => {
-  it('handles truncated JPEG', function (done) {
+  it('handles truncated JPEG', (_t, done) => {
     sharp(fixtures.inputJpgTruncated, { failOn: 'none' })
       .resize(32, 24)
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual('jpeg', info.format);
         assert.strictEqual(32, info.width);
@@ -22,17 +23,17 @@ describe('failOn', () => {
       });
   });
 
-  it('handles truncated PNG, emits warnings', function (done) {
+  it('handles truncated PNG, emits warnings', (_t, done) => {
     let isWarningEmitted = false;
     sharp(fixtures.inputPngTruncated, { failOn: 'none' })
-      .on('warning', function (warning) {
+      .on('warning', (warning) => {
         assert.ok(
           ['read gave 2 warnings', 'not enough data', 'end of stream']
             .some(m => warning.includes(m)));
         isWarningEmitted = true;
       })
       .resize(32, 24)
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, _data, info) => {
         if (err) throw err;
         assert.strictEqual(true, isWarningEmitted);
         assert.strictEqual('png', info.format);
@@ -70,8 +71,8 @@ describe('failOn', () => {
     );
   });
 
-  it('returns errors to callback for truncated JPEG', function (done) {
-    sharp(fixtures.inputJpgTruncated, { failOn: 'truncated' }).toBuffer(function (err, data, info) {
+  it('returns errors to callback for truncated JPEG', (_t, done) => {
+    sharp(fixtures.inputJpgTruncated, { failOn: 'truncated' }).toBuffer((err, data, info) => {
       assert.ok(err.message.includes('VipsJpeg: premature end of'), err);
       assert.strictEqual(data, undefined);
       assert.strictEqual(info, undefined);
@@ -79,8 +80,8 @@ describe('failOn', () => {
     });
   });
 
-  it('returns errors to callback for truncated PNG', function (done) {
-    sharp(fixtures.inputPngTruncated, { failOn: 'truncated' }).toBuffer(function (err, data, info) {
+  it('returns errors to callback for truncated PNG', (_t, done) => {
+    sharp(fixtures.inputPngTruncated, { failOn: 'truncated' }).toBuffer((err, data, info) => {
       assert.ok(err.message.includes('read error'), err);
       assert.strictEqual(data, undefined);
       assert.strictEqual(info, undefined);
@@ -88,7 +89,7 @@ describe('failOn', () => {
     });
   });
 
-  it('rejects promises for truncated JPEG', function (done) {
+  it('rejects promises for truncated JPEG', (_t, done) => {
     sharp(fixtures.inputJpgTruncated, { failOn: 'error' })
       .toBuffer()
       .then(() => {
@@ -103,5 +104,12 @@ describe('failOn', () => {
     const writable = sharp({ failOn: 'none' }).resize(32, 24);
     fs.createReadStream(fixtures.inputJpgTruncated).pipe(writable);
     return writable.toBuffer();
+  });
+
+  it('converts warnings to error for GeoTIFF', async () => {
+    await assert.rejects(
+      sharp(fixtures.inputTiffGeo).toBuffer(),
+      /Tag 34737/
+    );
   });
 });

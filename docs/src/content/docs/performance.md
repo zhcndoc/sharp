@@ -6,8 +6,8 @@ title: 性能
 
 Node.js 在处理对原生模块（如 sharp）的异步调用时使用 libuv 管理的线程池。
 
-sharp 可以并行处理的最大图像数量由 libuv 的 
-[`UV_THREADPOOL_SIZE`](https://nodejs.org/api/cli.html#uv_threadpool_sizesize) 
+sharp 可以并行处理的最大图像数量由 libuv 的
+[`UV_THREADPOOL_SIZE`](https://nodejs.org/api/cli.html#uv_threadpool_sizesize)
 环境变量控制，默认值为 4。
 
 当使用超过 4 个物理 CPU 核心时，应在 Node.js 进程启动前设置此环境变量，以增加线程池大小。
@@ -16,7 +16,9 @@ sharp 可以并行处理的最大图像数量由 libuv 的
 export UV_THREADPOOL_SIZE="$(lscpu -p | egrep -v "^#" | sort -u -t, -k 2,4 | wc -l)"
 ```
 
-libvips 使用 glib 管理的线程池来避免频繁创建新线程带来的开销。
+libvips 使用共享线程池来避免创建新线程的开销。
+
+该线程池的大小会根据需求增长，并在空闲时缩小。
 
 默认用于并发处理每张图像的线程数与 CPU 核心数量相同，
 但在使用基于 glibc 的 Linux 且未使用 jemalloc 的情况下，默认线程数为 `1`，以帮助减少内存碎片。
@@ -25,7 +27,7 @@ libvips 使用 glib 管理的线程池来避免频繁创建新线程带来的开
 
 在使用默认的 Linux glibc 内存分配器时，为减少内存碎片，
 应在 Node.js 进程启动前设置
-[`MALLOC_ARENA_MAX`](https://www.gnu.org/software/libc/manual/html_node/Memory-Allocation-Tunables.html)
+[`MALLOC_ARENA_MAX`](https://sourceware.org/glibc/manual/latest/html_node/Memory-Allocation-Tunables.html)
 环境变量以减少内存池数量。
 
 ```sh frame="none"

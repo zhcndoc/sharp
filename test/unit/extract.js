@@ -1,18 +1,19 @@
-// Copyright 2013 Lovell Fuller and others.
-// SPDX-License-Identifier: Apache-2.0
+/*!
+  Copyright 2013 Lovell Fuller and others.
+  SPDX-License-Identifier: Apache-2.0
+*/
 
-'use strict';
-
-const assert = require('assert');
+const { describe, it } = require('node:test');
+const assert = require('node:assert');
 
 const sharp = require('../../');
 const fixtures = require('../fixtures');
 
-describe('Partial image extraction', function () {
-  it('JPEG', function (done) {
+describe('Partial image extraction', () => {
+  it('JPEG', (_t, done) => {
     sharp(fixtures.inputJpg)
       .extract({ left: 2, top: 2, width: 20, height: 20 })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(20, info.width);
         assert.strictEqual(20, info.height);
@@ -20,10 +21,10 @@ describe('Partial image extraction', function () {
       });
   });
 
-  it('PNG', function (done) {
+  it('PNG', (_t, done) => {
     sharp(fixtures.inputPng)
       .extract({ left: 200, top: 300, width: 400, height: 200 })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(400, info.width);
         assert.strictEqual(200, info.height);
@@ -31,10 +32,10 @@ describe('Partial image extraction', function () {
       });
   });
 
-  it('WebP', function (done) {
+  it('WebP', (_t, done) => {
     sharp(fixtures.inputWebP)
       .extract({ left: 100, top: 50, width: 125, height: 200 })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(125, info.width);
         assert.strictEqual(200, info.height);
@@ -42,12 +43,12 @@ describe('Partial image extraction', function () {
       });
   });
 
-  describe('Animated WebP', function () {
-    it('Before resize', function (done) {
+  describe('Animated WebP', () => {
+    it('Before resize', (_t, done) => {
       sharp(fixtures.inputWebPAnimated, { pages: -1 })
         .extract({ left: 0, top: 30, width: 80, height: 20 })
         .resize(320, 80)
-        .toBuffer(function (err, data, info) {
+        .toBuffer((err, data, info) => {
           if (err) throw err;
           assert.strictEqual(320, info.width);
           assert.strictEqual(80 * 9, info.height);
@@ -55,11 +56,11 @@ describe('Partial image extraction', function () {
         });
     });
 
-    it('After resize', function (done) {
+    it('After resize', (_t, done) => {
       sharp(fixtures.inputWebPAnimated, { pages: -1 })
         .resize(320, 320)
         .extract({ left: 0, top: 120, width: 320, height: 80 })
-        .toBuffer(function (err, data, info) {
+        .toBuffer((err, data, info) => {
           if (err) throw err;
           assert.strictEqual(320, info.width);
           assert.strictEqual(80 * 9, info.height);
@@ -68,10 +69,10 @@ describe('Partial image extraction', function () {
     });
   });
 
-  it('TIFF', function (done) {
+  it('TIFF', (_t, done) => {
     sharp(fixtures.inputTiff)
       .extract({ left: 34, top: 63, width: 341, height: 529 })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(341, info.width);
         assert.strictEqual(529, info.height);
@@ -79,11 +80,11 @@ describe('Partial image extraction', function () {
       });
   });
 
-  it('Before resize', function (done) {
+  it('Before resize', (_t, done) => {
     sharp(fixtures.inputJpg)
       .extract({ left: 10, top: 10, width: 10, height: 500 })
       .resize(100, 100)
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(100, info.width);
         assert.strictEqual(100, info.height);
@@ -91,13 +92,13 @@ describe('Partial image extraction', function () {
       });
   });
 
-  it('After resize and crop', function (done) {
+  it('After resize and crop', (_t, done) => {
     sharp(fixtures.inputJpg)
       .resize(500, 500, {
         position: sharp.gravity.north
       })
       .extract({ left: 10, top: 10, width: 100, height: 100 })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(100, info.width);
         assert.strictEqual(100, info.height);
@@ -105,14 +106,14 @@ describe('Partial image extraction', function () {
       });
   });
 
-  it('Before and after resize and crop', function (done) {
+  it('Before and after resize and crop', (_t, done) => {
     sharp(fixtures.inputJpg)
       .extract({ left: 0, top: 0, width: 700, height: 700 })
       .resize(500, 500, {
         position: sharp.gravity.north
       })
       .extract({ left: 10, top: 10, width: 100, height: 100 })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(100, info.width);
         assert.strictEqual(100, info.height);
@@ -120,12 +121,12 @@ describe('Partial image extraction', function () {
       });
   });
 
-  it('Extract then rotate', function (done) {
+  it('Extract then rotate', (_t, done) => {
     sharp(fixtures.inputPngWithGreyAlpha)
       .extract({ left: 20, top: 10, width: 380, height: 280 })
       .rotate(90)
       .jpeg()
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(280, info.width);
         assert.strictEqual(380, info.height);
@@ -133,11 +134,11 @@ describe('Partial image extraction', function () {
       });
   });
 
-  it('Rotate then extract', function (done) {
+  it('Rotate then extract', (_t, done) => {
     sharp(fixtures.inputPngWithGreyAlpha)
       .rotate(90)
       .extract({ left: 20, top: 10, width: 280, height: 380 })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(280, info.width);
         assert.strictEqual(380, info.height);
@@ -145,12 +146,12 @@ describe('Partial image extraction', function () {
       });
   });
 
-  it('Extract then rotate then extract', function (done) {
+  it('Extract then rotate then extract', (_t, done) => {
     sharp(fixtures.inputPngWithGreyAlpha)
       .extract({ left: 20, top: 10, width: 180, height: 280 })
       .rotate(90)
       .extract({ left: 20, top: 10, width: 200, height: 100 })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(200, info.width);
         assert.strictEqual(100, info.height);
@@ -158,12 +159,12 @@ describe('Partial image extraction', function () {
       });
   });
 
-  it('Extract then rotate non-90 anagle', function (done) {
+  it('Extract then rotate non-90 anagle', (_t, done) => {
     sharp(fixtures.inputPngWithGreyAlpha)
       .extract({ left: 20, top: 10, width: 380, height: 280 })
       .rotate(45)
       .jpeg()
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(467, info.width);
         assert.strictEqual(467, info.height);
@@ -171,12 +172,12 @@ describe('Partial image extraction', function () {
       });
   });
 
-  it('Rotate then extract non-90 angle', function (done) {
+  it('Rotate then extract non-90 angle', (_t, done) => {
     sharp(fixtures.inputPngWithGreyAlpha)
       .rotate(45)
       .extract({ left: 20, top: 10, width: 380, height: 280 })
       .jpeg()
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(380, info.width);
         assert.strictEqual(280, info.height);
@@ -219,11 +220,11 @@ describe('Partial image extraction', function () {
         image: fixtures.inputJpgWithLandscapeExif8
       }
     ].forEach(({ name, image }) => {
-      it(name, function (done) {
+      it(name, (_t, done) => {
         sharp(image)
           .rotate()
           .extract({ left: 0, top: 208, width: 60, height: 40 })
-          .toBuffer(function (err, data) {
+          .toBuffer((err, data) => {
             if (err) throw err;
             fixtures.assertSimilar(fixtures.expected('rotate-mirror-extract.jpg'), data, done);
           });
@@ -231,67 +232,67 @@ describe('Partial image extraction', function () {
     });
   });
 
-  describe('Invalid parameters', function () {
-    describe('using the legacy extract(top,left,width,height) syntax', function () {
-      it('String top', function () {
-        assert.throws(function () {
+  describe('Invalid parameters', () => {
+    describe('using the legacy extract(top,left,width,height) syntax', () => {
+      it('String top', () => {
+        assert.throws(() => {
           sharp(fixtures.inputJpg).extract('spoons', 10, 10, 10);
         });
       });
 
-      it('Non-integral left', function () {
-        assert.throws(function () {
+      it('Non-integral left', () => {
+        assert.throws(() => {
           sharp(fixtures.inputJpg).extract(10, 10.2, 10, 10);
         });
       });
 
-      it('Negative width - negative', function () {
-        assert.throws(function () {
+      it('Negative width - negative', () => {
+        assert.throws(() => {
           sharp(fixtures.inputJpg).extract(10, 10, -10, 10);
         });
       });
 
-      it('Null height', function () {
-        assert.throws(function () {
+      it('Null height', () => {
+        assert.throws(() => {
           sharp(fixtures.inputJpg).extract(10, 10, 10, null);
         });
       });
     });
 
-    it('Undefined', function () {
-      assert.throws(function () {
+    it('Undefined', () => {
+      assert.throws(() => {
         sharp(fixtures.inputJpg).extract();
       });
     });
 
-    it('String top', function () {
-      assert.throws(function () {
+    it('String top', () => {
+      assert.throws(() => {
         sharp(fixtures.inputJpg).extract({ left: 10, top: 'spoons', width: 10, height: 10 });
       });
     });
 
-    it('Non-integral left', function () {
-      assert.throws(function () {
+    it('Non-integral left', () => {
+      assert.throws(() => {
         sharp(fixtures.inputJpg).extract({ left: 10.2, top: 10, width: 10, height: 10 });
       });
     });
 
-    it('Negative width - negative', function () {
-      assert.throws(function () {
+    it('Negative width - negative', () => {
+      assert.throws(() => {
         sharp(fixtures.inputJpg).extract({ left: 10, top: 10, width: -10, height: 10 });
       });
     });
 
-    it('Null height', function () {
-      assert.throws(function () {
+    it('Null height', () => {
+      assert.throws(() => {
         sharp(fixtures.inputJpg).extract({ left: 10, top: 10, width: 10, height: null });
       });
     });
 
-    it('Bad image area', function (done) {
+    it('Bad image area', (_t, done) => {
       sharp(fixtures.inputJpg)
         .extract({ left: 3000, top: 10, width: 10, height: 10 })
-        .toBuffer(function (err) {
+        .toBuffer((err) => {
           assert(err instanceof Error);
           assert.strictEqual(err.message, 'extract_area: bad extract area');
           done();
@@ -301,7 +302,7 @@ describe('Partial image extraction', function () {
     it('Multiple extract emits warning', () => {
       let warningMessage = '';
       const s = sharp();
-      s.on('warning', function (msg) { warningMessage = msg; });
+      s.on('warning', (msg) => { warningMessage = msg; });
       const options = { top: 0, left: 0, width: 1, height: 1 };
       s.extract(options).extract(options);
       assert.strictEqual(warningMessage, '');
@@ -312,7 +313,7 @@ describe('Partial image extraction', function () {
     it('Multiple rotate+extract emits warning', () => {
       let warningMessage = '';
       const s = sharp().rotate();
-      s.on('warning', function (msg) { warningMessage = msg; });
+      s.on('warning', (msg) => { warningMessage = msg; });
       const options = { top: 0, left: 0, width: 1, height: 1 };
       s.extract(options).extract(options);
       assert.strictEqual(warningMessage, '');
@@ -323,7 +324,7 @@ describe('Partial image extraction', function () {
     it('Multiple extract+resize emits warning', () => {
       let warningMessage = '';
       const s = sharp();
-      s.on('warning', function (msg) { warningMessage = msg; });
+      s.on('warning', (msg) => { warningMessage = msg; });
       const options = { top: 0, left: 0, width: 1, height: 1 };
       s.extract(options).extract(options);
       assert.strictEqual(warningMessage, '');

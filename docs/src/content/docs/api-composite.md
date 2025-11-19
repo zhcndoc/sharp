@@ -14,13 +14,13 @@ title: 合成图像
 
 `blend` 选项可以是 `clear`、`source`、`over`、`in`、`out`、`atop`、`dest`、`dest-over`、`dest-in`、`dest-out`、`dest-atop`、`xor`、`add`、`saturate`、`multiply`、`screen`、`overlay`、`darken`、`lighten`、`colour-dodge`、`color-dodge`、`colour-burn`、`color-burn`、`hard-light`、`soft-light`、`difference`、`exclusion`。
 
-有关混合模式的更多信息，请访问 https://www.libvips.org/API/current/libvips-conversion.html#VipsBlendMode 和 https://www.cairographics.org/operators/
+有关混合模式的更多信息，请访问 https://www.libvips.org/API/current/enum.BlendMode.html 和 https://www.cairographics.org/operators/
 
 **抛出**：
 
 - <code>Error</code> 无效参数
 
-**自**: 0.22.0  
+**自**: 0.22.0
 
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
@@ -55,10 +55,10 @@ title: 合成图像
 | [images[].raw.height] | <code>Number</code> |  |  |
 | [images[].raw.channels] | <code>Number</code> |  |  |
 | [images[].animated] | <code>boolean</code> | <code>false</code> | 设置为 `true` 以读取动画图像的所有帧/页面。 |
-| [images[].failOn] | <code>string</code> | <code>&quot;&#x27;warning&#x27;&quot;</code> | @see [构造函数参数](/api-constructor#parameters) |
-| [images[].limitInputPixels] | <code>number</code> \| <code>boolean</code> | <code>268402689</code> | @see [构造函数参数](/api-constructor#parameters) |
+| [images[].failOn] | <code>string</code> | <code>&quot;&#x27;warning&#x27;&quot;</code> | @see [构造函数参数](/api-constructor/) |
+| [images[].limitInputPixels] | <code>number</code> \| <code>boolean</code> | <code>268402689</code> | @see [构造函数参数](/api-constructor/) |
 
-**示例**  
+**示例**
 ```js
 await sharp(background)
   .composite([
@@ -67,7 +67,7 @@ await sharp(background)
   ])
   .toFile('combined.png');
 ```
-**示例**  
+**示例**
 ```js
 const output = await sharp('input.gif', { animated: true })
   .composite([
@@ -75,7 +75,7 @@ const output = await sharp('input.gif', { animated: true })
   ])
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 sharp('input.png')
   .rotate(180)
@@ -87,7 +87,7 @@ sharp('input.png')
   .webp( { quality: 90 } )
   .toBuffer()
   .then(function(outputBuffer) {
-    // outputBuffer 包含上下颠倒、宽 300px、alpha 通道被扁平化到橙色背景， 
+    // outputBuffer 包含上下颠倒、宽 300px、alpha 通道被扁平化到橙色背景，
     // 与 overlay.png 叠加，重力为东南，锐化，带有元数据，90% 质量的 WebP 图像数据。太棒了！
   });
 ```

@@ -1,11 +1,11 @@
-// Copyright 2013 Lovell Fuller and others.
-// SPDX-License-Identifier: Apache-2.0
-
-'use strict';
+/*!
+  Copyright 2013 Lovell Fuller and others.
+  SPDX-License-Identifier: Apache-2.0
+*/
 
 process.env.UV_THREADPOOL_SIZE = 64;
 
-const assert = require('assert');
+const assert = require('node:assert');
 const async = require('async');
 
 const sharp = require('../../');
@@ -16,32 +16,29 @@ const height = 480;
 
 sharp.concurrency(1);
 
-const timer = setInterval(function () {
+const timer = setInterval(() => {
   console.dir(sharp.counters());
 }, 100);
 
-async.mapSeries([1, 1, 2, 4, 8, 16, 32, 64], function (parallelism, next) {
-  const start = new Date().getTime();
+async.mapSeries([1, 1, 2, 4, 8, 16, 32, 64], (parallelism, next) => {
+  const start = Date.now();
   async.times(parallelism,
-    function (id, callback) {
-      /* jslint unused: false */
-      sharp(fixtures.inputJpg).resize(width, height).toBuffer(function (err, buffer) {
+    (_id, callback) => {
+      sharp(fixtures.inputJpg).resize(width, height).toBuffer((err, buffer) => {
         buffer = null;
-        callback(err, new Date().getTime() - start);
+        callback(err, Date.now() - start);
       });
     },
-    function (err, ids) {
+    (err, ids) => {
       assert(!err);
       assert(ids.length === parallelism);
       ids.sort();
-      const mean = ids.reduce(function (a, b) {
-        return a + b;
-      }) / ids.length;
-      console.log(parallelism + ' parallel calls: fastest=' + ids[0] + 'ms slowest=' + ids[ids.length - 1] + 'ms mean=' + mean + 'ms');
+      const mean = ids.reduce((a, b) => a + b) / ids.length;
+      console.log(`${parallelism} parallel calls: fastest=${ids[0]}ms slowest=${ids[ids.length - 1]}ms mean=${mean}ms`);
       next();
     }
   );
-}, function () {
+}, () => {
   clearInterval(timer);
   console.dir(sharp.counters());
 });

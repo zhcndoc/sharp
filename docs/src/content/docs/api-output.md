@@ -16,7 +16,7 @@ title: 输出选项
 
 当未提供 `callback` 时，将返回一个 `Promise`。
 
-**返回**: <code>Promise.&lt;Object&gt;</code> - 未提供回调时  
+**返回**: <code>Promise.&lt;Object&gt;</code> - 未提供回调时
 **抛出**:
 
 - <code>Error</code> 无效参数
@@ -27,12 +27,12 @@ title: 输出选项
 | fileOut | <code>string</code> | 写入图像数据的路径。 |
 | [callback] | <code>function</code> | 完成时调用，传递两个参数 `(err, info)`。`info` 包含输出图像的 `format`、`size`（字节）、`width`、`height`、`channels` 和 `premultiplied`（指示是否使用了预乘）。当使用裁剪策略时，还包含 `cropOffsetLeft` 和 `cropOffsetTop`。使用注意裁剪策略时，还包含 `attentionX` 和 `attentionY`，表示裁剪区域的焦点。动画输出还将包含 `pageHeight` 和 `pages`。如果图像是从文本创建的，也可能包含 `textAutofitDpi`（字体渲染时的 DPI）。 |
 
-**示例**  
+**示例**
 ```js
 sharp(input)
   .toFile('output.png', (err, info) => { ... });
 ```
-**示例**  
+**示例**
 ```js
 sharp(input)
   .toFile('output.png')
@@ -59,7 +59,7 @@ sharp(input)
 
 当未提供 `callback` 时，将返回一个 `Promise`。
 
-**返回**: <code>Promise.&lt;Buffer&gt;</code> - 未提供回调时  
+**返回**: <code>Promise.&lt;Buffer&gt;</code> - 未提供回调时
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
@@ -67,19 +67,19 @@ sharp(input)
 | [options.resolveWithObject] | <code>boolean</code> | 用包含 `data` 和 `info` 属性的对象解析 Promise，而不是仅用 `data`。 |
 | [callback] | <code>function</code> |  |
 
-**示例**  
+**示例**
 ```js
 sharp(input)
   .toBuffer((err, data, info) => { ... });
 ```
-**示例**  
+**示例**
 ```js
 sharp(input)
   .toBuffer()
   .then(data => { ... })
   .catch(err => { ... });
 ```
-**示例**  
+**示例**
 ```js
 sharp(input)
   .png()
@@ -87,7 +87,7 @@ sharp(input)
   .then(({ data, info }) => { ... })
   .catch(err => { ... });
 ```
-**示例**  
+**示例**
 ```js
 const { data, info } = await sharp('my-image.jpg')
   // 输出原始像素
@@ -114,8 +114,8 @@ await sharp(pixelArray, { raw: { width, height, channels } })
 TIFF 输出不支持 EXIF 元数据。
 
 
-**自**: 0.33.0  
-**示例**  
+**自**: 0.33.0
+**示例**
 ```js
 const outputWithExif = await sharp(inputWithExif)
   .keepExif()
@@ -133,13 +133,13 @@ const outputWithExif = await sharp(inputWithExif)
 
 - <code>Error</code> 无效参数
 
-**自**: 0.33.0  
+**自**: 0.33.0
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | exif | <code>Object.&lt;string, Object.&lt;string, string&gt;&gt;</code> | 按 IFD0、IFD1 等键入的对象，键值对写入为 EXIF 数据。 |
 
-**示例**  
+**示例**
 ```js
 const dataWithExif = await sharp(input)
   .withExif({
@@ -167,13 +167,13 @@ const dataWithExif = await sharp(input)
 
 - <code>Error</code> 无效参数
 
-**自**: 0.33.0  
+**自**: 0.33.0
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | exif | <code>Object.&lt;string, Object.&lt;string, string&gt;&gt;</code> | 按 IFD0、IFD1 等键入的对象，键值对写入为 EXIF 数据。 |
 
-**示例**  
+**示例**
 ```js
 const dataWithMergedExif = await sharp(inputWithExif)
   .withExifMerge({
@@ -190,13 +190,21 @@ const dataWithMergedExif = await sharp(inputWithExif)
 
 在输出图像中保留输入图像的 ICC 配置文件。
 
-如有必要，将尝试将输出颜色空间转换以匹配该配置文件。
+当输入和输出色彩空间不同时，请与[toColourspace](/api-colour/#tocolourspace)一起使用，并可选择性地使用[pipelineColourspace](/api-colour/#pipelinecolourspace)。
 
 
-**自**: 0.33.0  
-**示例**  
+**自**: 0.33.0
+**示例**
 ```js
 const outputWithIccProfile = await sharp(inputWithIccProfile)
+  .keepIccProfile()
+  .toBuffer();
+```
+**Example**
+```js
+const cmykOutputWithIccProfile = await sharp(cmykInputWithIccProfile)
+  .pipelineColourspace('cmyk')
+  .toColourspace('cmyk')
   .keepIccProfile()
   .toBuffer();
 ```
@@ -214,7 +222,7 @@ const outputWithIccProfile = await sharp(inputWithIccProfile)
 
 - <code>Error</code> 无效参数
 
-**自**: 0.33.0  
+**自**: 0.33.0
 
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
@@ -222,7 +230,7 @@ const outputWithIccProfile = await sharp(inputWithIccProfile)
 | [options] | <code>Object</code> |  |  |
 | [options.attach] | <code>number</code> | <code>true</code> | 是否将 ICC 配置文件包含在输出图像的元数据中？ |
 
-**示例**  
+**示例**
 ```js
 const outputWithP3 = await sharp(input)
   .withIccProfile('p3')
@@ -236,8 +244,8 @@ const outputWithP3 = await sharp(input)
 在输出图像中保留输入图像的 XMP 元数据。
 
 
-**自**: 0.34.3  
-**示例**  
+**自**: 0.34.3
+**示例**
 ```js
 const outputWithXmp = await sharp(inputWithXmp)
   .keepXmp()
@@ -257,13 +265,13 @@ const outputWithXmp = await sharp(inputWithXmp)
 
 - <code>Error</code> Invalid parameters
 
-**Since**: 0.34.3  
+**Since**: 0.34.3
 
 | Param | Type | Description |
 | --- | --- | --- |
 | xmp | <code>string</code> | 包含要嵌入输出图像的 XMP 元数据的字符串。 |
 
-**示例**  
+**示例**
 ```js
 const xmpString = `
   <?xml version="1.0"?>
@@ -289,8 +297,8 @@ const data = await sharp(input)
 当未使用 `keepMetadata` 时，默认行为是转换为设备独立的 sRGB 颜色空间并剥离所有元数据，包括移除任何 ICC 配置文件。
 
 
-**自**: 0.33.0  
-**示例**  
+**自**: 0.33.0
+**示例**
 ```js
 const outputWithMetadata = await sharp(inputWithMetadata)
   .keepMetadata()
@@ -319,13 +327,13 @@ const outputWithMetadata = await sharp(inputWithMetadata)
 | [options.orientation] | <code>number</code> | 用于更新 EXIF `Orientation` 标签，整数在 1 和 8 之间。 |
 | [options.density] | <code>number</code> | 每英寸的像素数（DPI）。 |
 
-**示例**  
+**示例**
 ```js
 const outputSrgbWithMetadata = await sharp(inputRgbWithMetadata)
   .withMetadata()
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 // 将输出元数据设置为 96 DPI
 const data = await sharp(input)
@@ -350,7 +358,7 @@ const data = await sharp(input)
 | format | <code>string</code> \| <code>Object</code> | 作为字符串或带有 'id' 属性的对象 |
 | options | <code>Object</code> | 输出选项 |
 
-**示例**  
+**示例**
 ```js
 // 将任何输入转换为 PNG 输出
 const data = await sharp(input)
@@ -387,7 +395,7 @@ const data = await sharp(input)
 | [options.quantizationTable] | <code>number</code> | <code>0</code> | 量化表的另一种拼写 |
 | [options.force] | <code>boolean</code> | <code>true</code> | 强制 JPEG 输出，否则尝试使用输入格式 |
 
-**示例**  
+**示例**
 ```js
 // 将任何输入转换为非常高质量的 JPEG 输出
 const data = await sharp(input)
@@ -397,7 +405,7 @@ const data = await sharp(input)
   })
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 // 使用 mozjpeg 减小输出 JPEG 文件大小（较慢）
 const data = await sharp(input)
@@ -416,7 +424,7 @@ const data = await sharp(input)
 1、2 或 4 位每像素的索引 PNG 输入转换为 8 位每像素。
 设置 `palette` 为 `true` 以获取较慢、索引的 PNG 输出。
 
-对于 16 位每像素输出，通过 [toColourspace](/api-colour#tocolourspace) 转换为 `rgb16`。
+对于 16 位每像素输出，通过 [toColourspace](/api-colour/#tocolourspace) 转换为 `rgb16`。
 
 
 **抛出**:
@@ -438,21 +446,21 @@ const data = await sharp(input)
 | [options.dither] | <code>number</code> | <code>1.0</code> | Floyd-Steinberg 错误扩散的水平，设置 `palette` 为 `true` |
 | [options.force] | <code>boolean</code> | <code>true</code> | 强制 PNG 输出，否则尝试使用输入格式 |
 
-**示例**  
+**示例**
 ```js
 // 将任何输入转换为全彩色 PNG 输出
 const data = await sharp(input)
   .png()
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 // 将任何输入转换为索引 PNG 输出（较慢）
 const data = await sharp(input)
   .png({ palette: true })
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 // 输出 16 位每像素 RGB(A)
 const data = await sharp(input)
@@ -490,14 +498,14 @@ const data = await sharp(input)
 | [options.mixed] | <code>boolean</code> | <code>false</code> | 允许损失和无损动画帧的混合（较慢） |
 | [options.force] | <code>boolean</code> | <code>true</code> | 强制 WebP 输出，否则尝试使用输入格式 |
 
-**示例**  
+**示例**
 ```js
 // 将任何输入转换为无损 WebP 输出
 const data = await sharp(input)
   .webp({ lossless: true })
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 // 优化动画 WebP 的文件大小
 const outputWebp = await sharp(inputWebp, { animated: true })
@@ -520,7 +528,7 @@ const outputWebp = await sharp(inputWebp, { animated: true })
 
 - <code>Error</code> 无效选项
 
-**自**: 0.30.0  
+**自**: 0.30.0
 
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
@@ -538,20 +546,20 @@ const outputWebp = await sharp(inputWebp, { animated: true })
 | [options.delay] | <code>number</code> \| <code>Array.&lt;number&gt;</code> |  | 动画帧之间的延迟（以毫秒为单位） |
 | [options.force] | <code>boolean</code> | <code>true</code> | 强制 GIF 输出，否则尝试使用输入格式 |
 
-**示例**  
+**示例**
 ```js
 // 将 PNG 转换为 GIF
 await sharp(pngBuffer)
   .gif()
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 // 将动画 WebP 转换为动画 GIF
 await sharp('animated.webp', { animated: true })
   .toFile('animated.gif');
 ```
-**示例**  
+**示例**
 ```js
 // 创建一个 128x128 像素、裁剪的、非抖动的动画缩略图
 const out = await sharp('in.gif', { animated: true })
@@ -559,7 +567,7 @@ const out = await sharp('in.gif', { animated: true })
   .gif({ dither: 0 })
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 // 动画 GIF 的有损文件大小缩减
 await sharp('in.gif', { animated: true })
@@ -575,14 +583,14 @@ await sharp('in.gif', { animated: true })
 
 需要使用 OpenJPEG 编译的 libvips。
 预构建的二进制文件不包括此项 - 请参阅
-[安装自定义 libvips](https://sharp.pixelplumbing.com/install#custom-libvips)。
+[安装自定义 libvips](/install#custom-libvips)。
 
 
 **抛出**:
 
 - <code>Error</code> 无效选项
 
-**自**: 0.29.1  
+**自**: 0.29.1
 
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
@@ -593,14 +601,14 @@ await sharp('in.gif', { animated: true })
 | [options.tileHeight] | <code>number</code> | <code>512</code> | 垂直瓦片大小 |
 | [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:4:4&#x27;&quot;</code> | 设置为 '4:2:0' 以使用色度子采样 |
 
-**示例**  
+**示例**
 ```js
 // 将任何输入转换为无损 JP2 输出
 const data = await sharp(input)
   .jp2({ lossless: true })
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 // 将任何输入转换为非常高质量 JP2 输出
 const data = await sharp(input)
@@ -631,6 +639,7 @@ const data = await sharp(input)
 | [options.quality] | <code>number</code> | <code>80</code> | 质量，整数 1-100 |
 | [options.force] | <code>boolean</code> | <code>true</code> | 强制 TIFF 输出，否则尝试使用输入格式 |
 | [options.compression] | <code>string</code> | <code>&quot;&#x27;jpeg&#x27;&quot;</code> | 压缩选项：none、jpeg、deflate、packbits、ccittfax4、lzw、webp、zstd、jp2k |
+| [options.bigtiff] | <code>boolean</code> | <code>false</code> | 使用 BigTIFF 变体（当压缩为 none 时无效） |
 | [options.predictor] | <code>string</code> | <code>&quot;&#x27;horizontal&#x27;&quot;</code> | 压缩预测选项：none、horizontal、float |
 | [options.pyramid] | <code>boolean</code> | <code>false</code> | 写入图像金字塔 |
 | [options.tile] | <code>boolean</code> | <code>false</code> | 写入切片 TIFF |
@@ -642,7 +651,7 @@ const data = await sharp(input)
 | [options.bitdepth] | <code>number</code> | <code>8</code> | 将位深度减少到 1、2 或 4 位 |
 | [options.miniswhite] | <code>boolean</code> | <code>false</code> | 以白色小图像表示 1 位图像 |
 
-**示例**  
+**示例**
 ```js
 // 将 SVG 输入转换为 LZW 压缩、每像素 1 位 TIFF 输出
 sharp('input.svg')
@@ -669,7 +678,7 @@ sharp('input.svg')
 
 - <code>Error</code> 无效选项
 
-**自**: 0.27.0  
+**自**: 0.27.0
 
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
@@ -680,13 +689,13 @@ sharp('input.svg')
 | [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:4:4&#x27;&quot;</code> | 设置为 '4:2:0' 以使用色度子采样 |
 | [options.bitdepth] | <code>number</code> | <code>8</code> | 将位深度设置为 8、10 或 12 位 |
 
-**示例**  
+**示例**
 ```js
 const data = await sharp(input)
   .avif({ effort: 2 })
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 const data = await sharp(input)
   .avif({ lossless: true })
@@ -706,7 +715,7 @@ const data = await sharp(input)
 
 - <code>Error</code> 无效选项
 
-**自**: 0.23.0  
+**自**: 0.23.0
 
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
@@ -718,7 +727,7 @@ const data = await sharp(input)
 | [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:4:4&#x27;&quot;</code> | 设置为 '4:2:0' 以使用色度子采样 |
 | [options.bitdepth] | <code>number</code> | <code>8</code> | 将位深度设置为 8、10 或 12 位 |
 
-**示例**  
+**示例**
 ```js
 const data = await sharp(input)
   .heif({ compression: 'hevc' })
@@ -735,14 +744,14 @@ const data = await sharp(input)
 
 需要支持 libjxl 的 libvips 编译。
 预构建的二进制文件不包括此项 - 请参阅
-[安装自定义 libvips](https://sharp.pixelplumbing.com/install#custom-libvips)。
+[安装自定义 libvips](/install/#custom-libvips)。
 
 
 **抛出**:
 
 - <code>Error</code> 无效选项
 
-**自**: 0.31.3  
+**自**: 0.31.3
 
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
@@ -775,14 +784,14 @@ const data = await sharp(input)
 | [options] | <code>Object</code> |  | 输出选项 |
 | [options.depth] | <code>string</code> | <code>&quot;&#x27;uchar&#x27;&quot;</code> | 位深度，值之一：char、uchar（默认）、short、ushort、int、uint、float、complex、double、dpcomplex |
 
-**示例**  
+**示例**
 ```js
 // 从 JPEG 输入提取原始的无符号 8 位 RGB 像素数据
 const { data, info } = await sharp('input.jpg')
   .raw()
   .toBuffer({ resolveWithObject: true });
 ```
-**示例**  
+**示例**
 ```js
 // 从 PNG 输入提取 alpha 通道作为原始的无符号 16 位像素数据
 const data = await sharp('input.png')
@@ -826,7 +835,7 @@ const data = await sharp('input.png')
 | [options.id] | <code>string</code> | <code>&quot;&#x27;https://example.com/iiif&#x27;&quot;</code> | 当 `layout` 为 `iiif`/`iiif3` 时，设置 `info.json` 的 `@id`/`id` 属性 |
 | [options.basename] | <code>string</code> |  | 当容器为 zip 时，zip 文件中的目录名称。 |
 
-**示例**  
+**示例**
 ```js
 sharp('input.tiff')
   .png()
@@ -838,13 +847,13 @@ sharp('input.tiff')
     // output_files 包含按缩放级别分组的 512x512 瓦片
   });
 ```
-**示例**  
+**示例**
 ```js
 const zipFileWithTiles = await sharp(input)
   .tile({ basename: "tiles" })
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 const iiififier = sharp().tile({ layout: "iiif" });
 readableStream
@@ -863,14 +872,14 @@ readableStream
 等待 libuv 线程可用的时间不包括在内。
 
 
-**自**: 0.29.2  
+**自**: 0.29.2
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | options | <code>Object</code> |  |
 | options.seconds | <code>number</code> | 超时处理后停止的秒数 |
 
-**示例**  
+**示例**
 ```js
 // 确保处理时间不超过 3 秒
 try {

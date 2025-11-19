@@ -47,6 +47,7 @@ deno run --allow-env --allow-ffi --allow-read --allow-sys ...
 * macOS ARM64
 * Linux ARM (glibc >= 2.31)
 * Linux ARM64 (glibc >= 2.26, musl >= 1.2.2)
+* Linux RISC-V 64-bit (glibc >= 2.41)
 * Linux ppc64 (glibc >= 2.36)
 * Linux s390x (glibc >= 2.36)
 * Linux x64 (glibc >= 2.26, musl >= 1.2.2, 具备 SSE4.2 的 CPU)
@@ -105,10 +106,11 @@ npm install --cpu=x64 --os=linux --libc=musl sharp
 
 ## 从源代码构建
 
-当满足以下任一条件时，模块将在 `npm install` 时从源代码编译：
+当出现以下情况时，此模块将从源代码编译：
 
-* 检测到已全局安装的 libvips，或
-* 使用 `npm install --build-from-source` 标志。
+* 检测到全局安装的 libvips，或
+* 使用 `npm explore sharp -- npm run build`，或
+* 在 `npm install` 时使用已弃用的 `npm run --build-from-source`。
 
 检测全局安装 libvips 的逻辑可通过设置环境变量进行跳过：
 `SHARP_IGNORE_GLOBAL_LIBVIPS`（永远不尝试使用）或

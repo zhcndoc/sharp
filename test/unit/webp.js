@@ -1,20 +1,21 @@
-// Copyright 2013 Lovell Fuller and others.
-// SPDX-License-Identifier: Apache-2.0
+/*!
+  Copyright 2013 Lovell Fuller and others.
+  SPDX-License-Identifier: Apache-2.0
+*/
 
-'use strict';
-
-const fs = require('fs');
-const assert = require('assert');
+const fs = require('node:fs');
+const { describe, it } = require('node:test');
+const assert = require('node:assert');
 
 const sharp = require('../../');
 const fixtures = require('../fixtures');
 
-describe('WebP', function () {
-  it('WebP output', function (done) {
+describe('WebP', () => {
+  it('WebP output', (_t, done) => {
     sharp(fixtures.inputJpg)
       .resize(320, 240)
       .toFormat(sharp.format.webp)
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(true, data.length > 0);
         assert.strictEqual('webp', info.format);
@@ -24,22 +25,22 @@ describe('WebP', function () {
       });
   });
 
-  it('Invalid WebP quality throws error', function () {
-    assert.throws(function () {
+  it('Invalid WebP quality throws error', () => {
+    assert.throws(() => {
       sharp().webp({ quality: 101 });
     });
   });
 
-  it('Invalid WebP alpha quality throws error', function () {
-    assert.throws(function () {
+  it('Invalid WebP alpha quality throws error', () => {
+    assert.throws(() => {
       sharp().webp({ alphaQuality: 101 });
     });
   });
 
-  it('should work for webp alpha quality', function (done) {
+  it('should work for webp alpha quality', (_t, done) => {
     sharp(fixtures.inputPngAlphaPremultiplicationSmall)
       .webp({ alphaQuality: 80, effort: 0 })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(true, data.length > 0);
         assert.strictEqual('webp', info.format);
@@ -47,10 +48,10 @@ describe('WebP', function () {
       });
   });
 
-  it('should work for webp lossless', function (done) {
+  it('should work for webp lossless', (_t, done) => {
     sharp(fixtures.inputPngAlphaPremultiplicationSmall)
       .webp({ lossless: true, effort: 0 })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(true, data.length > 0);
         assert.strictEqual('webp', info.format);
@@ -58,10 +59,10 @@ describe('WebP', function () {
       });
   });
 
-  it('should work for webp near-lossless', function (done) {
+  it('should work for webp near-lossless', (_t, done) => {
     sharp(fixtures.inputPngAlphaPremultiplicationSmall)
       .webp({ nearLossless: true, quality: 50, effort: 0 })
-      .toBuffer(function (err50, data50, info50) {
+      .toBuffer((err50, data50, info50) => {
         if (err50) throw err50;
         assert.strictEqual(true, data50.length > 0);
         assert.strictEqual('webp', info50.format);
@@ -69,10 +70,10 @@ describe('WebP', function () {
       });
   });
 
-  it('should use near-lossless when both lossless and nearLossless are specified', function (done) {
+  it('should use near-lossless when both lossless and nearLossless are specified', (_t, done) => {
     sharp(fixtures.inputPngAlphaPremultiplicationSmall)
       .webp({ nearLossless: true, quality: 50, lossless: true, effort: 0 })
-      .toBuffer(function (err50, data50, info50) {
+      .toBuffer((err50, data50, info50) => {
         if (err50) throw err50;
         assert.strictEqual(true, data50.length > 0);
         assert.strictEqual('webp', info50.format);
@@ -271,11 +272,11 @@ describe('WebP', function () {
     assert.deepStrictEqual(updated.delay, [120, 120, 90, 120, 120, 90, 120, 90, 30]);
   });
 
-  it('should work with streams when only animated is set', function (done) {
+  it('should work with streams when only animated is set', (_t, done) => {
     fs.createReadStream(fixtures.inputWebPAnimated)
       .pipe(sharp({ animated: true }))
       .webp({ lossless: true, effort: 0 })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(true, data.length > 0);
         assert.strictEqual('webp', info.format);
@@ -283,11 +284,11 @@ describe('WebP', function () {
       });
   });
 
-  it('should work with streams when only pages is set', function (done) {
+  it('should work with streams when only pages is set', (_t, done) => {
     fs.createReadStream(fixtures.inputWebPAnimated)
       .pipe(sharp({ pages: -1 }))
       .webp({ lossless: true, effort: 0 })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(true, data.length > 0);
         assert.strictEqual('webp', info.format);

@@ -4,9 +4,23 @@ on:
   - pull_request
 permissions: {}
 jobs:
+  lint:
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+      - run: npm install --ignore-scripts
+      - run: npm run lint-cpp
+      - run: npm run lint-js
+      - run: npm run lint-types
   build-native:
     permissions:
       contents: read
+    needs: lint
     name: "build-${{ matrix.platform }} [Node.js ${{ matrix.nodejs_version_major }}] ${{ matrix.package && '[package]' }}"
     runs-on: ${{ matrix.os }}
     container: ${{ matrix.container }}
@@ -59,34 +73,34 @@ jobs:
             nodejs_version: "^20.3.0"
             nodejs_version_major: 20
             platform: linux-arm64
-          - os: macos-13
+          - os: macos-15-intel
             nodejs_arch: x64
             nodejs_version: "^18.17.0"
             nodejs_version_major: 18
             platform: darwin-x64
             package: true
-          - os: macos-13
+          - os: macos-15-intel
             nodejs_arch: x64
             nodejs_version: "^20.3.0"
             nodejs_version_major: 20
             platform: darwin-x64
-          - os: macos-13
+          - os: macos-15-intel
             nodejs_arch: x64
             nodejs_version: "^22.9.0"
             nodejs_version_major: 22
             platform: darwin-x64
-          - os: macos-14
+          - os: macos-15
             nodejs_arch: arm64
             nodejs_version: "^18.17.0"
             nodejs_version_major: 18
             platform: darwin-arm64
             package: true
-          - os: macos-14
+          - os: macos-15
             nodejs_arch: arm64
             nodejs_version: "^20.3.0"
             nodejs_version_major: 20
             platform: darwin-arm64
-          - os: macos-14
+          - os: macos-15
             nodejs_arch: arm64
             nodejs_version: "^22.9.0"
             nodejs_version_major: 22
@@ -150,17 +164,15 @@ jobs:
           python-version: "3.12"
       - name: Dependencies (Node.js)
         if: "!contains(matrix.platform, 'linuxmusl')"
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.nodejs_version }}
           architecture: ${{ matrix.nodejs_arch }}
       - uses: actions/checkout@v4
-      - name: Install
-        run: npm install --build-from-source
-      - name: Test
-        run: npm test
-      - name: Populate npm package
-        if: matrix.package
+      - run: npm install
+      - run: npm run build
+      - run: npm run test-unit
+      - if: matrix.package
         run: npm run package-from-local-build
       - uses: actions/upload-artifact@v4
         if: matrix.package
@@ -172,6 +184,7 @@ jobs:
   build-linuxmusl-arm64:
     permissions:
       contents: read
+    needs: lint
     name: "build-linuxmusl-arm64 [Node.js ${{ matrix.nodejs_version_major }}] ${{ matrix.package && '[package]' }}"
     runs-on: ubuntu-24.04-arm
     container:
@@ -199,12 +212,10 @@ jobs:
       - name: Dependencies
         run: apk add build-base git python3 font-noto --update-cache
       - uses: actions/checkout@v4
-      - name: Install
-        run: npm install --build-from-source
-      - name: Test
-        run: npm test
-      - name: Populate npm package
-        if: matrix.package
+      - run: npm install
+      - run: npm run build
+      - run: npm run test-unit
+      - if: matrix.package
         run: npm run package-from-local-build
       - uses: actions/upload-artifact@v4
         if: matrix.package
@@ -216,6 +227,7 @@ jobs:
   build-qemu:
     permissions:
       contents: read
+    needs: lint
     name: "build-${{ matrix.platform }} [Node.js ${{ matrix.nodejs_version_major }}] [package]"
     runs-on: ubuntu-24.04
     strategy:
@@ -223,40 +235,49 @@ jobs:
       matrix:
         include:
           - platform: linux-arm
-            distro: bullseye
-            run_on_arch: armv6
+            base_image: "balenalib/rpi-raspbian:bullseye"
             nodejs_arch: armv6l
             nodejs_hostname: unofficial-builds.nodejs.org
             nodejs_version: "18.17.0"
             nodejs_version_major: 18
           - platform: linux-s390x
-            distro: bookworm
-            run_on_arch: s390x
+            base_image: "--platform=linux/s390x s390x/debian:bookworm"
             nodejs_arch: s390x
             nodejs_hostname: nodejs.org
             nodejs_version: "18.17.0"
             nodejs_version_major: 18
           - platform: linux-ppc64
-            distro: bookworm
-            run_on_arch: ppc64le
+            base_image: "--platform=linux/ppc64le ppc64le/debian:bookworm"
             nodejs_arch: ppc64le
             nodejs_hostname: nodejs.org
             nodejs_version: "18.17.0"
             nodejs_version_major: 18
+          - platform: linux-riscv64
+            base_image: "--platform=linux/riscv64 riscv64/debian:trixie"
+            compiler_flags: "-march=rv64gc"
+            nodejs_arch: riscv64
+            nodejs_hostname: unofficial-builds.nodejs.org
+            nodejs_version: "20.19.5"
+            nodejs_version_major: 20
     steps:
       - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v3
         with:
-          arch: ${{ matrix.run_on_arch }}
-          distro: ${{ matrix.distro }}
+          arch: none
+          distro: none
+          base_image: ${{ matrix.base_image }}
+          env: |
+            CFLAGS: "${{ matrix.compiler_flags }}"
+            CXXFLAGS: "${{ matrix.compiler_flags }}"
           run: |
             apt-get update
             apt-get install -y curl g++ git libatomic1 make python3 xz-utils
             mkdir /opt/nodejs
             curl --silent https://${{ matrix.nodejs_hostname }}/download/release/v${{ matrix.nodejs_version}}/node-v${{ matrix.nodejs_version}}-linux-${{ matrix.nodejs_arch }}.tar.xz | tar xJC /opt/nodejs --strip-components=1
             export PATH=$PATH:/opt/nodejs/bin
-            npm install --build-from-source
-            npx mocha --no-config --spec=test/unit/io.js --timeout=30000
+            npm install
+            npm run build
+            node --test test/unit/io.js
             npm run package-from-local-build
       - uses: actions/upload-artifact@v4
         with:
@@ -267,19 +288,20 @@ jobs:
   build-emscripten:
     permissions:
       contents: read
+    needs: lint
     name: "build-wasm32 [package]"
     runs-on: ubuntu-24.04
-    container: "emscripten/emsdk:4.0.14"
+    container: "emscripten/emsdk:4.0.18"
     steps:
       - uses: actions/checkout@v4
       - name: Dependencies
         run: apt-get update && apt-get install -y pkg-config
       - name: Dependencies (Node.js)
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "20"
-      - name: Install
-        run: emmake npm install --build-from-source
+      - run: npm install
+      - run: emmake npm run build
       - name: Verify emscripten versions match
         run: |
           EMSCRIPTEN_VERSION_LIBVIPS=$(node -p "require('@img/sharp-libvips-dev-wasm32/versions').emscripten")
@@ -287,10 +309,8 @@ jobs:
           echo "libvips built with emscripten $EMSCRIPTEN_VERSION_LIBVIPS"
           echo "sharp built with emscripten $EMSCRIPTEN_VERSION_SHARP"
           test "$EMSCRIPTEN_VERSION_LIBVIPS" = "$EMSCRIPTEN_VERSION_SHARP"
-      - name: Test
-        run: emmake npm test
-      - name: Populate npm package
-        run: emmake npm run package-from-local-build
+      - run: emmake npm run test-unit
+      - run: emmake npm run package-from-local-build
       - uses: actions/upload-artifact@v4
         with:
           name: wasm32
@@ -314,7 +334,7 @@ jobs:
           path: npm
       - name: Create npm workspace tarball
         run: tar -vcaf npm-workspace.tar.xz --directory npm --exclude=from-local-build.js .
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '24'
       - name: Create release notes

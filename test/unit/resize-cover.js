@@ -1,14 +1,15 @@
-// Copyright 2013 Lovell Fuller and others.
-// SPDX-License-Identifier: Apache-2.0
+/*!
+  Copyright 2013 Lovell Fuller and others.
+  SPDX-License-Identifier: Apache-2.0
+*/
 
-'use strict';
-
-const assert = require('assert');
+const { describe, it } = require('node:test');
+const assert = require('node:assert');
 
 const sharp = require('../../');
 const fixtures = require('../fixtures');
 
-describe('Resize fit=cover', function () {
+describe('Resize fit=cover', () => {
   [
     // Position
     {
@@ -201,14 +202,14 @@ describe('Resize fit=cover', function () {
       gravity: sharp.gravity.northwest,
       fixture: 'gravity-west.jpg'
     }
-  ].forEach(function (settings) {
-    it(settings.name, function (done) {
+  ].forEach((settings) => {
+    it(settings.name, (_t, done) => {
       sharp(fixtures.inputJpg)
         .resize(settings.width, settings.height, {
           fit: sharp.fit.cover,
           position: settings.gravity
         })
-        .toBuffer(function (err, data, info) {
+        .toBuffer((err, data, info) => {
           if (err) throw err;
           assert.strictEqual(settings.width, info.width);
           assert.strictEqual(settings.height, info.height);
@@ -217,13 +218,13 @@ describe('Resize fit=cover', function () {
     });
   });
 
-  it('Allows specifying the gravity as a string', function (done) {
+  it('Allows specifying the gravity as a string', (_t, done) => {
     sharp(fixtures.inputJpg)
       .resize(80, 320, {
         fit: sharp.fit.cover,
         position: 'east'
       })
-      .toBuffer(function (err, data, info) {
+      .toBuffer((err, data, info) => {
         if (err) throw err;
         assert.strictEqual(80, info.width);
         assert.strictEqual(320, info.height);
@@ -231,52 +232,48 @@ describe('Resize fit=cover', function () {
       });
   });
 
-  it('Invalid position values fail', function () {
-    assert.throws(function () {
+  it('Invalid position values fail', () => {
+    assert.throws(() => {
       sharp().resize(null, null, { fit: 'cover', position: 9 });
     }, /Expected valid position\/gravity\/strategy for position but received 9 of type number/);
-    assert.throws(function () {
+    assert.throws(() => {
       sharp().resize(null, null, { fit: 'cover', position: 1.1 });
     }, /Expected valid position\/gravity\/strategy for position but received 1.1 of type number/);
-    assert.throws(function () {
+    assert.throws(() => {
       sharp().resize(null, null, { fit: 'cover', position: -1 });
     }, /Expected valid position\/gravity\/strategy for position but received -1 of type number/);
-    assert.throws(function () {
+    assert.throws(() => {
       sharp().resize(null, null, { fit: 'cover', position: 'zoinks' }).crop();
     }, /Expected valid position\/gravity\/strategy for position but received zoinks of type string/);
   });
 
-  it('Uses default value when none specified', function () {
-    assert.doesNotThrow(function () {
+  it('Uses default value when none specified', () => {
+    assert.doesNotThrow(() => {
       sharp().resize(null, null, { fit: 'cover' });
     });
   });
 
-  it('Skip crop when post-resize dimensions are at target', function () {
-    return sharp(fixtures.inputJpg)
+  it('Skip crop when post-resize dimensions are at target', () => sharp(fixtures.inputJpg)
       .resize(1600, 1200)
       .toBuffer()
-      .then(function (input) {
-        return sharp(input)
+      .then((input) => sharp(input)
           .resize(1110, null, {
             fit: sharp.fit.cover,
             position: sharp.strategy.attention
           })
           .toBuffer({ resolveWithObject: true })
-          .then(function (result) {
+          .then((result) => {
             assert.strictEqual(1110, result.info.width);
             assert.strictEqual(832, result.info.height);
             assert.strictEqual(undefined, result.info.cropOffsetLeft);
             assert.strictEqual(undefined, result.info.cropOffsetTop);
-          });
-      });
-  });
+          })));
 
-  describe('Animated WebP', function () {
-    it('Width only', function (done) {
+  describe('Animated WebP', () => {
+    it('Width only', (_t, done) => {
       sharp(fixtures.inputWebPAnimated, { pages: -1 })
         .resize(80, 320, { fit: sharp.fit.cover })
-        .toBuffer(function (err, data, info) {
+        .toBuffer((err, data, info) => {
           if (err) throw err;
           assert.strictEqual(80, info.width);
           assert.strictEqual(320 * 9, info.height);
@@ -284,10 +281,10 @@ describe('Resize fit=cover', function () {
         });
     });
 
-    it('Height only', function (done) {
+    it('Height only', (_t, done) => {
       sharp(fixtures.inputWebPAnimated, { pages: -1 })
         .resize(320, 80, { fit: sharp.fit.cover })
-        .toBuffer(function (err, data, info) {
+        .toBuffer((err, data, info) => {
           if (err) throw err;
           assert.strictEqual(320, info.width);
           assert.strictEqual(80 * 9, info.height);
@@ -296,14 +293,14 @@ describe('Resize fit=cover', function () {
     });
   });
 
-  describe('Entropy-based strategy', function () {
-    it('JPEG', function (done) {
+  describe('Entropy-based strategy', () => {
+    it('JPEG', (_t, done) => {
       sharp(fixtures.inputJpg)
         .resize(80, 320, {
           fit: 'cover',
           position: sharp.strategy.entropy
         })
-        .toBuffer(function (err, data, info) {
+        .toBuffer((err, data, info) => {
           if (err) throw err;
           assert.strictEqual('jpeg', info.format);
           assert.strictEqual(3, info.channels);
@@ -315,13 +312,13 @@ describe('Resize fit=cover', function () {
         });
     });
 
-    it('PNG', function (done) {
+    it('PNG', (_t, done) => {
       sharp(fixtures.inputPngWithTransparency)
         .resize(320, 80, {
           fit: 'cover',
           position: sharp.strategy.entropy
         })
-        .toBuffer(function (err, data, info) {
+        .toBuffer((err, data, info) => {
           if (err) throw err;
           assert.strictEqual('png', info.format);
           assert.strictEqual(4, info.channels);
@@ -333,13 +330,13 @@ describe('Resize fit=cover', function () {
         });
     });
 
-    it('supports the strategy passed as a string', function (done) {
+    it('supports the strategy passed as a string', (_t, done) => {
       sharp(fixtures.inputPngWithTransparency)
         .resize(320, 80, {
           fit: 'cover',
           position: 'entropy'
         })
-        .toBuffer(function (err, data, info) {
+        .toBuffer((err, data, info) => {
           if (err) throw err;
           assert.strictEqual('png', info.format);
           assert.strictEqual(4, info.channels);
@@ -364,14 +361,14 @@ describe('Resize fit=cover', function () {
     );
   });
 
-  describe('Attention strategy', function () {
-    it('JPEG', function (done) {
+  describe('Attention strategy', () => {
+    it('JPEG', (_t, done) => {
       sharp(fixtures.inputJpg)
         .resize(80, 320, {
           fit: 'cover',
           position: sharp.strategy.attention
         })
-        .toBuffer(function (err, data, info) {
+        .toBuffer((err, data, info) => {
           if (err) throw err;
           assert.strictEqual('jpeg', info.format);
           assert.strictEqual(3, info.channels);
@@ -385,13 +382,13 @@ describe('Resize fit=cover', function () {
         });
     });
 
-    it('PNG', function (done) {
+    it('PNG', (_t, done) => {
       sharp(fixtures.inputPngWithTransparency)
         .resize(320, 80, {
           fit: 'cover',
           position: sharp.strategy.attention
         })
-        .toBuffer(function (err, data, info) {
+        .toBuffer((err, data, info) => {
           if (err) throw err;
           assert.strictEqual('png', info.format);
           assert.strictEqual(4, info.channels);
@@ -405,13 +402,13 @@ describe('Resize fit=cover', function () {
         });
     });
 
-    it('WebP', function (done) {
+    it('WebP', (_t, done) => {
       sharp(fixtures.inputWebP)
         .resize(320, 80, {
           fit: 'cover',
           position: sharp.strategy.attention
         })
-        .toBuffer(function (err, data, info) {
+        .toBuffer((err, data, info) => {
           if (err) throw err;
           assert.strictEqual('webp', info.format);
           assert.strictEqual(3, info.channels);
@@ -425,13 +422,13 @@ describe('Resize fit=cover', function () {
         });
     });
 
-    it('supports the strategy passed as a string', function (done) {
+    it('supports the strategy passed as a string', (_t, done) => {
       sharp(fixtures.inputPngWithTransparency)
         .resize(320, 80, {
           fit: 'cover',
           position: 'attention'
         })
-        .toBuffer(function (err, data, info) {
+        .toBuffer((err, data, info) => {
           if (err) throw err;
           assert.strictEqual('png', info.format);
           assert.strictEqual(4, info.channels);

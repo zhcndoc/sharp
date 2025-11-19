@@ -1,16 +1,14 @@
-// Copyright 2013 Lovell Fuller and others.
-// SPDX-License-Identifier: Apache-2.0
+/*!
+  Copyright 2013 Lovell Fuller and others.
+  SPDX-License-Identifier: Apache-2.0
+*/
 
-'use strict';
-
-const path = require('path');
+const path = require('node:path');
 const sharp = require('../../');
 const maxColourDistance = require('../../lib/sharp')._maxColourDistance;
 
 // Helpers
-const getPath = function (filename) {
-  return path.join(__dirname, filename);
-};
+const getPath = (filename) => path.join(__dirname, filename);
 
 // Generates a 64-bit-as-binary-string image fingerprint
 // Based on the dHash gradient method - see http://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html
@@ -22,7 +20,7 @@ async function fingerprint (image) {
     .resize(9, 8, { fit: sharp.fit.fill })
     .raw()
     .toBuffer()
-    .then(function (data) {
+    .then((data) => {
       let fingerprint = '';
       for (let col = 0; col < 8; col++) {
         for (let row = 0; row < 8; row++) {
@@ -115,6 +113,7 @@ module.exports = {
   inputTiff8BitDepth: getPath('8bit_depth.tiff'),
   inputTifftagPhotoshop: getPath('tifftag-photoshop.tiff'), // https://github.com/lovell/sharp/issues/1600
   inputTiffFogra: getPath('fogra-0-100-100-0.tif'), // https://github.com/lovell/sharp/issues/4045
+  inputTiffGeo: getPath('bonne.geo.tif'), // https://download.osgeo.org/geotiff/samples/intergraph
 
   inputJp2: getPath('relax.jp2'), // https://www.fnordware.com/j2k/relax.jp2
   inputJp2TileParts: getPath('relax_tileparts.jp2'), // kdu_expand -i relax.jp2 -o relax-tmp.tif ; kdu_compress -i relax-tmp.tif -o relax_tileparts.jp2 -jp2_space sRGB Clayers=8 -rate 1.0,0.04 Stiles='{128,128}' ORGtparts=L ; rm relax-tmp.tif
@@ -147,14 +146,12 @@ module.exports = {
   path: getPath,
 
   // Path for expected output images
-  expected: function (filename) {
-    return getPath(path.join('expected', filename));
-  },
+  expected: (filename) => getPath(path.join('expected', filename)),
 
   // Verify similarity of expected vs actual images via fingerprint
   // Specify distance threshold using `options={threshold: 42}`, default
   // `threshold` is 5;
-  assertSimilar: async function (expectedImage, actualImage, options, callback) {
+  assertSimilar: async (expectedImage, actualImage, options, callback) => {
     if (typeof options === 'function') {
       callback = options;
       options = {};
@@ -194,12 +191,12 @@ module.exports = {
     }
   },
 
-  assertMaxColourDistance: function (actualImagePath, expectedImagePath, acceptedDistance) {
+  assertMaxColourDistance: (actualImagePath, expectedImagePath, acceptedDistance) => {
     if (typeof actualImagePath !== 'string') {
-      throw new TypeError('`actualImagePath` must be a string; got ' + actualImagePath);
+      throw new TypeError(`\`actualImagePath\` must be a string; got ${actualImagePath}`);
     }
     if (typeof expectedImagePath !== 'string') {
-      throw new TypeError('`expectedImagePath` must be a string; got ' + expectedImagePath);
+      throw new TypeError(`\`expectedImagePath\` must be a string; got ${expectedImagePath}`);
     }
     if (typeof acceptedDistance !== 'number') {
       // Default threshold
@@ -207,7 +204,7 @@ module.exports = {
     }
     const distance = maxColourDistance(actualImagePath, expectedImagePath);
     if (distance > acceptedDistance) {
-      throw new Error('Expected maximum absolute distance of ' + acceptedDistance + ', actual ' + distance);
+      throw new Error(`Expected maximum absolute distance of ${acceptedDistance}, actual ${distance}`);
     }
   }
 

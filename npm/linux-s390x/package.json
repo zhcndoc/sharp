@@ -1,6 +1,6 @@
 {
   "name": "@img/sharp-linux-s390x",
-  "version": "0.34.4",
+  "version": "0.34.5",
   "description": "Prebuilt sharp for use with Linux (glibc) s390x",
   "author": "Lovell Fuller <npm@lovell.info>",
   "homepage": "https://sharp.pixelplumbing.com",
@@ -15,7 +15,7 @@
   },
   "preferUnplugged": true,
   "optionalDependencies": {
-    "@img/sharp-libvips-linux-s390x": "1.2.3"
+    "@img/sharp-libvips-linux-s390x": "1.2.4"
   },
   "files": [
     "lib"

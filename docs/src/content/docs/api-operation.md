@@ -30,7 +30,7 @@ title: 图像操作
 | [options] | <code>Object</code> |  | 如果提供，是一个具有可选属性的对象。 |
 | [options.background] | <code>string</code> \| <code>Object</code> | <code>&quot;\&quot;#000000\&quot;&quot;</code> | 由 [color](https://www.npmjs.org/package/color) 模块解析以提取红色、绿色、蓝色和 alpha 的值。 |
 
-**示例**  
+**示例**
 ```js
 const rotateThenResize = await sharp(input)
   .rotate(90)
@@ -51,11 +51,11 @@ const resizeThenRotate = await sharp(input)
 
 之前或之后使用 `rotate(angle)` 和 `flip()` 或 `flop()` 将逻辑发生在自动方向调整后，无论调用顺序如何。
 
-**示例**  
+**示例**
 ```js
 const output = await sharp(input).autoOrient().toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 const pipeline = sharp()
   .autoOrient()
@@ -79,9 +79,9 @@ readableStream.pipe(pipeline);
 
 | 参数 | 类型 | 默认 |
 | --- | --- | --- |
-| [flip] | <code>Boolean</code> | <code>true</code> | 
+| [flip] | <code>Boolean</code> | <code>true</code> |
 
-**示例**  
+**示例**
 ```js
 const output = await sharp(input).flip().toBuffer();
 ```
@@ -95,9 +95,9 @@ const output = await sharp(input).flip().toBuffer();
 
 | 参数 | 类型 | 默认 |
 | --- | --- | --- |
-| [flop] | <code>Boolean</code> | <code>true</code> | 
+| [flop] | <code>Boolean</code> | <code>true</code> |
 
-**示例**  
+**示例**
 ```js
 const output = await sharp(input).flop().toBuffer();
 ```
@@ -125,7 +125,7 @@ const output = await sharp(input).flop().toBuffer();
 
 - <code>Error</code> 无效的参数
 
-**自**: 0.27.0  
+**自**: 0.27.0
 
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
@@ -138,7 +138,7 @@ const output = await sharp(input).flop().toBuffer();
 | [options.ody] | <code>Number</code> | <code>0</code> | 输出垂直偏移 |
 | [options.interpolator] | <code>String</code> | <code>sharp.interpolators.bicubic</code> | 插值器 |
 
-**示例**  
+**示例**
 ```js
 const pipeline = sharp()
   .affine([[1, 0.3], [0.1, 0.7]], {
@@ -165,7 +165,7 @@ inputStream
 当提供 `sigma` 时，执行更慢、更准确的 LAB 色彩空间的 L 通道锐化。
 可以对“平坦”（m1）和“锯齿”（m2）区域的锐化级别进行精细控制。
 
-参见 [libvips sharpen](https://www.libvips.org/API/current/libvips-convolution.html#vips-sharpen) 操作。
+参见 [libvips sharpen](https://www.libvips.org/API/current/method.Image.sharpen.html) 操作。
 
 **抛出**:
 
@@ -183,15 +183,15 @@ inputStream
 | [flat] | <code>number</code> |  | （已弃用）见 `options.m1`。 |
 | [jagged] | <code>number</code> |  | （已弃用）见 `options.m2`。 |
 
-**示例**  
+**示例**
 ```js
 const data = await sharp(input).sharpen().toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 const data = await sharp(input).sharpen({ sigma: 2 }).toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 const data = await sharp(input)
   .sharpen({
@@ -220,11 +220,11 @@ const data = await sharp(input)
 | --- | --- | --- | --- |
 | [size] | <code>number</code> | <code>3</code> | 方形掩模大小：size x size |
 
-**示例**  
+**示例**
 ```js
 const output = await sharp(input).median().toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 const output = await sharp(input).median(5).toBuffer();
 ```
@@ -250,13 +250,13 @@ const output = await sharp(input).median(5).toBuffer();
 | [options.precision] | <code>string</code> | <code>&quot;&#x27;integer&#x27;&quot;</code> | 操作的准确性，选项为：integer，float，approximate。 |
 | [options.minAmplitude] | <code>number</code> | <code>0.2</code> | 介于 0.001 和 1 之间的值。较小的值将生成更大、更准确的掩模。 |
 
-**示例**  
+**示例**
 ```js
 const boxBlurred = await sharp(input)
   .blur()
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 const gaussianBlurred = await sharp(input)
   .blur(5)
@@ -277,7 +277,7 @@ const gaussianBlurred = await sharp(input)
 | --- | --- | --- | --- |
 | [width] | <code>Number</code> | <code>1</code> | 膨胀宽度（以像素为单位）。 |
 
-**示例**  
+**示例**
 ```js
 const output = await sharp(input)
   .dilate()
@@ -298,7 +298,7 @@ const output = await sharp(input)
 | --- | --- | --- | --- |
 | [width] | <code>Number</code> | <code>1</code> | 腐蚀宽度（以像素为单位）。 |
 
-**示例**  
+**示例**
 ```js
 const output = await sharp(input)
   .erode()
@@ -318,7 +318,7 @@ const output = await sharp(input)
 | [options] | <code>Object</code> |  |  |
 | [options.background] | <code>string</code> \| <code>Object</code> | <code>&quot;{r: 0, g: 0, b: 0}&quot;</code> | 背景颜色，由 [color](https://www.npmjs.org/package/color) 模块解析，默认为黑色。 |
 
-**示例**  
+**示例**
 ```js
 await sharp(rgbaInput)
   .flatten({ background: '#F0A703' })
@@ -335,14 +335,14 @@ await sharp(rgbaInput)
 
 此功能是实验性的，API 可能会更改。
 
-**自**: 0.32.1  
-**示例**  
+**自**: 0.32.1
+**示例**
 ```js
 await sharp(rgbInput)
   .unflatten()
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 await sharp(rgbInput)
   .threshold(128, { grayscale: false }) // 将亮像素转换为白色
@@ -381,13 +381,13 @@ JPEG 和 WebP 输入图像在应用伽马校正时将无法利用加载时收缩
 | [options] | <code>Object</code> |  |  |
 | [options.alpha] | <code>Boolean</code> | <code>true</code> | 是否对任何 alpha 通道进行反转 |
 
-**示例**  
+**示例**
 ```js
 const output = await sharp(input)
   .negate()
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 const output = await sharp(input)
   .negate({ alpha: false })
@@ -411,13 +411,13 @@ const output = await sharp(input)
 | [options.lower] | <code>number</code> | <code>1</code> | 亮度值将被过度曝光的百分位数。 |
 | [options.upper] | <code>number</code> | <code>99</code> | 亮度值将被低曝光的百分位数。 |
 
-**示例**  
+**示例**
 ```js
 const output = await sharp(input)
   .normalise()
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 const output = await sharp(input)
   .normalise({ lower: 0, upper: 100 })
@@ -436,7 +436,7 @@ normalise 的另一种拼写。
 | [options.lower] | <code>number</code> | <code>1</code> | 亮度值将被过度曝光的百分位数。 |
 | [options.upper] | <code>number</code> | <code>99</code> | 亮度值将被低曝光的百分位数。 |
 
-**示例**  
+**示例**
 ```js
 const output = await sharp(input)
   .normalize()
@@ -456,7 +456,7 @@ const output = await sharp(input)
 
 - <code>Error</code> 无效的参数
 
-**自**: 0.28.3  
+**自**: 0.28.3
 
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
@@ -465,7 +465,7 @@ const output = await sharp(input)
 | options.height | <code>number</code> |  | 以像素为单位的搜索窗口的整数高度。 |
 | [options.maxSlope] | <code>number</code> | <code>3</code> | 亮度的整数级别，介于 0 和 100 之间，其中 0 禁用对比度限制。 |
 
-**示例**  
+**示例**
 ```js
 const output = await sharp(input)
   .clahe({
@@ -494,7 +494,7 @@ const output = await sharp(input)
 | [kernel.scale] | <code>number</code> | <code>sum</code> | 核的缩放，单位为像素。 |
 | [kernel.offset] | <code>number</code> | <code>0</code> | 核的偏移，单位为像素。 |
 
-**示例**  
+**示例**
 ```js
 sharp(input)
   .convolve({
@@ -565,13 +565,13 @@ sharp(input)
 | [a] | <code>number</code> \| <code>Array.&lt;number&gt;</code> | <code>[]</code> | 乘数 |
 | [b] | <code>number</code> \| <code>Array.&lt;number&gt;</code> | <code>[]</code> | 偏移 |
 
-**示例**  
+**示例**
 ```js
 await sharp(input)
   .linear(0.5, 2)
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 await sharp(rgbInput)
   .linear(
@@ -591,13 +591,13 @@ await sharp(rgbInput)
 
 - <code>Error</code> 无效的参数
 
-**自**: 0.21.1  
+**自**: 0.21.1
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | inputMatrix | <code>Array.&lt;Array.&lt;number&gt;&gt;</code> | 3x3 或 4x4 重组矩阵 |
 
-**示例**  
+**示例**
 ```js
 sharp(input)
   .recomb([
@@ -620,7 +620,7 @@ sharp(input)
 亮度和亮度都在亮度上操作，不同之处在于
 亮度是乘法的而亮度是加法的。
 
-**自**: 0.22.1  
+**自**: 0.22.1
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
@@ -630,7 +630,7 @@ sharp(input)
 | [options.hue] | <code>number</code> | 色相旋转的度数 |
 | [options.lightness] | <code>number</code> | 亮度加数 |
 
-**示例**  
+**示例**
 ```js
 // 将亮度增加 2 倍
 const output = await sharp(input)
@@ -639,7 +639,7 @@ const output = await sharp(input)
   })
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 // 色相旋转 180 度
 const output = await sharp(input)
@@ -648,7 +648,7 @@ const output = await sharp(input)
   })
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 // 亮度增加 +50
 const output = await sharp(input)
@@ -657,7 +657,7 @@ const output = await sharp(input)
   })
   .toBuffer();
 ```
-**示例**  
+**示例**
 ```js
 // 降低亮度和饱和度，同时色相旋转 90 度
 const output = await sharp(input)

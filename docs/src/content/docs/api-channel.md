@@ -8,9 +8,9 @@ title: 通道操作
 
 移除 alpha 通道（如果存在的话）。如果图像没有 alpha 通道，该操作将无效。
 
-另见 [flatten](/api-operation#flatten)。
+另见 [flatten](/api-operation/#flatten)。
 
-**示例**  
+**示例**
 ```js
 sharp('rgba.png')
   .removeAlpha()
@@ -30,20 +30,20 @@ sharp('rgba.png')
 
 - <code>Error</code> 无效的 alpha 透明度级别
 
-**自**: 0.21.2  
+**自**: 0.21.2
 
 | 参数 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
 | [alpha] | <code>number</code> | <code>1</code> | alpha 透明度级别（0=完全透明，1=完全不透明） |
 
-**示例**  
+**示例**
 ```js
 // rgba.png 将是一个具有完全不透明 alpha 通道的 4 通道图像
 await sharp('rgb.jpg')
   .ensureAlpha()
   .toFile('rgba.png')
 ```
-**示例**  
+**示例**
 ```js
 // rgba 是一个具有完全透明 alpha 通道的 4 通道图像
 const rgba = await sharp(rgb)
@@ -66,14 +66,14 @@ const rgba = await sharp(rgb)
 | --- | --- | --- |
 | channel | <code>number</code> \| <code>string</code> | 要提取的零索引通道/波段编号，可以是 `red`、`green`、`blue` 或 `alpha`。 |
 
-**示例**  
+**示例**
 ```js
 // green.jpg 是一个包含输入绿色通道的灰度图像
 await sharp(input)
   .extractChannel('green')
   .toFile('green.jpg');
 ```
-**示例**  
+**示例**
 ```js
 // red1 是第一个像素的红色值，red2 是第二个像素，以此类推
 const [red1, red2, ...] = await sharp(input)
@@ -117,7 +117,7 @@ const [red1, red2, ...] = await sharp(input)
 | --- | --- | --- |
 | boolOp | <code>string</code> | `and`、`or` 或 `eor` 中的一个，以执行该按位操作，类似于 C 逻辑运算符 `&`、`|` 和 `^`。 |
 
-**示例**  
+**示例**
 ```js
 sharp('3-channel-rgb-input.png')
   .bandbool(sharp.bool.and)

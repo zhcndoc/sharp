@@ -1,14 +1,15 @@
-// Copyright 2013 Lovell Fuller and others.
-// SPDX-License-Identifier: Apache-2.0
-
-'use strict';
+/*!
+  Copyright 2013 Lovell Fuller and others.
+  SPDX-License-Identifier: Apache-2.0
+*/
 
 const sharp = require('../../');
-const assert = require('assert');
+const { describe, it } = require('node:test');
+const assert = require('node:assert');
 const fixtures = require('../fixtures');
 
-describe('Modulate', function () {
-  describe('Invalid options', function () {
+describe('Modulate', () => {
+  describe('Invalid options', () => {
     [
       null,
       undefined,
@@ -24,9 +25,9 @@ describe('Modulate', function () {
       { hue: null },
       { lightness: '+50' },
       { lightness: null }
-    ].forEach(function (options) {
-      it('should throw', function () {
-        assert.throws(function () {
+    ].forEach((options) => {
+      it('should throw', () => {
+        assert.throws(() => {
           sharp(fixtures.inputJpg).modulate(options);
         });
       });

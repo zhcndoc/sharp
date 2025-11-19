@@ -1,14 +1,15 @@
-// Copyright 2013 Lovell Fuller and others.
-// SPDX-License-Identifier: Apache-2.0
+/*!
+  Copyright 2013 Lovell Fuller and others.
+  SPDX-License-Identifier: Apache-2.0
+*/
 
-'use strict';
-
-const assert = require('assert');
+const { describe, it } = require('node:test');
+const assert = require('node:assert');
 
 const sharp = require('../../');
 const fixtures = require('../fixtures');
 
-describe('Join input images together', function () {
+describe('Join input images together', () => {
   it('Join two images horizontally', async () => {
     const data = await sharp([
       fixtures.inputPngPalette,

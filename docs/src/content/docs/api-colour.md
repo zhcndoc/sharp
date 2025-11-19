@@ -19,7 +19,7 @@ title: 颜色操作
 | --- | --- | --- |
 | tint | <code>string</code> \| <code>Object</code> | 由 [color](https://www.npmjs.org/package/color) 模块解析。 |
 
-**示例**  
+**示例**
 ```js
 const output = await sharp(input)
   .tint({ r: 255, g: 240, b: 16 })
@@ -34,9 +34,9 @@ const output = await sharp(input)
 
 | 参数 | 类型 | 默认 |
 | --- | --- | --- |
-| [greyscale] | <code>Boolean</code> | <code>true</code> | 
+| [greyscale] | <code>Boolean</code> | <code>true</code> |
 
-**示例**  
+**示例**
 ```js
 const output = await sharp(input).greyscale().toBuffer();
 ```
@@ -48,7 +48,7 @@ const output = await sharp(input).greyscale().toBuffer();
 
 | 参数 | 类型 | 默认 |
 | --- | --- | --- |
-| [grayscale] | <code>Boolean</code> | <code>true</code> | 
+| [grayscale] | <code>Boolean</code> | <code>true</code> |
 
 ## pipelineColourspace
 > pipelineColourspace([colourspace]) ⇒ <code>Sharp</code>
@@ -62,13 +62,13 @@ const output = await sharp(input).greyscale().toBuffer();
 
 - <code>Error</code> 无效参数
 
-**自**: 0.29.0  
+**自**: 0.29.0
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| [colourspace] | <code>string</code> | 管道色彩空间，例如 `rgb16`、`scrgb`、`lab`、`grey16` [...](https://github.com/libvips/libvips/blob/41cff4e9d0838498487a00623462204eb10ee5b8/libvips/iofuncs/enumtypes.c#L774) |
+| [colourspace] | <code>string</code> | 管道色彩空间，例如 `rgb16`、`scrgb`、`lab`、`grey16` [...](https://www.libvips.org/API/current/enum.Interpretation.html) |
 
-**示例**  
+**示例**
 ```js
 // 在每通道 16 位 RGB 的情况下运行管道，同时将最终结果转换为每通道 8 位 sRGB。
 await sharp(input)
@@ -108,9 +108,9 @@ await sharp(input)
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| [colourspace] | <code>string</code> | 输出色彩空间，例如 `srgb`、`rgb`、`cmyk`、`lab`、`b-w` [...](https://github.com/libvips/libvips/blob/3c0bfdf74ce1dc37a6429bed47fa76f16e2cd70a/libvips/iofuncs/enumtypes.c#L777-L794) |
+| [colourspace] | <code>string</code> | 输出色彩空间，例如 `srgb`、`rgb`、`cmyk`、`lab`、`b-w` [...](https://www.libvips.org/API/current/enum.Interpretation.html) |
 
-**示例**  
+**示例**
 ```js
 // 输出每像素 16 位 RGB
 await sharp(input)
