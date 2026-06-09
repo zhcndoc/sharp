@@ -1,5 +1,5 @@
 ---
-# 该文件是从 lib/resize.js 中的 JSDoc 自动生成的
+# 该文件是从 `lib/resize.js` 中的 JSDoc 自动生成的
 title: 调整图像大小
 ---
 
@@ -265,19 +265,18 @@ sharp(input)
 
 如果该操作的结果会将图像修剪为无内容，则不进行更改。
 
+使用 `lineArt` 和 `threshold` 选项来控制灵敏度。
+
 `info` 响应对象将包含 `trimOffsetLeft` 和 `trimOffsetTop` 属性。
-
-**抛出**：
-
-- <code>Error</code> 无效的参数
 
 
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | [options] | <code>Object</code> |  |  |
 | [options.background] | <code>string</code> \| <code>Object</code> | <code>&quot;&#x27;左上角像素&#x27;&quot;</code> | 背景颜色，由 [color](https://www.npmjs.org/package/color) 模块解析，默认为左上角像素的颜色。 |
-| [options.threshold] | <code>number</code> | <code>10</code> | 允许的颜色差异，正数。 |
-| [options.lineArt] | <code>boolean</code> | <code>false</code> | 输入更像线条艺术（例如矢量）而不是摄影吗？ |
+| [options.threshold] | <code>number</code> | <code>10</code> | 与上述颜色允许的差异，必须为正数。 |
+| [options.lineArt] | <code>boolean</code> | <code>false</code> | 输入是否更接近线条艺术（例如矢量图），而不是照片？ |
+| [options.margin] | <code>number</code> | <code>0</code> | 在修剪后的内容周围保留边距，单位为像素。 |
 
 **示例**  
 ```js
@@ -312,6 +311,15 @@ const output = await sharp(input)
   .trim({
     background: "yellow",
     threshold: 42,
+  })
+  .toBuffer();
+```
+**示例**  
+```js
+// 修剪图像，在修剪后的内容周围保留（最多）10 像素的边距。
+const output = await sharp(input)
+  .trim({
+    margin: 10
   })
   .toBuffer();
 ```

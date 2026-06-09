@@ -88,7 +88,7 @@ export default defineConfig({
         {
           label: '更新日志',
           collapsed: true,
-          autogenerate: { directory: 'changelog' }
+          items: [{ autogenerate: { directory: 'changelog' } }]
         }
       ],
       social: [

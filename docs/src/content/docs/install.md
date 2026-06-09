@@ -20,8 +20,6 @@ npm install sharp
 pnpm add sharp
 ```
 
-在使用 `pnpm` 时，将 `sharp` 添加到 [ignoredBuiltDependencies](https://pnpm.io/settings#ignoredbuiltdependencies) 以消除警告。
-
 ```sh frame="none"
 yarn add sharp
 ```
@@ -37,7 +35,7 @@ deno run --allow-env --allow-ffi --allow-read --allow-sys ...
 
 ## 先决条件
 
-* 兼容 Node-API v9 的运行时环境，例如 Node.js ^18.17.0 或 >=20.3.0。
+* Node-API v9 compatible runtime e.g. Node.js >= 20.9.0.
 
 ## 预编译二进制文件
 
@@ -45,17 +43,19 @@ deno run --allow-env --allow-ffi --allow-read --allow-sys ...
 
 * macOS x64 (>= 10.15)
 * macOS ARM64
-* Linux ARM (glibc >= 2.31)
-* Linux ARM64 (glibc >= 2.26, musl >= 1.2.2)
+* Linux ARM (glibc >= 2.36)
+* Linux ARM64 (glibc >= 2.28, musl >= 1.2.5)
 * Linux RISC-V 64-bit (glibc >= 2.41)
 * Linux ppc64 (glibc >= 2.36)
 * Linux s390x (glibc >= 2.36)
-* Linux x64 (glibc >= 2.26, musl >= 1.2.2, 具备 SSE4.2 的 CPU)
+* Linux x64 (glibc >= 2.28, musl >= 1.2.5, CPU with SSE4.2)
 * Windows x64
-* Windows x86
-* Windows ARM64（实验性，所有功能需 CPU 支持 ARMv8.4）
+* Windows x86 (deprecated, Node.js 20 only)
+* Windows ARM64 (CPU with ARMv8.4 required for all features)
+* FreeBSD (WebAssembly)
 
-这提供了对 JPEG、PNG、WebP、AVIF（仅限 8 位深度）、TIFF、GIF 和 SVG（输入格式）图像格式的支持。
+This provides support for the
+JPEG, PNG, Ultra HDR, WebP, AVIF, TIFF, GIF and SVG (input) image formats.
 
 ## 跨平台
 
@@ -106,15 +106,15 @@ npm install --cpu=x64 --os=linux --libc=musl sharp
 
 ## 从源代码构建
 
-当出现以下情况时，此模块将从源代码编译：
+```sh frame="none"
+npm install sharp
+npm explore sharp -- npm run build
+```
 
-* 检测到全局安装的 libvips，或
-* 使用 `npm explore sharp -- npm run build`，或
-* 在 `npm install` 时使用已弃用的 `npm run --build-from-source`。
-
-检测全局安装 libvips 的逻辑可通过设置环境变量进行跳过：
-`SHARP_IGNORE_GLOBAL_LIBVIPS`（永远不尝试使用）或
-`SHARP_FORCE_GLOBAL_LIBVIPS`（始终尝试使用，即使缺失或版本过旧）。
+构建过程会查找全局安装的 libvips。
+可以通过设置 `SHARP_IGNORE_GLOBAL_LIBVIPS`（绝不尝试使用它）或
+`SHARP_FORCE_GLOBAL_LIBVIPS`（始终尝试使用它，即使缺失或过期）
+环境变量来跳过此检测逻辑。
 
 从源码构建需要：
 
@@ -122,46 +122,24 @@ npm install --cpu=x64 --os=linux --libc=musl sharp
 * 版本 7 及以上的 [node-addon-api](https://www.npmjs.com/package/node-addon-api)
 * 版本 9 及以上的 [node-gyp](https://github.com/nodejs/node-gyp#installation) 及其依赖
 
-安装时会检查这些依赖。
-如果找不到 `node-addon-api` 或 `node-gyp`，尝试通过以下命令添加：
+如果找不到 `node-addon-api` 或 `node-gyp`，请尝试通过以下方式添加：
 
 ```sh frame="none"
 npm install --save node-addon-api node-gyp
 ```
 
-使用 `pnpm` 时，您可能需要将 `sharp` 添加到
-[onlyBuiltDependencies](https://pnpm.io/settings#onlybuiltdependencies)
-以确保安装脚本能运行。
-
-对于交叉编译，可以使用 npm 标志 `--platform`、`--arch` 和 `--libc`
-（或环境变量 `npm_config_platform`、`npm_config_arch` 和 `npm_config_libc`）
-来配置目标环境。
-
 ## WebAssembly
 
-为支持通过 Worker 提供多线程 Wasm 的运行时环境提供实验性支持。
-
-不支持在网页浏览器中使用。
-
-不支持本地文本渲染。
-
-不支持[基于瓦片的输出](/api-output#tile)。
+通过 Workers 提供多线程 Wasm 的运行时环境可使用可选的 `@img/sharp-wasm32` 包。
 
 ```sh frame="none"
-npm install --cpu=wasm32 sharp
+npm install sharp @img/sharp-wasm32
 ```
 
-## FreeBSD
-
-必须先安装 `vips` 包，然后再运行 `npm install`，此外还需安装额外的[从源代码构建](#building-from-source)依赖。
-
-```sh frame="none"
-pkg install -y pkgconf vips
-```
-
-```sh frame="none"
-cd /usr/ports/graphics/vips/ && make install clean
-```
+* 不支持在 Web 浏览器中使用。
+* 不支持在单线程环境中使用。
+* 不支持原生文本渲染。
+* 不支持 [基于瓦片的输出](/api-output#tile)。
 
 ## Linux 内存分配器
 
@@ -187,8 +165,14 @@ cd /usr/ports/graphics/vips/ && make install clean
 部分包管理器会使用符号链接，
 但 AWS Lambda 不支持部署包中的符号链接。
 
-为获得最佳性能，选择最大可用内存。
-1536 MB 的函数提供约 12 倍于 128 MB 函数的 CPU 时间。
+另一种方法是使用维护良好的第三方 Lambda Layer：
+
+- [cbschuld/sharp-aws-lambda-layer](https://github.com/cbschuld/sharp-aws-lambda-layer)
+- [pH200/sharp-layer](https://github.com/pH200/sharp-layer)
+- [zoellner/sharp-heic-lambda-layer](https://github.com/zoellner/sharp-heic-lambda-layer)
+
+要获得最佳性能，请选择可用的最大内存。
+1536 MB 的函数提供的 CPU 时间大约是 128 MB 函数的 12 倍。
 
 与 AWS API Gateway 集成时，确保配置了相关
 [二进制媒体类型](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-payload-encodings.html)。

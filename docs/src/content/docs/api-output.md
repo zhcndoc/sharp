@@ -106,6 +106,62 @@ await sharp(pixelArray, { raw: { width, height, channels } })
 ```
 
 
+## toUint8Array
+> toUint8Array() ⇒ <code>Promise.&lt;{data: Uint8Array, info: Object}&gt;</code>
+
+将输出写入一个由可转移 `ArrayBuffer` 支持的 `Uint8Array`。
+支持 JPEG、PNG、WebP、AVIF、TIFF、GIF 和原始像素数据输出。
+
+使用 [toFormat](#toformat) 或其他格式特定函数，如 [jpeg](#jpeg)、[png](#png) 等来设置输出格式。
+
+如果未设置明确的格式，则输出格式将与输入图像匹配，除非输入为 SVG，则输出将为 PNG。
+
+默认情况下，所有元数据将被移除，包括基于 EXIF 的方向。
+有关此方面的控制，请参见 [keepExif](#keepexif) 和类似方法。
+
+解析为一个包含以下内容的 `Object`：
+- `data` 是由可转移 `ArrayBuffer` 支持的输出图像 `Uint8Array`。
+- `info` 包含与输出图像相关的属性，如 `width` 和 `height`。
+
+
+**自**: v0.35.0  
+**示例**  
+```js
+const { data, info } = await sharp(input).toUint8Array();
+```
+**示例**  
+```js
+const { data } = await sharp(input)
+  .avif()
+  .toUint8Array();
+const base64String = data.toBase64();
+```
+
+
+## withDensity
+> withDensity(density) ⇒ <code>Sharp</code>
+
+在 EXIF 元数据中设置输出密度（DPI）。
+
+
+**抛出**:
+
+- <code>Error</code> 无效参数
+
+**自**: 0.35.0  
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| density | <code>number</code> | 每英寸像素数（DPI）。 |
+
+**示例**  
+```js
+const data = await sharp(input)
+  .withDensity(96)
+  .toBuffer();
+```
+
+
 ## keepExif
 > keepExif() ⇒ <code>Sharp</code>
 
@@ -238,6 +294,52 @@ const outputWithP3 = await sharp(input)
 ```
 
 
+## keepGainMap
+> keepGainMap() ⇒ <code>Sharp</code>
+
+如果输入包含增益图元数据，则尝试分别处理图像和增益图，
+并将它们重新组合成单个输出图像。
+
+这种方法更快，并且应比 [withGainMap](#withgainmap) 产生更好的结果，
+不过并非所有操作都受支持。
+
+仅支持 JPEG 输入和输出。
+除 `quality` 外的其他 JPEG 输出选项都会被忽略。
+
+此功能处于实验阶段，API 可能会更改。
+
+
+**自**: 0.35.0  
+**示例**  
+```js
+const outputWithResizedGainMap = await sharp(inputWithGainMap)
+  .keepGainMap()
+  .resize({ width: 64 })
+  .toBuffer();
+```
+
+
+## withGainMap
+> withGainMap() ⇒ <code>Sharp</code>
+
+如果输入包含增益图元数据，则在进一步处理前使用它将主图像转换为 HDR（高动态范围）。
+输入的增益图将被丢弃。
+
+如果输出为 JPEG，则会生成并附加一个新的 ISO 21496-1 增益图。
+除 `quality` 外的其他 JPEG 输出选项都会被忽略。
+
+此功能处于实验阶段，API 可能会更改。
+
+
+**自**: 0.35.0  
+**示例**  
+```js
+const outputWithRegeneratedGainMap = await sharp(inputWithGainMap)
+  .withGainMap()
+  .toBuffer();
+```
+
+
 ## keepXmp
 > keepXmp() ⇒ <code>Sharp</code>
 
@@ -263,7 +365,7 @@ const outputWithXmp = await sharp(inputWithXmp)
 
 **抛出**:
 
-- <code>Error</code> Invalid parameters
+- <code>Error</code> 无效参数
 
 **Since**: 0.34.3
 
@@ -488,14 +590,15 @@ const data = await sharp(input)
 | [options.alphaQuality] | <code>number</code> | <code>100</code> | alpha 层质量，整数 0-100 |
 | [options.lossless] | <code>boolean</code> | <code>false</code> | 使用无损压缩模式 |
 | [options.nearLossless] | <code>boolean</code> | <code>false</code> | 使用近无损压缩模式 |
-| [options.smartSubsample] | <code>boolean</code> | <code>false</code> | 使用高质量的色度子采样 |
-| [options.smartDeblock] | <code>boolean</code> | <code>false</code> | 自动调整去块过滤器，可以改善低对比度边缘（较慢） |
-| [options.preset] | <code>string</code> | <code>&quot;&#x27;default&#x27;&quot;</code> | 预处理/过滤的命名预设，选项为：default、photo、picture、drawing、icon、text |
+| [options.smartSubsample] | <code>boolean</code> | <code>false</code> | 使用高质量色度子采样 |
+| [options.smartDeblock] | <code>boolean</code> | <code>false</code> | 自动调整去块滤波器，可改善低对比度边缘（较慢） |
+| [options.preset] | <code>string</code> | <code>&quot;&#x27;default&#x27;&quot;</code> | 预处理/滤波的命名预设，取值之一：default、photo、picture、drawing、icon、text |
 | [options.effort] | <code>number</code> | <code>4</code> | CPU 努力程度，在 0（最快）和 6（最慢）之间 |
 | [options.loop] | <code>number</code> | <code>0</code> | 动画迭代次数，使用 0 表示无限动画 |
 | [options.delay] | <code>number</code> \| <code>Array.&lt;number&gt;</code> |  | 动画帧之间的延迟（以毫秒为单位） |
 | [options.minSize] | <code>boolean</code> | <code>false</code> | 防止使用动画关键帧以最小化文件大小（较慢） |
-| [options.mixed] | <code>boolean</code> | <code>false</code> | 允许损失和无损动画帧的混合（较慢） |
+| [options.mixed] | <code>boolean</code> | <code>false</code> | 允许有损和无损动画帧混合（较慢） |
+| [options.exact] | <code>boolean</code> | <code>false</code> | 保留透明像素中的颜色数据 |
 | [options.force] | <code>boolean</code> | <code>true</code> | 强制 WebP 输出，否则尝试使用输入格式 |
 
 **示例**
@@ -639,17 +742,17 @@ const data = await sharp(input)
 | [options.quality] | <code>number</code> | <code>80</code> | 质量，整数 1-100 |
 | [options.force] | <code>boolean</code> | <code>true</code> | 强制 TIFF 输出，否则尝试使用输入格式 |
 | [options.compression] | <code>string</code> | <code>&quot;&#x27;jpeg&#x27;&quot;</code> | 压缩选项：none、jpeg、deflate、packbits、ccittfax4、lzw、webp、zstd、jp2k |
-| [options.bigtiff] | <code>boolean</code> | <code>false</code> | 使用 BigTIFF 变体（当压缩为 none 时无效） |
-| [options.predictor] | <code>string</code> | <code>&quot;&#x27;horizontal&#x27;&quot;</code> | 压缩预测选项：none、horizontal、float |
+| [options.bigtiff] | <code>boolean</code> | <code>false</code> | 使用 BigTIFF 变体（当 compression 为 none 时无效） |
+| [options.predictor] | <code>string</code> | <code>&quot;&#x27;horizontal&#x27;&quot;</code> | 压缩预测器选项：none、horizontal、float |
 | [options.pyramid] | <code>boolean</code> | <code>false</code> | 写入图像金字塔 |
-| [options.tile] | <code>boolean</code> | <code>false</code> | 写入切片 TIFF |
+| [options.tile] | <code>boolean</code> | <code>false</code> | 写入平铺 TIFF |
 | [options.tileWidth] | <code>number</code> | <code>256</code> | 水平瓦片大小 |
 | [options.tileHeight] | <code>number</code> | <code>256</code> | 垂直瓦片大小 |
-| [options.xres] | <code>number</code> | <code>1.0</code> | 每毫米像素的水平分辨率 |
-| [options.yres] | <code>number</code> | <code>1.0</code> | 每毫米像素的垂直分辨率 |
+| [options.xres] | <code>number</code> | <code>1.0</code> | 水平分辨率，单位像素/mm |
+| [options.yres] | <code>number</code> | <code>1.0</code> | 垂直分辨率，单位像素/mm |
 | [options.resolutionUnit] | <code>string</code> | <code>&quot;&#x27;inch&#x27;&quot;</code> | 分辨率单位选项：inch、cm |
-| [options.bitdepth] | <code>number</code> | <code>8</code> | 将位深度减少到 1、2 或 4 位 |
-| [options.miniswhite] | <code>boolean</code> | <code>false</code> | 以白色小图像表示 1 位图像 |
+| [options.bitdepth] | <code>number</code> | <code>0</code> | 将位深度降低到 1、2 或 4 位 |
+| [options.miniswhite] | <code>boolean</code> | <code>false</code> | 将 1 位图像写为 miniswhite |
 
 **示例**
 ```js
@@ -672,7 +775,7 @@ sharp('input.svg')
 不支持 AVIF 图像序列。
 预构建的二进制文件仅支持 8 位深度。
 
-此功能在 Windows ARM64 平台上是实验性的，并且需要支持 ARM64v8.4 或更高版本的 CPU。
+在使用 Windows ARM64 时，此功能需要 ARM64v8.4 或更高版本的 CPU。
 
 **抛出**:
 
@@ -685,9 +788,10 @@ sharp('input.svg')
 | [options] | <code>Object</code> |  | 输出选项 |
 | [options.quality] | <code>number</code> | <code>50</code> | 质量，整数 1-100 |
 | [options.lossless] | <code>boolean</code> | <code>false</code> | 使用无损压缩 |
-| [options.effort] | <code>number</code> | <code>4</code> | CPU 努力程度，在 0（最快）和 9（最慢）之间 |
+| [options.effort] | <code>number</code> | <code>4</code> | CPU 努力程度，范围在 0（最快）到 9（最慢）之间 |
 | [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:4:4&#x27;&quot;</code> | 设置为 '4:2:0' 以使用色度子采样 |
 | [options.bitdepth] | <code>number</code> | <code>8</code> | 将位深度设置为 8、10 或 12 位 |
+| [options.tune] | <code>string</code> | <code>&quot;&#x27;auto&#x27;&quot;</code> | 根据质量指标调整输出，可选 'auto'（默认）、'iq'、'psnr' 或 'ssim' |
 
 **示例**
 ```js
@@ -720,12 +824,13 @@ const data = await sharp(input)
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | options | <code>Object</code> |  | 输出选项 |
-| options.compression | <code>string</code> |  | 压缩格式：av1，hevc |
+| options.compression | <code>string</code> |  | 压缩格式：av1、hevc |
 | [options.quality] | <code>number</code> | <code>50</code> | 质量，整数 1-100 |
 | [options.lossless] | <code>boolean</code> | <code>false</code> | 使用无损压缩 |
-| [options.effort] | <code>number</code> | <code>4</code> | CPU 努力程度，在 0（最快）和 9（最慢）之间 |
+| [options.effort] | <code>number</code> | <code>4</code> | CPU 努力程度，范围在 0（最快）到 9（最慢）之间 |
 | [options.chromaSubsampling] | <code>string</code> | <code>&quot;&#x27;4:4:4&#x27;&quot;</code> | 设置为 '4:2:0' 以使用色度子采样 |
 | [options.bitdepth] | <code>number</code> | <code>8</code> | 将位深度设置为 8、10 或 12 位 |
+| [options.tune] | <code>string</code> | <code>&quot;&#x27;auto&#x27;&quot;</code> | 根据质量指标调整输出，可选 'auto'（默认）、'iq'、'psnr' 或 'ssim' |
 
 **示例**
 ```js

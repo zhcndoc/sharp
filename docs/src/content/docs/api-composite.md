@@ -54,9 +54,10 @@ title: 合成图像
 | [images[].raw.width] | <code>Number</code> |  |  |
 | [images[].raw.height] | <code>Number</code> |  |  |
 | [images[].raw.channels] | <code>Number</code> |  |  |
-| [images[].animated] | <code>boolean</code> | <code>false</code> | 设置为 `true` 以读取动画图像的所有帧/页面。 |
-| [images[].failOn] | <code>string</code> | <code>&quot;&#x27;warning&#x27;&quot;</code> | @see [构造函数参数](/api-constructor/) |
-| [images[].limitInputPixels] | <code>number</code> \| <code>boolean</code> | <code>268402689</code> | @see [构造函数参数](/api-constructor/) |
+| [images[].animated] | <code>boolean</code> | <code>false</code> | 设置为 `true` 以读取动画图像的所有帧/页。 |
+| [images[].failOn] | <code>string</code> | <code>&quot;&#x27;warning&#x27;&quot;</code> | @see [constructor parameters](/api-constructor/) |
+| [images[].limitInputPixels] | <code>number</code> \| <code>boolean</code> | <code>268402689</code> | @see [constructor parameters](/api-constructor/) |
+| [images[].limitInputChannels] | <code>number</code> \| <code>boolean</code> | <code>5</code> | @see [constructor parameters](/api-constructor/) |
 
 **示例**
 ```js

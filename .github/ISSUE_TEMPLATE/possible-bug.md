@@ -1,65 +1,65 @@
 ---
 name: Possible bug
-about: Installation of sharp was successful but then something unexpected occurred using one of its features
+about: sharp 的安装已成功，但随后在使用其某个功能时发生了意料之外的情况
 labels: triage
 
 ---
 
-<!-- If this issue relates to installation, please use https://github.com/lovell/sharp/issues/new?labels=installation&template=installation.md instead. -->
+<!-- 如果此问题与安装相关，请改用 https://github.com/lovell/sharp/issues/new?labels=installation&template=installation.md 。 -->
 
-## Possible bug
+## 可能的 bug
 
-### Is this a possible bug in a feature of sharp, unrelated to installation?
+### 这是否是 sharp 某个功能中的一个可能 bug，且与安装无关？
 
-<!-- Please place an [x] in the box to confirm. -->
+<!-- 请在方框中填写 [x] 以确认。 -->
 
-- [ ] Running `npm install sharp` completes without error.
-- [ ] Running `node -e "require('sharp')"` completes without error.
+- [ ] 运行 `npm install sharp` 完成时没有错误。
+- [ ] 运行 `node -e "import 'sharp'"` 完成时没有错误。
 
-If you cannot confirm both of these, please open an [installation issue](https://github.com/lovell/sharp/issues/new?labels=installation&template=installation.md) instead.
+如果你无法同时确认以上两点，请改为提交一个[安装问题](https://github.com/lovell/sharp/issues/new?labels=installation&template=installation.md)。
 
-### Are you using the latest version of sharp?
+### 你是否正在使用 sharp 的最新版本？
 
-<!-- Please place an [x] in the box to confirm. -->
+<!-- 请在方框中填写 [x] 以确认。 -->
 
-- [ ] I am using the latest version of `sharp` as reported by `npm view sharp dist-tags.latest`.
+- [ ] 我使用的是 `sharp` 的最新版本，如 `npm view sharp dist-tags.latest` 所示。
 
-If you cannot confirm this, please upgrade to the latest version and try again before opening an issue.
+如果你无法确认这一点，请先升级到最新版本并重试，然后再提交问题。
 
-If you are using another package which depends on a version of `sharp` that is not the latest, please open an issue against that package instead.
+如果你使用的是另一个依赖于非最新 `sharp` 版本的包，请改为向该包提交问题。
 
-### What is the output of running `npx envinfo --binaries --system --npmPackages=sharp --npmGlobalPackages=sharp`?
+### 运行 `npx envinfo --binaries --system --npmPackages=sharp --npmGlobalPackages=sharp` 的输出是什么？
 
-<!-- Please provide output of the above command here. -->
+<!-- 请在此处提供上述命令的输出。 -->
 
-### Does this problem relate to file caching?
+### 这个问题是否与文件缓存有关？
 
-The default behaviour of libvips is to cache input files, which can lead to `EBUSY` or `EPERM` errors on Windows.
-Use [`sharp.cache(false)`](https://sharp.pixelplumbing.com/api-utility#cache) to switch this feature off.
+libvips 的默认行为是缓存输入文件，这可能会在 Windows 上导致 `EBUSY` 或 `EPERM` 错误。
+使用 [`sharp.cache(false)`](https://sharp.pixelplumbing.com/api-utility#cache) 可关闭此功能。
 
-- [ ] Adding `sharp.cache(false)` does not fix this problem.
+- [ ] 添加 `sharp.cache(false)` 并不能解决此问题。
 
-### Does this problem relate to images appearing to have been rotated by 90 degrees?
+### 这个问题是否与图像看起来被旋转了 90 度有关？
 
-Images that contain EXIF Orientation metadata are not auto-oriented. By default, EXIF metadata is removed.
+包含 EXIF Orientation 元数据的图像不会自动按方向调整。默认情况下，EXIF 元数据会被移除。
 
-- To auto-orient pixel values use the parameter-less [`rotate()`](https://sharp.pixelplumbing.com/api-operation#rotate) operation.
-- To retain EXIF Orientation use [`keepExif()`](https://sharp.pixelplumbing.com/api-output#keepexif).
+- 要自动按像素值调整方向，请使用不带参数的 [`rotate()`](https://sharp.pixelplumbing.com/api-operation#rotate) 操作。
+- 要保留 EXIF Orientation，请使用 [`keepExif()`](https://sharp.pixelplumbing.com/api-output#keepexif)。
 
-- [ ] Using `rotate()` or `keepExif()` does not fix this problem.
+- [ ] 使用 `rotate()` 或 `keepExif()` 并不能解决此问题。
 
-### What are the steps to reproduce?
+### 复现步骤是什么？
 
-<!-- Please enter steps to reproduce here. -->
+<!-- 请在此处填写复现步骤。 -->
 
-### What is the expected behaviour?
+### 预期行为是什么？
 
-<!-- Please enter the expected behaviour here. -->
+<!-- 请在此处填写预期行为。 -->
 
-### Please provide a minimal, standalone code sample, without other dependencies, that demonstrates this problem
+### 请提供一个最小的、独立的代码示例，不依赖其他内容，用于演示这个问题
 
-<!-- Please provide either formatted code or a link to a repo/gist that allows someone else to reproduce here. -->
+<!-- 请提供格式化后的代码，或提供一个仓库/gist 链接，以便他人复现。 -->
 
-### Please provide sample image(s) that help explain this problem
+### 请提供有助于说明该问题的示例图片
 
-<!-- Please provide links to one or more images here. -->
+<!-- 请在此处提供一个或多个图片链接。 -->

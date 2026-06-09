@@ -6,7 +6,8 @@ title: "高性能的 Node.js 图像处理库"
 
 这个高速 Node-API 模块的典型用例是将常见格式的大图像转换为更小的、适合网页的 JPEG、PNG、WebP、GIF 和 AVIF 图像，尺寸各异。
 
-它可以与所有提供 Node-API v9 支持的 JavaScript 运行时一起使用，包括 Node.js >= 18.17.0、Deno 和 Bun。
+它可用于所有提供 Node-API v9 支持的 JavaScript 运行时，包括
+Node.js >= 20.9.0、Deno 和 Bun。
 
 将图像调整大小的速度通常比使用最快的 ImageMagick 和 GraphicsMagick 设置快 4 倍到 5 倍，这得益于它使用的 [libvips](https://github.com/libvips/libvips)。
 

@@ -156,7 +156,7 @@ inputStream
 
 
 ## sharpen
-> sharpen([options], [flat], [jagged]) ⇒ <code>Sharp</code>
+> sharpen([options]) ⇒ <code>Sharp</code>
 
 锐化图像。
 
@@ -173,15 +173,13 @@ inputStream
 
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| [options] | <code>Object</code> \| <code>number</code> |  | 如果提供，是一个具有属性的对象 |
+| [options] | <code>Object</code> |  | 如果提供，是一个具有属性的对象 |
 | [options.sigma] | <code>number</code> |  | 高斯掩模的 sigma，其中 `sigma = 1 + radius / 2`，介于 0.000001 和 10 之间 |
 | [options.m1] | <code>number</code> | <code>1.0</code> | 应用于“平坦”区域的锐化级别，介于 0 和 1000000 之间 |
 | [options.m2] | <code>number</code> | <code>2.0</code> | 应用于“锯齿”区域的锐化级别，介于 0 和 1000000 之间 |
 | [options.x1] | <code>number</code> | <code>2.0</code> | “平坦”和“锯齿”之间的阈值，介于 0 和 1000000 之间 |
-| [options.y2] | <code>number</code> | <code>10.0</code> | 最大亮度增加量，介于 0 和 1000000 之间 |
-| [options.y3] | <code>number</code> | <code>20.0</code> | 最大暗度增加量，介于 0 和 1000000 之间 |
-| [flat] | <code>number</code> |  | （已弃用）见 `options.m1`。 |
-| [jagged] | <code>number</code> |  | （已弃用）见 `options.m2`。 |
+| [options.y2] | <code>number</code> | <code>10.0</code> | 最大增亮量，介于 0 和 1000000 之间 |
+| [options.y3] | <code>number</code> | <code>20.0</code> | 最大变暗量，介于 0 和 1000000 之间 |
 
 **示例**
 ```js
@@ -333,10 +331,9 @@ await sharp(rgbaInput)
 
 非白色像素的现有 alpha 通道值保持不变。
 
-此功能是实验性的，API 可能会更改。
 
-**自**: 0.32.1
-**示例**
+**Since**: 0.32.1  
+**Example**  
 ```js
 await sharp(rgbInput)
   .unflatten()

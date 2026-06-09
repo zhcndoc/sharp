@@ -1,69 +1,69 @@
 ---
-name: Installation
-about: Something went wrong during either 'npm install sharp' or 'require("sharp")'
+name: 安装
+about: 在执行 `npm install sharp` 或 `import "sharp"` 时出现了问题
 labels: installation
 
 ---
 
-<!-- Please try to answer as many of these questions as possible. -->
+<!-- 请尽可能回答以下问题。 -->
 
-## Possible install-time or require-time problem
+## 可能的安装时或加载时问题
 
-<!-- Please place an [x] in the box to confirm. -->
+<!-- 请在复选框中填入 [x] 以确认。 -->
 
-- [ ] I have read and understood all of the [documentation relating to installation](https://sharp.pixelplumbing.com/install).
-- [ ] I have searched for known bugs relating to this problem in my choice of package manager.
+- [ ] 我已阅读并理解所有与安装相关的[文档](https://sharp.pixelplumbing.com/install)。
+- [ ] 我已搜索与我所使用的包管理器相关的已知问题。
 
-You must confirm both of these before continuing.
+在继续之前，你必须确认以上两项。
 
-### Are you using the latest version of sharp?
+### 你是否使用的是最新版的 sharp？
 
-<!-- Please place an [x] in the box to confirm. -->
+<!-- 请在复选框中填入 [x] 以确认。 -->
 
-- [ ] I am using the latest version of `sharp` as reported by `npm view sharp dist-tags.latest`.
+- [ ] 我使用的是 `npm view sharp dist-tags.latest` 所报告的最新版本 `sharp`。
 
-If you cannot confirm this, please upgrade to the latest version and try again before opening an issue.
+如果你无法确认这一点，请先升级到最新版本并重试，然后再提交 issue。
 
-If you are using another package which depends on a version of `sharp` that is not the latest,
-please open an issue against that package instead.
+如果你使用的是另一个依赖于非最新版本 `sharp` 的包，
+请改为向该包提交 issue。
 
-### Are you using a supported runtime?
+### 你是否使用受支持的运行时？
 
-<!-- Please place an [x] in the relevant box to confirm. -->
+<!-- 请在相关复选框中填入 [x] 以确认。 -->
 
-- [ ] I am using Node.js with a version that satisfies `^18.17.0 || ^20.3.0 || >=21.0.0`
-- [ ] I am using Deno
-- [ ] I am using Bun
+- [ ] 我使用的是满足 `>=20.9.0` 的 Node.js 版本
+- [ ] 我使用的是 Deno
+- [ ] 我使用的是 Bun
 
-If you cannot confirm any of these,
-please upgrade to the latest version
-and try again before opening an issue.
+如果你无法确认以上任一项，
+请先升级到最新版本
+并重试，然后再提交 issue。
 
-### Are you using a supported package manager and installing optional dependencies?
+### 你是否使用受支持的包管理器，并安装了可选依赖？
 
-<!-- Please place an [x] in the relevant box to confirm. -->
+<!-- 请在复选框中填入 [x] 以确认。 -->
 
-- [ ] I am using npm >= 10.1.0 with `--include=optional`
-- [ ] I am using yarn >= 3.2.0
-- [ ] I am using pnpm >= 7.1.0 with `--no-optional=false`
-- [ ] I am using Deno
-- [ ] I am using Bun
+- [ ] 我使用的是带有 `--include=optional` 的 npm >= 10.1.0
+- [ ] 我使用的是 yarn >= 3.2.0
+- [ ] 我使用的是带有 `--no-optional=false` 的 pnpm >= 7.1.0
+- [ ] 我使用的是 Deno
+- [ ] 我使用的是 Bun
 
-If you cannot confirm any of these, please upgrade to the latest version of your chosen package manager
-and ensure you are allowing the installation of optional or multi-platform dependencies before opening an issue.
+如果你无法确认以上任一项，请先升级到你所选择的包管理器的最新版本，
+并确保在提交 issue 前允许安装可选或多平台依赖。
 
-### What is the complete error message, including the full stack trace?
+### 完整的错误信息是什么，包括完整的堆栈跟踪？
 
-<!-- Please provide the error message and stack trace here. -->
+<!-- 请在此处提供错误信息和堆栈跟踪。 -->
 
-### What is the complete output of running `npm install --verbose --foreground-scripts sharp` in an empty directory?
+### 在空目录中运行 `npm install --verbose --foreground-scripts sharp` 的完整输出是什么？
 
 <details>
 
-<!-- Please provide output of `npm install --verbose --foreground-scripts sharp` in an empty directory here. -->
+<!-- 请在此处提供在空目录中运行 `npm install --verbose --foreground-scripts sharp` 的输出。 -->
 
 </details>
 
-### What is the output of running `npx envinfo --binaries --system --npmPackages=sharp --npmGlobalPackages=sharp`?
+### 运行 `npx envinfo --binaries --system --npmPackages=sharp --npmGlobalPackages=sharp` 的输出是什么？
 
-<!-- Please provide output of `npx envinfo --binaries --system --npmPackages=sharp --npmGlobalPackages=sharp` here. -->
+<!-- 请在此处提供运行 `npx envinfo --binaries --system --npmPackages=sharp --npmGlobalPackages=sharp` 的输出。 -->
