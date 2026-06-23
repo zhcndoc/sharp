@@ -256,7 +256,7 @@ const outputWithIccProfile = await sharp(inputWithIccProfile)
   .keepIccProfile()
   .toBuffer();
 ```
-**Example**
+**示例**
 ```js
 const cmykOutputWithIccProfile = await sharp(cmykInputWithIccProfile)
   .pipelineColourspace('cmyk')
@@ -367,9 +367,9 @@ const outputWithXmp = await sharp(inputWithXmp)
 
 - <code>Error</code> 无效参数
 
-**Since**: 0.34.3
+**自**: 0.34.3
 
-| Param | Type | Description |
+| 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | xmp | <code>string</code> | 包含要嵌入输出图像的 XMP 元数据的字符串。 |
 
@@ -746,10 +746,10 @@ const data = await sharp(input)
 | [options.predictor] | <code>string</code> | <code>&quot;&#x27;horizontal&#x27;&quot;</code> | 压缩预测器选项：none、horizontal、float |
 | [options.pyramid] | <code>boolean</code> | <code>false</code> | 写入图像金字塔 |
 | [options.tile] | <code>boolean</code> | <code>false</code> | 写入平铺 TIFF |
-| [options.tileWidth] | <code>number</code> | <code>256</code> | 水平瓦片大小 |
-| [options.tileHeight] | <code>number</code> | <code>256</code> | 垂直瓦片大小 |
-| [options.xres] | <code>number</code> | <code>1.0</code> | 水平分辨率，单位像素/mm |
-| [options.yres] | <code>number</code> | <code>1.0</code> | 垂直分辨率，单位像素/mm |
+| [options.tileWidth] | <code>number</code> | <code>256</code> | 水平瓦片大小，有效值为 1-32768 范围内的整数 |
+| [options.tileHeight] | <code>number</code> | <code>256</code> | 垂直瓦片大小，有效值为 1-32768 范围内的整数 |
+| [options.xres] | <code>number</code> | <code>1.0</code> | 水平分辨率，单位为像素/mm，有效值范围为 0.001-1000000 |
+| [options.yres] | <code>number</code> | <code>1.0</code> | 垂直分辨率，单位为像素/mm，有效值范围为 0.001-1000000 |
 | [options.resolutionUnit] | <code>string</code> | <code>&quot;&#x27;inch&#x27;&quot;</code> | 分辨率单位选项：inch、cm |
 | [options.bitdepth] | <code>number</code> | <code>0</code> | 将位深度降低到 1、2 或 4 位 |
 | [options.miniswhite] | <code>boolean</code> | <code>false</code> | 将 1 位图像写为 miniswhite |
@@ -772,10 +772,7 @@ sharp('input.svg')
 
 使用这些 AVIF 选项设置输出图像。
 
-不支持 AVIF 图像序列。
-预构建的二进制文件仅支持 8 位深度。
-
-在使用 Windows ARM64 时，此功能需要 ARM64v8.4 或更高版本的 CPU。
+AVIF 图像序列不受支持。
 
 **抛出**:
 
@@ -843,7 +840,7 @@ const data = await sharp(input)
 ## jxl
 > jxl([options]) ⇒ <code>Sharp</code>
 
-使用这些 JPEG-XL (JXL) 选项设置输出图像。
+使用这些 JPEG-XL（JXL）选项设置输出图像。
 
 此功能为实验性，请勿在生产系统中使用。
 

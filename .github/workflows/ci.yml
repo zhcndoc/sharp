@@ -14,9 +14,11 @@ jobs:
         with:
           node-version: "24"
       - run: npm install --ignore-scripts
+      - run: npm run build:dist
       - run: npm run lint-cpp
       - run: npm run lint-js
       - run: npm run lint-types
+      - run: npm run lint-publish
   build-native:
     permissions:
       contents: read
@@ -153,11 +155,11 @@ jobs:
       - name: Dependencies (Rocky Linux glibc)
         if: contains(matrix.container, 'rockylinux')
         run: |
-          dnf install -y gcc-toolset-14-gcc-c++ make git python3.12 fontconfig google-noto-sans-fonts
+          dnf install -y gcc-toolset-14-gcc-c++ make git python3.12 fontconfig
           echo "/opt/rh/gcc-toolset-14/root/usr/bin" >> $GITHUB_PATH
       - name: Dependencies (Linux musl)
         if: contains(matrix.container, 'alpine')
-        run: apk add build-base git python3 font-noto --update-cache
+        run: apk add build-base git python3 fontconfig --update-cache
       - name: Dependencies (Python 3.11 - macOS, Windows)
         if: contains(matrix.os, 'macos') || contains(matrix.os, 'windows')
         uses: actions/setup-python@v6
@@ -171,10 +173,13 @@ jobs:
           architecture: ${{ matrix.nodejs_arch }}
       - uses: actions/checkout@v6
       - run: npm install
-      - run: npm run build:dist && npm run build
+      - run: npm run build:dist
+      - run: npm run build
       - run: npm run test-unit
       - if: matrix.package
-        run: npm run package-from-local-build
+        run: |
+          npm run package-from-local-build
+          npm run lint-publish -- npm/${{ matrix.platform }}
       - uses: actions/upload-artifact@v7
         if: matrix.package
         with:
@@ -213,13 +218,15 @@ jobs:
           mkdir /opt/bin
           ln -s /usr/bin/node /opt/bin/node
       - name: Dependencies
-        run: apk add build-base git python3 font-noto --update-cache
+        run: apk add build-base git python3 fontconfig --update-cache
       - uses: actions/checkout@v6
       - run: npm install
       - run: npm run build:dist && npm run build
       - run: npm run test-unit
       - if: matrix.package
-        run: npm run package-from-local-build
+        run: |
+          npm run package-from-local-build
+          npm run lint-publish -- npm/linuxmusl-arm64
       - uses: actions/upload-artifact@v7
         if: matrix.package
         with:
@@ -284,6 +291,7 @@ jobs:
             npm run build
             node --test test/unit/io.js
             npm run package-from-local-build
+            npm run lint-publish -- npm/${{ matrix.platform }}
       - uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.platform }}
@@ -316,6 +324,7 @@ jobs:
           test "$EMSCRIPTEN_VERSION_LIBVIPS" = "$EMSCRIPTEN_VERSION_SHARP"
       - run: emmake npm run test-unit
       - run: emmake npm run package-from-local-build
+      - run: npm run lint-publish -- npm/wasm32
       - uses: actions/upload-artifact@v7
         with:
           name: wasm32

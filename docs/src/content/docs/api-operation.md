@@ -458,9 +458,9 @@ const output = await sharp(input)
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | options | <code>Object</code> |  |  |
-| options.width | <code>number</code> |  | 以像素为单位的搜索窗口的整数宽度。 |
-| options.height | <code>number</code> |  | 以像素为单位的搜索窗口的整数高度。 |
-| [options.maxSlope] | <code>number</code> | <code>3</code> | 亮度的整数级别，介于 0 和 100 之间，其中 0 禁用对比度限制。 |
+| options.width | <code>number</code> |  | 搜索窗口的整数宽度，单位为像素，范围在 1 到 65536 之间。 |
+| options.height | <code>number</code> |  | 搜索窗口的整数高度，单位为像素，范围在 1 到 65536 之间。 |
+| [options.maxSlope] | <code>number</code> | <code>3</code> | 亮度增强的整数级别，范围在 0 到 100 之间，其中 0 表示禁用对比度限制。 |
 
 **示例**
 ```js
@@ -473,7 +473,7 @@ const output = await sharp(input)
 ```
 
 
-## convolve
+## 卷积
 > convolve(kernel) ⇒ <code>Sharp</code>
 
 使用指定的核对图像进行卷积。
@@ -506,7 +506,7 @@ sharp(input)
 ```
 
 
-## threshold
+## 阈值
 > threshold([threshold], [options]) ⇒ <code>Sharp</code>
 
 任何像素值大于或等于阈值的将设为 255，否则将设为 0。
@@ -523,7 +523,7 @@ sharp(input)
 | [options.grayscale] | <code>Boolean</code> | <code>true</code> | 灰度的另一种拼写。 |
 
 
-## boolean
+## 布尔运算
 > boolean(operand, operator, [options]) ⇒ <code>Sharp</code>
 
 与操作数图像执行按位布尔操作。
@@ -545,7 +545,7 @@ sharp(input)
 | [options.raw.channels] | <code>number</code> |  |
 
 
-## linear
+## 线性
 > linear([a], [b]) ⇒ <code>Sharp</code>
 
 对图像应用线性公式 `a` * 输入 + `b` 来调整图像级别。
@@ -579,7 +579,7 @@ await sharp(rgbInput)
 ```
 
 
-## recomb
+## 重组
 > recomb(inputMatrix) ⇒ <code>Sharp</code>
 
 使用指定的矩阵重组图像。
@@ -610,7 +610,7 @@ sharp(input)
 ```
 
 
-## modulate
+## 调制
 > modulate([options]) ⇒ <code>Sharp</code>
 
 通过亮度、饱和度、色相旋转和亮度转换图像。

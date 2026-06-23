@@ -170,13 +170,13 @@ const scaleByHalf = await sharp(input)
 
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
-| extend | <code>number</code> \| <code>Object</code> |  | 要添加到所有边缘的单个像素数，或包含每个边缘计数的对象 |
-| [extend.top] | <code>number</code> | <code>0</code> |  |
-| [extend.left] | <code>number</code> | <code>0</code> |  |
-| [extend.bottom] | <code>number</code> | <code>0</code> |  |
-| [extend.right] | <code>number</code> | <code>0</code> |  |
-| [extend.extendWith] | <code>String</code> | <code>&#x27;background&#x27;</code> | 使用此方法填充新像素，可以是：background、copy、repeat、mirror。 |
-| [extend.background] | <code>String</code> \| <code>Object</code> | <code>{r: 0, g: 0, b: 0, alpha: 1}</code> | 背景颜色，由 [color](https://www.npmjs.org/package/color) 模块解析，默认为不透明的黑色。 |
+| extend | <code>number</code> \| <code>Object</code> |  | 添加到所有边缘的单个像素数量，或带有各边缘数量的对象 |
+| [extend.top] | <code>number</code> | <code>0</code> | 要添加到顶部边缘的像素数，有效值为 0-10000 范围内的整数 |
+| [extend.left] | <code>number</code> | <code>0</code> | 要添加到左边缘的像素数，有效值为 0-10000 范围内的整数 |
+| [extend.bottom] | <code>number</code> | <code>0</code> | 要添加到底部边缘的像素数，有效值为 0-10000 范围内的整数 |
+| [extend.right] | <code>number</code> | <code>0</code> | 要添加到右边缘的像素数，有效值为 0-10000 范围内的整数 |
+| [extend.extendWith] | <code>String</code> | <code>&#x27;background&#x27;</code> | 使用此方法填充新像素，可选值为：background、copy、repeat、mirror。 |
+| [extend.background] | <code>String</code> \| <code>Object</code> | <code>{r: 0, g: 0, b: 0, alpha: 1}</code> | 背景颜色，由 [color](https://www.npmjs.org/package/color) 模块解析，默认为不透明黑色。 |
 
 **示例**  
 ```js

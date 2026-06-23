@@ -35,7 +35,7 @@ deno run --allow-env --allow-ffi --allow-read --allow-sys ...
 
 ## 先决条件
 
-* Node-API v9 compatible runtime e.g. Node.js >= 20.9.0.
+* Node-API v9 兼容运行时，例如 Node.js >= 20.9.0。
 
 ## 预编译二进制文件
 
@@ -50,12 +50,12 @@ deno run --allow-env --allow-ffi --allow-read --allow-sys ...
 * Linux s390x (glibc >= 2.36)
 * Linux x64 (glibc >= 2.28, musl >= 1.2.5, CPU with SSE4.2)
 * Windows x64
-* Windows x86 (deprecated, Node.js 20 only)
-* Windows ARM64 (CPU with ARMv8.4 required for all features)
+* Windows x86 (已弃用，仅 Node.js 20)
+* Windows ARM64
 * FreeBSD (WebAssembly)
 
-This provides support for the
-JPEG, PNG, Ultra HDR, WebP, AVIF, TIFF, GIF and SVG (input) image formats.
+这为以下图像格式提供支持：
+JPEG、PNG、Ultra HDR、WebP、AVIF、TIFF、GIF 和 SVG（输入）。
 
 ## 跨平台
 

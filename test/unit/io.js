@@ -91,6 +91,31 @@ suite('Input/output', () => {
     readable.pipe(pipeline);
   });
 
+  test('Read from File and write to Buffer via callback', (t, done) => {
+    t.plan(6);
+    sharp(fixtures.inputJpg).resize(320, 240).toBuffer((err, data, info) => {
+      t.assert.strictEqual(err, null);
+      t.assert.strictEqual(true, data.length > 0);
+      t.assert.strictEqual(data.length, info.size);
+      t.assert.strictEqual('jpeg', info.format);
+      t.assert.strictEqual(320, info.width);
+      t.assert.strictEqual(240, info.height);
+      done();
+    });
+  });
+
+  test('Read invalid Stream and write to Buffer via callback fails gracefully', (t, done) => {
+    t.plan(3);
+    const readableButNotAnImage = createReadStream(__filename);
+    const pipeline = sharp().resize(320, 240).toBuffer((err, data, info) => {
+      t.assert.ok(err instanceof Error);
+      t.assert.strictEqual(data, undefined);
+      t.assert.strictEqual(info, undefined);
+      done();
+    });
+    readableButNotAnImage.pipe(pipeline);
+  });
+
   test('Read from Stream and write to Buffer via Promise resolved with Buffer', async (t) => {
     t.plan(2);
     const pipeline = sharp().resize(1, 1);
@@ -457,6 +482,16 @@ suite('Input/output', () => {
       () => sharp(fixtures.inputJpg).toFile(''),
       /Missing output file path/
     );
+  });
+
+  test('Fail when output File is empty, Callback out, returns instance', (t, done) => {
+    t.plan(2);
+    const instance = sharp(fixtures.inputJpg);
+    const returned = instance.toFile('', (err) => {
+      t.assert.strictEqual(err.message, 'Missing output file path');
+      done();
+    });
+    t.assert.strictEqual(returned, instance);
   });
 
   test('Fail when input is invalid Buffer', async (t) => {
@@ -899,6 +934,20 @@ suite('Input/output', () => {
       t.assert.throws(
         () => sharp({ density: 'zoinks' }),
         /Expected number between 1 and 100000 for density but received zoinks of type string/
+      );
+    });
+    test('Invalid density: numeric string', (t) => {
+      t.plan(1);
+      t.assert.throws(
+        () => sharp({ density: '50' }),
+        /Expected number between 1 and 100000 for density but received 50 of type string/
+      );
+    });
+    test('Invalid density: array', (t) => {
+      t.plan(1);
+      t.assert.throws(
+        () => sharp({ density: [50] }),
+        /Expected number between 1 and 100000 for density but received 50 of type object/
       );
     });
     test('Invalid ignoreIcc: string', (t) => {
