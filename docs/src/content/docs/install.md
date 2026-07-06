@@ -66,7 +66,7 @@ JPEG、PNG、Ultra HDR、WebP、AVIF、TIFF、GIF 和 SVG（输入）。
 ### npm v10+
 
 :::caution
-多平台共享的 npm `package-lock.json` 文件可能会因 [npm bug #4828](https://github.com/npm/cli/issues/4828) 导致安装问题
+多平台共享的 npm `package-lock.json` 文件可能会因 [npm 错误 #4828](https://github.com/npm/cli/issues/4828) 导致安装问题
 :::
 
 通过 `--os`、`--cpu` 和 `--libc` 标志提供有限支持。
@@ -116,7 +116,7 @@ npm explore sharp -- npm run build
 `SHARP_FORCE_GLOBAL_LIBVIPS`（始终尝试使用它，即使缺失或过期）
 环境变量来跳过此检测逻辑。
 
-从源码构建需要：
+从源代码构建需要：
 
 * C++17 编译器
 * 版本 7 及以上的 [node-addon-api](https://www.npmjs.com/package/node-addon-api)
@@ -157,25 +157,25 @@ npm install sharp @img/sharp-wasm32
 
 ## AWS Lambda
 
-部署包的 `node_modules` 目录必须包含对应所选架构的 linux-x64 或 linux-arm64 平台的二进制文件。
+The `node_modules` directory of the deployment package must include the binary files for the linux-x64 or linux-arm64 platform corresponding to the selected architecture.
 
-当在与目标架构不同的机器上构建部署包时，
-请参考[跨平台](#cross-platform) 部分帮助确定合适的包管理器并进行配置。
+When building a deployment package on a machine with a different architecture than the target,
+please refer to the [Cross-platform](#cross-platform) section to help determine the appropriate package manager and configure it accordingly.
 
-部分包管理器会使用符号链接，
-但 AWS Lambda 不支持部署包中的符号链接。
+Some package managers use symbolic links,
+but AWS Lambda does not support symbolic links in deployment packages.
 
-另一种方法是使用维护良好的第三方 Lambda Layer：
+Another option is to use a well-maintained third-party Lambda Layer:
 
 - [cbschuld/sharp-aws-lambda-layer](https://github.com/cbschuld/sharp-aws-lambda-layer)
 - [pH200/sharp-layer](https://github.com/pH200/sharp-layer)
 - [zoellner/sharp-heic-lambda-layer](https://github.com/zoellner/sharp-heic-lambda-layer)
 
-要获得最佳性能，请选择可用的最大内存。
-1536 MB 的函数提供的 CPU 时间大约是 128 MB 函数的 12 倍。
+For best performance, choose the largest memory available.
+A function with 1536 MB provides about 12 times the CPU time of a 128 MB function.
 
-与 AWS API Gateway 集成时，确保配置了相关
-[二进制媒体类型](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-payload-encodings.html)。
+When integrating with AWS API Gateway, make sure the relevant
+[Binary Media Types](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-payload-encodings.html) are configured.
 
 ## 打包工具
 
@@ -322,3 +322,14 @@ Fontconfig error: Cannot load default config file
 ```
 The specified procedure could not be found.
 ```
+
+### Electron 和 Linux
+
+Electron 提供的用于 Linux 的二进制文件会动态链接到全局安装的 `glib`，并将其符号泄漏到进程空间中，这可能导致出现以下错误：
+```
+GLib-GObject: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+GLib-GObject: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+```
+请订阅
+[electron#46323](https://github.com/electron/electron/issues/46323)
+以获取更新。

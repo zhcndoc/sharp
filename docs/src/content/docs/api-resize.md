@@ -3,13 +3,13 @@
 title: 调整图像大小
 ---
 
-## resize
+## 调整大小
 > resize([width], [height], [options]) ⇒ <code>Sharp</code>
 
 将图像调整为 `width`、`height` 或 `width x height`。
 
 当同时提供 `width` 和 `height` 时，符合这些尺寸的图像应当**适配**的可能方法有：
-- `cover`：（默认）保持宽高比，尽量确保图像覆盖提供的两个尺寸，通过裁剪/剪切以适应。
+- `cover`：（默认）保持宽高比，尽量确保图像覆盖提供的两个尺寸，通过裁剪/切边以适应。
 - `contain`：保持宽高比，在必要时使用“宽屏效果”使图像包含在提供的两个尺寸内。
 - `fill`：忽略输入的宽高比，拉伸到提供的两个尺寸。
 - `inside`：保持宽高比，调整图像，使其尽可能大，同时确保其尺寸不大于指定的尺寸。
@@ -65,7 +65,7 @@ title: 调整图像大小
 | [options.kernel] | <code>String</code> | <code>&#x27;lanczos3&#x27;</code> | 用于图像缩减的内核和用于上采样的推断插值器。使用 `fastShrinkOnLoad` 选项控制内核和加载时缩小的关系。 |
 | [options.withoutEnlargement] | <code>Boolean</code> | <code>false</code> | 如果宽度 *或* 高度已经小于目标尺寸，则不进行放大，相当于 GraphicsMagick 的 `>` 几何选项。这可能导致输出尺寸小于目标尺寸。 |
 | [options.withoutReduction] | <code>Boolean</code> | <code>false</code> | 如果宽度 *或* 高度已经大于目标尺寸，则不进行缩小，相当于 GraphicsMagick 的 `<` 几何选项。这仍可能导致裁剪以达到目标尺寸。 |
-| [options.fastShrinkOnLoad] | <code>Boolean</code> | <code>true</code> | 更充分利用 JPEG 和 WebP 的加载时缩小特性，这可能导致轻微的摩尔图案或自动缩放尺寸的四舍五入。 |
+| [options.fastShrinkOnLoad] | <code>Boolean</code> | <code>true</code> | 更充分利用 JPEG 和 WebP 的加载时缩小特性，这可能导致轻微的摩尔纹或自动缩放尺寸的四舍五入。 |
 
 **示例**  
 ```js
@@ -180,7 +180,7 @@ const scaleByHalf = await sharp(input)
 
 **示例**  
 ```js
-// 调整为 140 像素宽，然后在顶部、左侧和右边添加 10 个透明像素，在底部边缘添加 20 个
+// 调整为 140 像素宽，然后在顶部、左侧和右侧添加 10 个透明像素，在底部边缘添加 20 个
 sharp(input)
   .resize(140)
   .extend({
@@ -204,7 +204,7 @@ sharp(input)
 ```
 **示例**  
 ```js
-// 向右突出 8 像素，镜像现有的右边缘
+// 向右扩展 8 像素，镜像现有的右边缘
 sharp(input)
   .extend({
     right: 8,
@@ -214,7 +214,7 @@ sharp(input)
 ```
 
 
-## extract
+## 提取
 > extract(options) ⇒ <code>Sharp</code>
 
 提取/裁剪图像的区域。
@@ -230,11 +230,11 @@ sharp(input)
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| options | <code>Object</code> | 描述使用整数像素值提取的区域 |
-| options.left | <code>number</code> | 从左边缘的零索引偏移 |
-| options.top | <code>number</code> | 从顶部边缘的零索引偏移 |
-| options.width | <code>number</code> | 要提取的区域宽度 |
-| options.height | <code>number</code> | 要提取的区域高度 |
+| options | <code>Object</code> | 使用整数像素值描述要提取的区域 |
+| options.left | <code>number</code> | 从左边缘开始的零基偏移量，介于 0 和 100000000 之间的整数 |
+| options.top | <code>number</code> | 从上边缘开始的零基偏移量，介于 0 和 100000000 之间的整数 |
+| options.width | <code>number</code> | 要提取区域的宽度，介于 0 和 100000000 之间的整数 |
+| options.height | <code>number</code> | 要提取区域的高度，介于 0 和 100000000 之间的整数 |
 
 **示例**  
 ```js
@@ -273,10 +273,10 @@ sharp(input)
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | [options] | <code>Object</code> |  |  |
-| [options.background] | <code>string</code> \| <code>Object</code> | <code>&quot;&#x27;左上角像素&#x27;&quot;</code> | 背景颜色，由 [color](https://www.npmjs.org/package/color) 模块解析，默认为左上角像素的颜色。 |
-| [options.threshold] | <code>number</code> | <code>10</code> | 与上述颜色允许的差异，必须为正数。 |
-| [options.lineArt] | <code>boolean</code> | <code>false</code> | 输入是否更接近线条艺术（例如矢量图），而不是照片？ |
-| [options.margin] | <code>number</code> | <code>0</code> | 在修剪后的内容周围保留边距，单位为像素。 |
+| [options.background] | <code>string</code> \| <code>Object</code> | <code>&quot;&#x27;top-left pixel&#x27;&quot;</code> | 背景颜色，由 [color](https://www.npmjs.org/package/color) 模块解析，默认为左上角像素的颜色。 |
+| [options.threshold] | <code>number</code> | <code>10</code> | 与上述颜色允许的差异，正数。 |
+| [options.lineArt] | <code>boolean</code> | <code>false</code> | 输入内容是否更接近线条艺术（例如矢量图），而不是照片？ |
+| [options.margin] | <code>number</code> | <code>0</code> | 在修剪后的内容周围保留边距，0 到 10000000 之间的整数像素。 |
 
 **示例**  
 ```js

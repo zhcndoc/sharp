@@ -658,25 +658,27 @@ declare namespace sharp {
          * @param callback Callback function called on completion with three arguments (err, buffer, info).
          * @returns A sharp instance that can be used to chain operations
          */
-        toBuffer(callback: (err: Error, buffer: Buffer, info: OutputInfo) => void): Sharp;
+        toBuffer(callback: (err: Error, buffer: Buffer<ArrayBuffer>, info: OutputInfo) => void): Sharp;
 
         /**
          * Write output to a Buffer. JPEG, PNG, WebP, AVIF, TIFF, GIF and RAW output are supported.
          * By default, the format will match the input image, except SVG input which becomes PNG output.
+         * The underlying `ArrayBuffer` may be marked as non-transferable by some JavaScript runtimes.
          * @param options resolve options
          * @param options.resolveWithObject Resolve the Promise with an Object containing data and info properties instead of resolving only with data.
          * @returns A promise that resolves with the Buffer data.
          */
-        toBuffer(options?: { resolveWithObject: false }): Promise<Buffer>;
+        toBuffer(options?: { resolveWithObject: false }): Promise<Buffer<ArrayBuffer>>;
 
         /**
          * Write output to a Buffer. JPEG, PNG, WebP, AVIF, TIFF, GIF and RAW output are supported.
          * By default, the format will match the input image, except SVG input which becomes PNG output.
+         * The underlying `ArrayBuffer` may be marked as non-transferable by some JavaScript runtimes.
          * @param options resolve options
          * @param options.resolveWithObject Resolve the Promise with an Object containing data and info properties instead of resolving only with data.
          * @returns A promise that resolves with an object containing the Buffer data and an info object containing the output image format, size (bytes), width, height and channels
          */
-        toBuffer(options: { resolveWithObject: true }): Promise<{ data: Buffer; info: OutputInfo }>;
+        toBuffer(options: { resolveWithObject: true }): Promise<{ data: Buffer<ArrayBuffer>; info: OutputInfo }>;
 
         /**
          * Write output to a Uint8Array backed by a transferable ArrayBuffer. JPEG, PNG, WebP, AVIF, TIFF, GIF and RAW output are supported.
@@ -1598,13 +1600,13 @@ declare namespace sharp {
     }
 
     interface Region {
-        /** zero-indexed offset from left edge */
+        /** zero-indexed offset from left edge, an integer between 0 and 100000000 */
         left: number;
-        /** zero-indexed offset from top edge */
+        /** zero-indexed offset from top edge, an integer between 0 and 100000000 */
         top: number;
-        /** dimension of extracted image */
+        /** dimension of extracted image, an integer between 0 and 100000000 */
         width: number;
-        /** dimension of extracted image */
+        /** dimension of extracted image, an integer between 0 and 100000000 */
         height: number;
     }
 
@@ -1641,7 +1643,7 @@ declare namespace sharp {
         threshold?: number | undefined;
         /** Does the input more closely resemble line art (e.g. vector) rather than being photographic? (optional, default false) */
         lineArt?: boolean | undefined;
-        /** Leave a margin around trimmed content, value is in pixels. (optional, default 0) */
+        /** Leave a margin around trimmed content, integral number of pixels between 0 and 10000000. (optional, default 0) */
         margin?: number | undefined;
     }
 
@@ -1691,9 +1693,9 @@ declare namespace sharp {
         blend?: Blend | undefined;
         /** gravity at which to place the overlay. (optional, default 'centre') */
         gravity?: Gravity | undefined;
-        /** the pixel offset from the top edge. */
+        /** the pixel offset from the top edge, an integer between -100000000 and 100000000. */
         top?: number | undefined;
-        /** the pixel offset from the left edge. */
+        /** the pixel offset from the left edge, an integer between -100000000 and 100000000. */
         left?: number | undefined;
         /** set to true to repeat the overlay image across the entire image with the given  gravity. (optional, default false) */
         tile?: boolean | undefined;
@@ -1783,6 +1785,8 @@ declare namespace sharp {
         channels: Channels;
         /** indicating if premultiplication was used */
         premultiplied: boolean;
+        /** Indicates if the output image has an alpha channel */
+        hasAlpha: boolean;
         /** Only defined when using a crop strategy */
         cropOffsetLeft?: number | undefined;
         /** Only defined when using a crop strategy */

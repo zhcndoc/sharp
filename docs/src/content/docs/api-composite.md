@@ -6,11 +6,11 @@ title: 合成图像
 ## composite
 > composite(images) ⇒ <code>Sharp</code>
 
-在已处理 (调整大小、提取等) 的图像上合成图像。
+在已处理（调整大小、提取等）的图像上合成图像。
 
 合成的图像必须与处理后的图像大小相同或更小。如果同时提供了 `top` 和 `left` 选项，则它们优先于 `gravity`。
 
-在同一处理管道中的其他操作 (例如调整大小、旋转、翻转、颠倒、提取) 将始终在合成之前应用于输入图像。
+在同一处理管道中的其他操作（例如调整大小、旋转、翻转、颠倒、提取）将始终在合成之前应用于输入图像。
 
 `blend` 选项可以是 `clear`、`source`、`over`、`in`、`out`、`atop`、`dest`、`dest-over`、`dest-in`、`dest-out`、`dest-atop`、`xor`、`add`、`saturate`、`multiply`、`screen`、`overlay`、`darken`、`lighten`、`colour-dodge`、`color-dodge`、`colour-burn`、`color-burn`、`hard-light`、`soft-light`、`difference`、`exclusion`。
 
@@ -25,32 +25,32 @@ title: 合成图像
 | 参数 | 类型 | 默认 | 描述 |
 | --- | --- | --- | --- |
 | images | <code>Array.&lt;Object&gt;</code> |  | 合成的图像有序列表 |
-| [images[].input] | <code>Buffer</code> \| <code>String</code> |  | 包含图像数据的缓冲区，包含图像文件路径的字符串，或者创建对象 (见下文) |
+| [images[].input] | <code>Buffer</code> \| <code>String</code> |  | 包含图像数据的缓冲区，包含图像文件路径的字符串，或者创建对象（见下文） |
 | [images[].input.create] | <code>Object</code> |  | 描述要创建的空叠加层。 |
 | [images[].input.create.width] | <code>Number</code> |  |  |
 | [images[].input.create.height] | <code>Number</code> |  |  |
 | [images[].input.create.channels] | <code>Number</code> |  | 3-4 |
-| [images[].input.create.background] | <code>String</code> \| <code>Object</code> |  | 由 [color](https://www.npmjs.org/package/color) 模块解析以提取红色、绿色、蓝色和 alpha 的值。 |
+| [images[].input.create.background] | <code>String</code> \| <code>Object</code> |  | 由 [color](https://www.npmjs.org/package/color) 模块解析，以提取红、绿、蓝和 alpha 的值。 |
 | [images[].input.text] | <code>Object</code> |  | 描述要创建的新文本图像。 |
-| [images[].input.text.text] | <code>string</code> |  | 作为 UTF-8 字符串渲染的文本。可以包含 Pango 标记，例如 `<i>Le</i>Monde`。 |
-| [images[].input.text.font] | <code>string</code> |  | 用于渲染的字体名称。 |
-| [images[].input.text.fontfile] | <code>string</code> |  | 可以被 `font` 使用的字体文件的绝对文件系统路径。 |
-| [images[].input.text.width] | <code>number</code> | <code>0</code> | 行宽的像素整数数量。比这更宽的文本行将在单词边界处断开。 |
-| [images[].input.text.height] | <code>number</code> | <code>0</code> | 高度的像素整数数量。当定义时，将忽略 `dpi`，文本将自动适应由 `width` 和 `height` 定义的像素分辨率。如果未指定 `width` 或将其设置为 0，则将被忽略。 |
-| [images[].input.text.align] | <code>string</code> | <code>&quot;&#x27;left&#x27;&quot;</code> | 文本对齐 (`'left'`、`'centre'`、`'center'`、`'right'`)。 |
-| [images[].input.text.justify] | <code>boolean</code> | <code>false</code> | 将其设置为 true 以对文本应用对齐。 |
-| [images[].input.text.dpi] | <code>number</code> | <code>72</code> | 用于渲染文本的分辨率 (大小)。如果指定了 `height`，则无效。 |
-| [images[].input.text.rgba] | <code>boolean</code> | <code>false</code> | 将其设置为 true 以启用 RGBA 输出。这对于颜色 emoji 渲染或支持 Pango 标记特性 (如 `<span foreground="red">Red!</span>`) 很有用。 |
-| [images[].input.text.spacing] | <code>number</code> | <code>0</code> | 文本行高 (以磅为单位)。如果未指定，将使用字体行高。 |
-| [images[].autoOrient] | <code>Boolean</code> | <code>false</code> | 设置为 true 以使用 EXIF 方向数据（如果存在）来定向图像。 |
+| [images[].input.text.text] | <code>string</code> |  | 要渲染为 UTF-8 字符串的文本。它可以包含 Pango 标记，例如 `<i>Le</i>Monde`。 |
+| [images[].input.text.font] | <code>string</code> |  | 要使用的字体名称。 |
+| [images[].input.text.fontfile] | <code>string</code> |  | 可供 `font` 使用的字体文件的绝对文件系统路径。 |
+| [images[].input.text.width] | <code>number</code> | <code>0</code> | 用于自动换行的像素整数宽度。宽于此值的文本行将按单词边界断行。 |
+| [images[].input.text.height] | <code>number</code> | <code>0</code> | 像素整数高度。定义后，`dpi` 将被忽略，文本将自动适配由 `width` 和 `height` 定义的像素分辨率。如果未指定 `width` 或将其设为 0，则会被忽略。 |
+| [images[].input.text.align] | <code>string</code> | <code>&quot;&#x27;left&#x27;&quot;</code> | 文本对齐方式（`'left'`、`'centre'`、`'center'`、`'right'`）。 |
+| [images[].input.text.justify] | <code>boolean</code> | <code>false</code> | 将其设为 true 以对文本应用两端对齐。 |
+| [images[].input.text.dpi] | <code>number</code> | <code>72</code> | 渲染文本时使用的分辨率（大小）。如果指定了 `height`，则不生效。 |
+| [images[].input.text.rgba] | <code>boolean</code> | <code>false</code> | 将其设为 true 以启用 RGBA 输出。这对于彩色 emoji 渲染，或支持类似 `<span foreground="red">Red!</span>` 的 Pango 标记功能很有用。 |
+| [images[].input.text.spacing] | <code>number</code> | <code>0</code> | 文本行高，单位为 points。如果未指定，则使用字体行高。 |
+| [images[].autoOrient] | <code>Boolean</code> | <code>false</code> | 设为 true 以使用 EXIF 方向数据（如果存在）来调整图像方向。 |
 | [images[].blend] | <code>String</code> | <code>&#x27;over&#x27;</code> | 如何将此图像与下方图像混合。 |
-| [images[].gravity] | <code>String</code> | <code>&#x27;centre&#x27;</code> | 在那里放置叠加层的重力。 |
-| [images[].top] | <code>Number</code> |  | 从顶部边缘的像素偏移量。 |
-| [images[].left] | <code>Number</code> |  | 从左边缘的像素偏移量。 |
-| [images[].tile] | <code>Boolean</code> | <code>false</code> | 设置为 true 以在整个图像上重复叠加图像，使用给定的 `gravity`。 |
-| [images[].premultiplied] | <code>Boolean</code> | <code>false</code> | 设置为 true 以避免对下方图像进行预乘。相当于 `--premultiplied` vips 选项。 |
-| [images[].density] | <code>Number</code> | <code>72</code> | 表示向量叠加图像的 DPI 的数字。 |
-| [images[].raw] | <code>Object</code> |  | 描述使用原始像素数据的叠加层。 |
+| [images[].gravity] | <code>String</code> | <code>&#x27;centre&#x27;</code> | 放置叠加层时使用的重力。 |
+| [images[].top] | <code>Number</code> |  | 距离顶部边缘的像素偏移量，介于 -100000000 和 100000000 之间的整数。 |
+| [images[].left] | <code>Number</code> |  | 距离左侧边缘的像素偏移量，介于 -100000000 和 100000000 之间的整数。 |
+| [images[].tile] | <code>Boolean</code> | <code>false</code> | 设为 true 以使用给定的 `gravity` 在整张图像上重复叠加层图像。 |
+| [images[].premultiplied] | <code>Boolean</code> | <code>false</code> | 设为 true 以避免对下方图像进行预乘。等同于 `--premultiplied` vips 选项。 |
+| [images[].density] | <code>Number</code> | <code>72</code> | 表示矢量叠加图像 DPI 的数值。 |
+| [images[].raw] | <code>Object</code> |  | 使用原始像素数据时的叠加层描述。 |
 | [images[].raw.width] | <code>Number</code> |  |  |
 | [images[].raw.height] | <code>Number</code> |  |  |
 | [images[].raw.channels] | <code>Number</code> |  |  |

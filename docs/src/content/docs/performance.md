@@ -18,7 +18,8 @@ export UV_THREADPOOL_SIZE="$(lscpu -p | egrep -v "^#" | sort -u -t, -k 2,4 | wc 
 
 libvips 使用共享线程池来避免创建新线程的开销。
 
-该线程池的大小会根据需求增长，并在空闲时缩小。
+默认用于并发处理每张图像的线程数与 CPU 核心数量相同，
+但在使用基于 glibc 的 Linux 且未使用 jemalloc 或未设置 `MALLOC_ARENA_MAX` 时，默认值为 `1`，以帮助减少内存碎片。
 
 默认用于并发处理每张图像的线程数与 CPU 核心数量相同，
 但在使用基于 glibc 的 Linux 且未使用 jemalloc 的情况下，默认线程数为 `1`，以帮助减少内存碎片。
@@ -28,7 +29,7 @@ libvips 使用共享线程池来避免创建新线程的开销。
 在使用默认的 Linux glibc 内存分配器时，为减少内存碎片，
 应在 Node.js 进程启动前设置
 [`MALLOC_ARENA_MAX`](https://sourceware.org/glibc/manual/latest/html_node/Memory-Allocation-Tunables.html)
-环境变量以减少内存池数量。
+环境变量，将其设为 2 或 4，以减少内存池的数量。
 
 ```sh frame="none"
 export MALLOC_ARENA_MAX="2"
@@ -36,10 +37,10 @@ export MALLOC_ARENA_MAX="2"
 
 ## 基准测试
 
-一个用来比较本模块与其他替代方案性能的测试。
+一个用于比较本模块与其他替代方案性能的测试。
 
 启用缓存（默认）且使用 8 核以上机器时，可以预期 libvips 性能更佳，
-尤其是具有较大 L1/L2 CPU 缓存的机器。
+尤其是在具有较大 L1/L2 CPU 缓存的机器上。
 
 相关（解）压缩库的 I/O 限制通常决定最大吞吐量。
 

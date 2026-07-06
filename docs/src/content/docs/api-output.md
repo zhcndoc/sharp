@@ -16,7 +16,7 @@ title: 输出选项
 
 当未提供 `callback` 时，将返回一个 `Promise`。
 
-**返回**: <code>Promise.&lt;Object&gt;</code> - 未提供回调时
+**返回**: <code>Promise.&lt;Object&gt;</code> - 未提供回调时  
 **抛出**:
 
 - <code>Error</code> 无效参数
@@ -57,6 +57,9 @@ sharp(input)
 - `data` 是输出图像数据。
 - `info` 包含输出图像的 `format`、`size`（字节）、`width`、`height`、`channels` 和 `premultiplied`（指示是否使用了预乘）。当使用裁剪策略时，还包含 `cropOffsetLeft` 和 `cropOffsetTop`。动画输出还将包含 `pageHeight` 和 `pages`。如果图像是从文本创建的，也可能包含 `textAutofitDpi`（字体渲染时的 DPI）。
 
+底层的 `ArrayBuffer` 可能会被某些 JavaScript 运行时标记为不可传输。
+请使用 [toUint8Array](#touint8array) 以获得可保证可传输的 `ArrayBuffer`。
+
 当未提供 `callback` 时，将返回一个 `Promise`。
 
 **返回**: <code>Promise.&lt;Buffer&gt;</code> - 未提供回调时
@@ -69,23 +72,15 @@ sharp(input)
 
 **示例**
 ```js
-sharp(input)
-  .toBuffer((err, data, info) => { ... });
-```
-**示例**
-```js
-sharp(input)
-  .toBuffer()
-  .then(data => { ... })
-  .catch(err => { ... });
-```
-**示例**
-```js
-sharp(input)
+const data = await sharp(input)
   .png()
-  .toBuffer({ resolveWithObject: true })
-  .then(({ data, info }) => { ... })
-  .catch(err => { ... });
+  .toBuffer();
+```
+**Example**  
+```js
+const { data, info } = await sharp(input)
+  .png()
+  .toBuffer({ resolveWithObject: true });
 ```
 **示例**
 ```js
@@ -165,7 +160,7 @@ const data = await sharp(input)
 ## keepExif
 > keepExif() ⇒ <code>Sharp</code>
 
-在输出图像中保留输入图像的所有 EXIF 元数据。
+保留输出图像中输入图像的所有 EXIF 元数据。
 
 TIFF 输出不支持 EXIF 元数据。
 
@@ -193,7 +188,7 @@ const outputWithExif = await sharp(inputWithExif)
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| exif | <code>Object.&lt;string, Object.&lt;string, string&gt;&gt;</code> | 按 IFD0、IFD1 等键入的对象，键值对写入为 EXIF 数据。 |
+| exif | <code>Object.&lt;string, Object.&lt;string, string&gt;&gt;</code> | 以 IFD0、IFD1 等为键的对象，键值对将作为 EXIF 数据写入。 |
 
 **示例**
 ```js
@@ -241,7 +236,7 @@ const dataWithMergedExif = await sharp(inputWithExif)
 ```
 
 
-## keepIccProfile
+## 保留 ICC 配置文件
 > keepIccProfile() ⇒ <code>Sharp</code>
 
 在输出图像中保留输入图像的 ICC 配置文件。
@@ -297,16 +292,16 @@ const outputWithP3 = await sharp(input)
 ## keepGainMap
 > keepGainMap() ⇒ <code>Sharp</code>
 
-如果输入包含增益图元数据，则尝试分别处理图像和增益图，
-并将它们重新组合成单个输出图像。
+If the input contains gain map metadata, attempts to process the image and gain map separately,
+and recombine them into a single output image.
 
-这种方法更快，并且应比 [withGainMap](#withgainmap) 产生更好的结果，
-不过并非所有操作都受支持。
+This method is faster and should produce better results than [withGainMap](#withgainmap),
+but not all operations are supported.
 
-仅支持 JPEG 输入和输出。
-除 `quality` 外的其他 JPEG 输出选项都会被忽略。
+Only JPEG input and output are supported.
+JPEG output options other than `quality` are ignored.
 
-此功能处于实验阶段，API 可能会更改。
+This feature is experimental and the API may change.
 
 
 **自**: 0.35.0  
@@ -391,7 +386,7 @@ const data = await sharp(input)
 ```
 
 
-## keepMetadata
+## 保留元数据
 > keepMetadata() ⇒ <code>Sharp</code>
 
 在输出图像中保留输入图像的所有元数据（EXIF、ICC、XMP、IPTC）。
@@ -411,23 +406,23 @@ const outputWithMetadata = await sharp(inputWithMetadata)
 ## withMetadata
 > withMetadata([options]) ⇒ <code>Sharp</code>
 
-在输出图像中保留输入图像的大多数元数据（EXIF、XMP、IPTC）。
+Preserve most metadata from the input image in the output image (EXIF, XMP, IPTC).
 
-如果适用，这还将转换并添加一个适于网络的 sRGB ICC 配置文件。
+If applicable, this will also convert and add a web-friendly sRGB ICC profile.
 
-允许设置或更新方向和密度。
+Allows setting or updating orientation and density.
 
 
-**抛出**:
+**Throws**:
 
-- <code>Error</code> 无效参数
+- <code>Error</code> Invalid parameters
 
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | [options] | <code>Object</code> |  |
-| [options.orientation] | <code>number</code> | 用于更新 EXIF `Orientation` 标签，整数在 1 和 8 之间。 |
-| [options.density] | <code>number</code> | 每英寸的像素数（DPI）。 |
+| [options.orientation] | <code>number</code> | Used to update the EXIF `Orientation` tag, an integer between 1 and 8. |
+| [options.density] | <code>number</code> | Pixels per inch (DPI). |
 
 **示例**
 ```js
@@ -437,7 +432,7 @@ const outputSrgbWithMetadata = await sharp(inputRgbWithMetadata)
 ```
 **示例**
 ```js
-// 将输出元数据设置为 96 DPI
+// Set output metadata to 96 DPI
 const data = await sharp(input)
   .withMetadata({ density: 96 })
   .toBuffer();
@@ -524,7 +519,7 @@ const data = await sharp(input)
 默认情况下，PNG 输出为每像素 8 位的全彩色。
 
 1、2 或 4 位每像素的索引 PNG 输入转换为 8 位每像素。
-设置 `palette` 为 `true` 以获取较慢、索引的 PNG 输出。
+设置 `palette` 为 `true` 以获取较慢的、索引的 PNG 输出。
 
 对于 16 位每像素输出，通过 [toColourspace](/api-colour/#tocolourspace) 转换为 `rgb16`。
 
@@ -871,20 +866,20 @@ const data = await sharp(input)
 ## raw
 > raw([options]) ⇒ <code>Sharp</code>
 
-强制输出为原始的、无压缩的像素数据。
-像素顺序为从左到右、从上到下，不带填充。
-通道顺序将是 RGB 或 RGBA，适用于非灰度颜色空间。
+Force output as raw, uncompressed pixel data.
+Pixel order will be left-to-right, top-to-bottom, without padding.
+Channel order will be RGB or RGBA for non-greyscale colourspaces.
 
 
-**抛出**:
+**Throws**:
 
-- <code>Error</code> 无效选项
+- <code>Error</code> Invalid options
 
 
-| 参数 | 类型 | 默认 | 描述 |
+| Parameter | Type | Default | Description |
 | --- | --- | --- | --- |
-| [options] | <code>Object</code> |  | 输出选项 |
-| [options.depth] | <code>string</code> | <code>&quot;&#x27;uchar&#x27;&quot;</code> | 位深度，值之一：char、uchar（默认）、short、ushort、int、uint、float、complex、double、dpcomplex |
+| [options] | <code>Object</code> |  | Output options |
+| [options.depth] | <code>string</code> | <code>&quot;&#x27;uchar&#x27;&quot;</code> | Bit depth, one of: char, uchar (default), short, ushort, int, uint, float, complex, double, dpcomplex |
 
 **示例**
 ```js
@@ -964,11 +959,11 @@ readableStream
 ```
 
 
-## timeout
+## 超时
 > timeout(options) ⇒ <code>Sharp</code>
 
 为处理设置超时（以秒为单位）。
-使用零值以无限期继续处理，默认行为。
+使用零值以无限期继续处理，这是默认行为。
 
 时钟在 libvips 打开输入图像进行处理时开始。
 等待 libuv 线程可用的时间不包括在内。
@@ -979,7 +974,7 @@ readableStream
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | options | <code>Object</code> |  |
-| options.seconds | <code>number</code> | 超时处理后停止的秒数 |
+| options.seconds | <code>number</code> | 在超时后停止处理的秒数 |
 
 **示例**
 ```js
