@@ -1,95 +1,86 @@
-# Contributing to sharp
+感谢你有兴趣参与贡献！
 
-Hello, thank you for your interest in helping!
+### 报告错误
 
-## Submit a new bug report
+请创建一个包含问题复现步骤的[新问题](https://github.com/lovell/sharp/issues)。
+新错误在调查期间会被标记为 `triage`。
 
-Please create a [new issue](https://github.com/lovell/sharp/issues/new) containing the steps to reproduce the problem.
+### 请求新功能
 
-New bugs are assigned a `triage` label whilst under investigation.
+如果已经存在[类似请求](https://github.com/lovell/sharp/labels/enhancement)，
+直接评论说明你的需求通常是最快的方式。
+如果 libvips [已经支持](https://www.libvips.org/API/current/function-list.html)
+所需功能，实现通常很直接。
 
-## Submit a new feature request
+### 提交修复错误的 Pull Request
 
-If a [similar request](https://github.com/lovell/sharp/labels/enhancement) exists,
-it's probably fastest to add a comment to it about your requirement.
+谢谢！为防止问题再次发生，请添加原本会失败的单元测试。
 
-Implementation is usually straightforward if libvips
-[already supports](https://www.libvips.org/API/current/function-list.html)
-the feature you need.
+请将 `main` 分支选为 Pull Request 的目标分支，以便将你的修复纳入下一个次版本发布。
+请使用类似 `git rebase -i upstream/main` 的命令将你的更改压缩为一个提交。
 
-## Submit a Pull Request to fix a bug
+从 ESM 构建 CJS：
+```sh frame="none"
+npm run build:dist
+```
 
-Thank you! To prevent the problem occurring again, please add unit tests that would have failed.
+构建 C++：
+```sh frame="none"
+npm run build
+```
 
-Please select the `main` branch as the destination for your Pull Request so your fix can be included in the next minor release.
+### 提交包含新功能的 Pull Request
 
-Please squash your changes into a single commit using a command like `git rebase -i upstream/main`.
+请添加用于覆盖新功能的 JavaScript [单元测试](https://github.com/lovell/sharp/tree/main/test/unit)。
+在可行的情况下，功能测试使用基于 [dHash](http://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html)
+的渐变感知哈希来比较预期图像与实际图像。
+还请更新 [TypeScript 定义](https://github.com/lovell/sharp/tree/main/lib/index.d.ts)以及[类型定义测试](https://github.com/lovell/sharp/tree/main/test/types/sharp.test-d.ts)。
 
-To test C++ changes, you can compile the module using `npm run build:dist && npm run build` and then run the tests using `npm test`.
+请使用类似 `git rebase -i upstream/<wip-branch>` 的命令将你的更改压缩为一个提交。
+任何修改现有公共 API 的更改都应添加到相关的进行中分支，以便纳入下一个主版本。
 
-## Submit a Pull Request with a new feature
+欢迎你将自己的信息添加到[人员列表](https://github.com/lovell/sharp/blob/main/docs/public/humans.txt)。
 
-Please add JavaScript [unit tests](https://github.com/lovell/sharp/tree/main/test/unit) to cover your new feature.
-Please also update the [TypeScript definitions](https://github.com/lovell/sharp/tree/main/lib/index.d.ts), along with the [type definition tests](https://github.com/lovell/sharp/tree/main/test/types/sharp.test-d.ts).
+#### 添加新的公共方法
 
-Where possible, the functional tests use gradient-based perceptual hashes
-based on [dHash](http://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html)
-to compare expected vs actual images.
+API 尽可能采用流畅的调用方式。
+图像处理概念遵循 libvips 的命名约定，在较小程度上也遵循 ImageMagick 的命名约定。
+大多数方法都有可选参数，并采用合理的默认值。
+请尽可能确保向后兼容。
 
-You deserve to add your details to the [list of contributors](https://github.com/lovell/sharp/blob/main/package.json#L5).
-
-Any change that modifies the existing public API should be added to the relevant work-in-progress branch for inclusion in the next major release.
-
-Please squash your changes into a single commit using a command like `git rebase -i upstream/<wip-branch>`.
-
-### Add a new public method
-
-The API tries to be as fluent as possible.
-Image processing concepts follow the naming conventions from libvips and, to a lesser extent, ImageMagick.
-
-Most methods have optional parameters and assume sensible defaults.
-Please ensure backwards compatibility where possible.
-
-Feel free to create a [new issue](https://github.com/lovell/sharp/issues/new) to gather feedback on a potential API change.
-
-### Remove an existing public method
-
-A method to be removed should be deprecated in the next major version then removed in the following major version.
-
-By way of example, the `background()` method present in v0.20.0 was deprecated in v0.21.0 and removed in v0.22.0.
-
-## Documentation
-
-The public API is documented with [JSDoc](https://jsdoc.app/) annotated comments.
-
-These can be converted to Markdown by running:
-```sh
+修改公共 API 的 Pull Request 也请一并更新文档。
+公共 API 通过带有 [JSDoc](https://jsdoc.app/) 注释的代码进行文档说明。
+可以运行以下命令将其转换为 Markdown：
+```sh frame="none"
 npm run docs-build
 ```
 
-Please include documentation updates in any Pull Request that modifies the public API.
+如果想就 API 更改收集反馈，欢迎创建[新问题](https://github.com/lovell/sharp/issues)。
 
-## Run the tests
+#### 移除现有公共方法
 
-### Functional tests and static code analysis
+要移除的方法应在下一个主版本中弃用，然后在后续主版本中移除。
+例如，v0.20.0 中的 `background()` 方法在 v0.21.0 中弃用，并在 v0.22.0 中移除。
 
-```sh
-npm test
-```
+### AI 贡献政策
 
-### Memory leak tests
+#### 不要让 LLM 替你发言
 
-Requires [Valgrind](http://valgrind.org/).
+问题和 Pull Request 中的评论和描述应使用你自己的措辞和声音来撰写。
 
-```sh
-npm run test-leak
-```
+与其追求拼写和语法无误，不如保持内容清晰、简洁且有人情味。
+请勿使用或复制粘贴 LLM 生成的摘要。
 
-## Finally
+#### 不要让 LLM 替你思考
 
-Please feel free to ask any questions via a
-[new issue](https://github.com/lovell/sharp/issues/new).
+你可以使用基于 LLM 的工具来探索想法并生成小段代码。
+请确保你完全理解提交的代码，承担其法律责任，并能够对其进行推理。
 
-If you're unable to post details publicly, please
-[e-mail](https://github.com/lovell/sharp/blob/main/package.json#L5)
-for private, paid consulting.
+为开源软件做贡献应帮助你以人的身份学习，也是成为长期维护者的重要一步。
+
+### 最后
+
+如需帮助，欢迎通过公开的[新问题](https://github.com/lovell/sharp/issues)寻求帮助。
+
+如果你无法公开发布详细信息，请通过[电子邮件](https://github.com/lovell/sharp/blob/main/package.json#L5)
+联系以获取付费的私人咨询。

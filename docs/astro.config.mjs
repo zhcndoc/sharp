@@ -85,6 +85,8 @@ export default defineConfig({
           ]
         },
         { label: '性能', slug: 'performance' },
+        { label: '安全', link: '/security' },
+        { label: '贡献', link: '/contributing' },
         {
           label: '更新日志',
           collapsed: true,

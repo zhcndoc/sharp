@@ -49,6 +49,8 @@ const resizeThenRotate = await sharp(input)
 根据 EXIF `Orientation` 标签进行自动方向调整，然后移除该标签。
 支持镜像，并且可能推断使用翻转操作。
 
+仅考虑 EXIF `Orientation` 标签；其他位置携带的方向信息，例如 XMP `tiff:Orientation` 元素，将保持不变，仍由使用者负责处理。
+
 之前或之后使用 `rotate(angle)` 和 `flip()` 或 `flop()` 将逻辑发生在自动方向调整后，无论调用顺序如何。
 
 **示例**
